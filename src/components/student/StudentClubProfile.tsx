@@ -1,4 +1,4 @@
-import { ArrowLeft, Users, Calendar, MapPin, Bell, Heart, MessageCircle, Share2 } from 'lucide-react';
+import { Users, Calendar, MapPin, Heart, MessageCircle, Clock } from 'lucide-react';
 import { useState } from 'react';
 
 interface StudentClubProfileProps {
@@ -9,6 +9,8 @@ interface StudentClubProfileProps {
 export default function StudentClubProfile({ onBack }: StudentClubProfileProps) {
   const [isFollowing, setIsFollowing] = useState(true);
   const [likedPosts, setLikedPosts] = useState<number[]>([1, 3]);
+  const [activeTab, setActiveTab] = useState<'posts' | 'sessions'>('posts');
+  const [registeredSessions, setRegisteredSessions] = useState<number[]>([]);
 
   // Mock club data - in real app, this would be fetched based on clubId
   const club = {
@@ -90,6 +92,14 @@ export default function StudentClubProfile({ onBack }: StudentClubProfileProps) 
     );
   };
 
+  const toggleRegistration = (sessionId: number) => {
+    setRegisteredSessions(prev =>
+      prev.includes(sessionId)
+        ? prev.filter(id => id !== sessionId)
+        : [...prev, sessionId]
+    );
+  };
+
   const getColorClasses = () => {
     return {
       bg: 'bg-blue-500',
@@ -103,129 +113,113 @@ export default function StudentClubProfile({ onBack }: StudentClubProfileProps) 
   const colors = getColorClasses();
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header with Back Button */}
-      <div className={`bg-gradient-to-r ${colors.gradient} text-white p-4 sticky top-0 z-10 shadow-md`}>
-        <div className="flex items-center gap-3">
-          <button
-            onClick={onBack}
-            className="p-2 hover:bg-white/10 rounded-lg transition-colors"
-          >
-            <ArrowLeft className="w-5 h-5" />
-          </button>
-          <div className="flex-1">
-            <h1 className="text-xl font-bold">{club.name}</h1>
-            <p className="text-blue-100 text-xs">{club.category}</p>
-          </div>
-          <button className="p-2 hover:bg-white/10 rounded-lg transition-colors">
-            <Share2 className="w-5 h-5" />
-          </button>
-        </div>
+    <div className="p-4 space-y-4 pb-8">
+      {/* Header */}
+      <div>
+        <h2 className="text-2xl mb-2 text-gray-800">{club.name}</h2>
+        <p className="text-gray-600">{club.category}</p>
       </div>
 
-      <div className="pb-8">
-        {/* Cover Image */}
-        {club.coverImage && (
-          <div className="w-full h-48 overflow-hidden">
-            <img
-              src={club.coverImage}
-              alt={club.name}
-              className="w-full h-full object-cover"
-            />
-          </div>
-        )}
+      {/* Toggle Tabs */}
+      <div className="bg-gray-100 p-1 rounded-2xl flex gap-1">
+        <button
+          onClick={() => setActiveTab('posts')}
+          className={`flex-1 py-3 rounded-xl font-semibold transition-all ${
+            activeTab === 'posts'
+              ? 'bg-blue-600 text-white shadow-md'
+              : 'text-gray-600'
+          }`}
+        >
+          Posts
+        </button>
+        <button
+          onClick={() => setActiveTab('sessions')}
+          className={`flex-1 py-3 rounded-xl font-semibold transition-all ${
+            activeTab === 'sessions'
+              ? 'bg-blue-600 text-white shadow-md'
+              : 'text-gray-600'
+          }`}
+        >
+          Sessions
+        </button>
+      </div>
 
-        {/* Club Info */}
-        <div className="px-4 -mt-8 relative z-10">
-          <div className="bg-white rounded-2xl shadow-lg p-5">
-            <div className="flex items-start gap-4 mb-4">
-              <div className={`w-16 h-16 ${colors.bg} rounded-2xl flex items-center justify-center text-3xl flex-shrink-0 shadow-lg`}>
-                {club.icon}
-              </div>
-              <div className="flex-1">
-                <h2 className="text-xl font-bold text-gray-800 mb-1">{club.name}</h2>
-                <p className="text-sm text-gray-600 mb-3">{club.description}</p>
-                <div className="flex items-center gap-4 text-sm text-gray-600">
-                  <span className="flex items-center gap-1">
-                    <Users className="w-4 h-4" />
-                    {club.members} members
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <Calendar className="w-4 h-4" />
-                    {club.events} events
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            {/* Action Buttons */}
-            <div className="flex gap-2">
-              <button
-                onClick={() => setIsFollowing(!isFollowing)}
-                className={`flex-1 py-3 rounded-xl font-semibold transition-colors ${
-                  isFollowing
-                    ? `${colors.bg} text-white hover:opacity-90`
-                    : 'border-2 border-blue-500 text-blue-500 hover:bg-blue-50'
-                }`}
-              >
-                {isFollowing ? 'Following' : 'Follow'}
-              </button>
-              <button className={`p-3 border-2 ${colors.border} ${colors.text} rounded-xl hover:${colors.bgLight} transition-colors`}>
-                <Bell className="w-5 h-5" />
-              </button>
-              <button className={`p-3 border-2 ${colors.border} ${colors.text} rounded-xl hover:${colors.bgLight} transition-colors`}>
-                <MessageCircle className="w-5 h-5" />
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Upcoming Sessions */}
-        <div className="px-4 mt-6">
-          <h3 className="text-gray-700 font-semibold mb-3">Upcoming Sessions</h3>
-          <div className="space-y-3">
-            {upcomingSessions.map((session) => (
-              <div
-                key={session.id}
-                className={`bg-white rounded-xl p-4 shadow-md border-l-4 ${colors.border}`}
-              >
-                <div className="flex items-start justify-between mb-2">
+      {/* Sessions Tab */}
+      {activeTab === 'sessions' && (
+        <div className="space-y-4">
+          {upcomingSessions.map((session) => (
+            <div
+              key={session.id}
+              className="bg-white rounded-2xl shadow-md overflow-hidden"
+            >
+              {/* Header with Icon */}
+              <div className="bg-blue-500 p-6 text-white relative">
+                <div className="flex items-start justify-between">
                   <div className="flex-1">
-                    <h4 className="text-gray-800 font-medium mb-1">{session.title}</h4>
-                    <div className="space-y-1">
-                      <div className="flex items-center gap-2 text-xs text-gray-600">
-                        <Calendar className="w-3 h-3" />
-                        <span>{session.date}</span>
-                        <span>•</span>
-                        <span>{session.time}</span>
-                      </div>
-                      <div className="flex items-center gap-2 text-xs text-gray-600">
-                        <MapPin className="w-3 h-3" />
-                        <span>{session.location}</span>
-                      </div>
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="text-4xl">📚</span>
+                      {registeredSessions.includes(session.id) && (
+                        <span className="px-2 py-1 bg-white/20 rounded-lg text-xs flex items-center gap-1">
+                          ✓ Registered
+                        </span>
+                      )}
                     </div>
-                  </div>
-                  <div className="text-right">
-                    <div className="text-xs text-gray-500 mb-1">
-                      {session.attendees}/{session.maxAttendees}
-                    </div>
-                    <div className={`px-2 py-1 ${colors.bgLight} ${colors.text} rounded text-xs font-medium`}>
-                      {session.maxAttendees - session.attendees} spots
-                    </div>
+                    <h3 className="text-xl mb-2">{session.title}</h3>
+                    <p className="text-white/90 text-sm">{club.name}</p>
                   </div>
                 </div>
-                <button className={`w-full py-2.5 mt-3 ${colors.bg} text-white rounded-lg hover:opacity-90 transition-opacity text-sm font-medium`}>
-                  Register
+              </div>
+
+              {/* Details */}
+              <div className="p-4">
+                <div className="space-y-2 mb-4">
+                  <div className="flex items-center gap-2 text-sm text-gray-600">
+                    <Calendar className="w-4 h-4" />
+                    <span>{session.date}</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm text-gray-600">
+                    <Clock className="w-4 h-4" />
+                    <span>{session.time}</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm text-gray-600">
+                    <MapPin className="w-4 h-4" />
+                    <span>{session.location}</span>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between mb-4 p-3 bg-gray-50 rounded-lg">
+                  <div className="flex items-center gap-2">
+                    <Users className="w-4 h-4 text-gray-600" />
+                    <span className="text-sm text-gray-600">
+                      {registeredSessions.includes(session.id) ? session.attendees + 1 : session.attendees}/{session.maxAttendees} Registered
+                    </span>
+                  </div>
+                  <span className="text-sm font-medium text-blue-600">
+                    {registeredSessions.includes(session.id) 
+                      ? session.maxAttendees - session.attendees - 1 
+                      : session.maxAttendees - session.attendees} spots left
+                  </span>
+                </div>
+
+                <button 
+                  onClick={() => toggleRegistration(session.id)}
+                  className={`w-full py-3 rounded-xl transition-colors font-semibold ${
+                    registeredSessions.includes(session.id)
+                      ? 'bg-green-600 text-white hover:bg-green-700'
+                      : 'bg-blue-600 text-white hover:bg-blue-700'
+                  }`}
+                >
+                  {registeredSessions.includes(session.id) ? '✓ Registered' : 'Register'}
                 </button>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
+      )}
 
-        {/* Posts */}
-        <div className="px-4 mt-6">
-          <h3 className="text-gray-700 font-semibold mb-3">Recent Posts</h3>
-          <div className="space-y-4">
+      {/* Posts Tab */}
+      {activeTab === 'posts' && (
+        <div className="space-y-4">
             {posts.map((post) => (
               <div
                 key={post.id}
@@ -234,13 +228,16 @@ export default function StudentClubProfile({ onBack }: StudentClubProfileProps) 
                 {/* Post Header */}
                 <div className="p-4 pb-3">
                   <div className="flex items-start gap-3 mb-3">
-                    <div className={`w-10 h-10 ${colors.bg} rounded-full flex items-center justify-center text-xl flex-shrink-0`}>
+                    <div 
+                      className="w-10 h-10 rounded-full flex items-center justify-center text-xl flex-shrink-0"
+                      style={{ backgroundColor: '#3b82f6' }}
+                    >
                       {club.icon}
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center gap-2">
                         <h4 className="text-sm font-semibold text-gray-800">{club.name}</h4>
-                        <span className={`px-2 py-0.5 ${colors.bgLight} ${colors.text} text-xs rounded-full font-medium`}>
+                        <span className="px-2 py-0.5 bg-blue-50 text-blue-700 text-xs rounded-full font-medium">
                           Club
                         </span>
                       </div>
@@ -259,6 +256,9 @@ export default function StudentClubProfile({ onBack }: StudentClubProfileProps) 
                       src={post.image}
                       alt="Post content"
                       className="w-full h-64 object-cover"
+                      onError={(e) => {
+                        e.currentTarget.style.display = 'none';
+                      }}
                     />
                   </div>
                 )}
@@ -284,29 +284,7 @@ export default function StudentClubProfile({ onBack }: StudentClubProfileProps) 
               </div>
             ))}
           </div>
-        </div>
-
-        {/* About Section */}
-        <div className="px-4 mt-6">
-          <div className="bg-white rounded-xl p-5 shadow-md">
-            <h3 className="text-gray-700 font-semibold mb-3">About</h3>
-            <div className="space-y-2 text-sm text-gray-600">
-              <div className="flex items-center gap-2">
-                <Calendar className="w-4 h-4" />
-                <span>Founded in {club.founded}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Users className="w-4 h-4" />
-                <span>{club.members} members</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <MapPin className="w-4 h-4" />
-                <span>{club.email}</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+        )}
     </div>
   );
 }

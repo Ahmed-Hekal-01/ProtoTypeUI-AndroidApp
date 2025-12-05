@@ -92,7 +92,10 @@ export default function StudentReportIssue({ onBack }: StudentReportIssueProps) 
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header with Back Button */}
-      <div className="bg-gradient-to-r from-orange-600 to-red-600 text-white p-4 sticky top-0 z-10 shadow-md">
+      <div 
+        className="text-white p-4 sticky top-0 z-10 shadow-md"
+        style={{ background: 'linear-gradient(to right, #ea580c, #dc2626)' }}
+      >
         <div className="flex items-center gap-3">
           <button
             onClick={onBack}

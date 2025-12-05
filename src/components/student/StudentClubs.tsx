@@ -1,9 +1,17 @@
 import { useState } from 'react';
-import { Search, Users, Calendar, Bell, Heart, MessageCircle, TrendingUp } from 'lucide-react';
+import { Search, Users, Calendar, TrendingUp, Check } from 'lucide-react';
+import StudentClubProfile from './StudentClubProfile';
 
 export default function StudentClubs() {
   const [selectedTab, setSelectedTab] = useState<'discover' | 'joined'>('discover');
   const [followedClubs, setFollowedClubs] = useState<number[]>([1, 3]);
+  const [selectedClubId, setSelectedClubId] = useState<number | null>(null);
+  const [registeredSessions, setRegisteredSessions] = useState<string[]>([]);
+
+  // If a club is selected, show its profile
+  if (selectedClubId !== null) {
+    return <StudentClubProfile clubId={selectedClubId} onBack={() => setSelectedClubId(null)} />;
+  }
 
   const clubs = [
     {
@@ -73,25 +81,8 @@ export default function StudentClubs() {
     },
   ];
 
-  const announcements = [
-    {
-      club: 'Tech Club',
-      icon: '💻',
-      message: 'New AI workshop registration is now open!',
-      time: '2 hours ago',
-      color: 'blue',
-    },
-    {
-      club: 'Entrepreneurship Club',
-      icon: '🚀',
-      message: 'Pitch competition winners announced! Congratulations to all participants.',
-      time: '5 hours ago',
-      color: 'green',
-    },
-  ];
-
   const joinedClubs = clubs.filter(club => followedClubs.includes(club.id));
-  const discoverClubs = clubs.filter(club => !followedClubs.includes(club.id));
+  const discoverClubs = clubs; // Show all clubs in discover tab
 
   const toggleFollow = (clubId: number) => {
     setFollowedClubs(prev =>
@@ -99,6 +90,19 @@ export default function StudentClubs() {
         ? prev.filter(id => id !== clubId)
         : [...prev, clubId]
     );
+  };
+
+  const toggleSessionRegistration = (clubId: number, sessionTitle: string) => {
+    const sessionKey = `${clubId}-${sessionTitle}`;
+    setRegisteredSessions(prev =>
+      prev.includes(sessionKey)
+        ? prev.filter(key => key !== sessionKey)
+        : [...prev, sessionKey]
+    );
+  };
+
+  const isSessionRegistered = (clubId: number, sessionTitle: string) => {
+    return registeredSessions.includes(`${clubId}-${sessionTitle}`);
   };
 
   const getColorClasses = (color: string) => {
@@ -144,53 +148,15 @@ export default function StudentClubs() {
         </button>
         <button
           onClick={() => setSelectedTab('joined')}
-          className={`flex-1 py-2.5 rounded-lg transition-all flex items-center justify-center gap-2 ${
+          className={`flex-1 py-2.5 rounded-lg transition-all ${
             selectedTab === 'joined'
               ? 'bg-indigo-600 text-white shadow-md'
               : 'text-gray-600 hover:bg-gray-50'
           }`}
         >
           My Clubs
-          {joinedClubs.length > 0 && (
-            <span className={`px-2 py-0.5 rounded-full text-xs ${
-              selectedTab === 'joined' ? 'bg-white/20' : 'bg-indigo-100 text-indigo-600'
-            }`}>
-              {joinedClubs.length}
-            </span>
-          )}
         </button>
       </div>
-
-      {/* Joined Clubs - Announcements */}
-      {selectedTab === 'joined' && announcements.length > 0 && (
-        <div>
-          <div className="flex items-center gap-2 mb-3">
-            <Bell className="w-5 h-5 text-gray-700" />
-            <h3 className="text-gray-700">Recent Announcements</h3>
-          </div>
-          <div className="space-y-2">
-            {announcements.map((announcement, idx) => (
-              <div
-                key={idx}
-                className="bg-white rounded-xl p-4 shadow-sm border-l-4"
-                style={{ borderLeftColor: announcement.color === 'blue' ? '#3b82f6' : '#10b981' }}
-              >
-                <div className="flex items-start gap-3">
-                  <span className="text-2xl">{announcement.icon}</span>
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="text-sm text-gray-800">{announcement.club}</span>
-                      <span className="text-xs text-gray-400">•</span>
-                      <span className="text-xs text-gray-500">{announcement.time}</span>
-                    </div>
-                    <p className="text-sm text-gray-600">{announcement.message}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
 
       {/* Clubs List */}
       <div className="space-y-4">
@@ -231,12 +197,25 @@ export default function StudentClubs() {
                     </div>
                   </div>
 
-                  <button
-                    onClick={() => toggleFollow(club.id)}
-                    className={`w-full py-3 ${getColorClasses(club.color)} text-white rounded-xl hover:opacity-90 transition-opacity`}
-                  >
-                    Join Club
-                  </button>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => toggleFollow(club.id)}
+                      className={`flex-1 py-3 rounded-xl font-medium transition-all flex items-center justify-center gap-2 ${
+                        followedClubs.includes(club.id)
+                          ? 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                          : `${getColorClasses(club.color)} text-white hover:opacity-90`
+                      }`}
+                    >
+                      {followedClubs.includes(club.id) && <Check className="w-4 h-4" />}
+                      {followedClubs.includes(club.id) ? 'Following' : 'Join Club'}
+                    </button>
+                    <button
+                      onClick={() => setSelectedClubId(club.id)}
+                      className="px-4 py-3 border-2 border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 transition-colors font-medium"
+                    >
+                      View
+                    </button>
+                  </div>
                 </div>
               </div>
             ))}
@@ -263,7 +242,10 @@ export default function StudentClubs() {
                   key={club.id}
                   className="bg-white rounded-2xl shadow-md overflow-hidden"
                 >
-                  <div className={`${getColorClasses(club.color)} p-6 text-white`}>
+                  <div 
+                    className={`${getColorClasses(club.color)} p-6 text-white cursor-pointer hover:opacity-90 transition-opacity`}
+                    onClick={() => setSelectedClubId(club.id)}
+                  >
                     <div className="flex items-start justify-between mb-3">
                       <div className="flex items-center gap-3">
                         <span className="text-4xl">{club.icon}</span>
@@ -292,8 +274,15 @@ export default function StudentClubs() {
                                   <span>{session.date} at {session.time}</span>
                                 </div>
                               </div>
-                              <button className="px-3 py-1.5 bg-indigo-600 text-white rounded-lg text-xs hover:bg-indigo-700 transition-colors">
-                                Register
+                              <button 
+                                onClick={() => toggleSessionRegistration(club.id, session.title)}
+                                className={`px-3 py-1.5 rounded-lg text-xs transition-colors ${
+                                  isSessionRegistered(club.id, session.title)
+                                    ? 'bg-green-600 text-white hover:bg-green-700'
+                                    : 'bg-indigo-600 text-white hover:bg-indigo-700'
+                                }`}
+                              >
+                                {isSessionRegistered(club.id, session.title) ? '✓ Registered' : 'Register'}
                               </button>
                             </div>
                           ))}
@@ -305,15 +294,12 @@ export default function StudentClubs() {
                       </p>
                     )}
 
-                    <div className="flex gap-2">
-                      <button className="flex-1 py-2.5 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors flex items-center justify-center gap-2 text-sm">
-                        <MessageCircle className="w-4 h-4" />
-                        Discussion
-                      </button>
-                      <button className="flex-1 py-2.5 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors text-sm">
-                        View Profile
-                      </button>
-                    </div>
+                    <button 
+                      onClick={() => setSelectedClubId(club.id)}
+                      className="w-full py-2.5 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors text-sm font-medium"
+                    >
+                      View Profile
+                    </button>
                   </div>
                 </div>
               ))

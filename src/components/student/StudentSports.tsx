@@ -95,7 +95,10 @@ export default function StudentSports({ onBack }: StudentSportsProps) {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header with Back Button */}
-      <div className="bg-gradient-to-r from-green-600 to-emerald-600 text-white p-4 sticky top-0 z-10 shadow-md">
+      <div 
+        className="text-white p-4 sticky top-0 z-10 shadow-md"
+        style={{ background: 'linear-gradient(to right, #16a34a, #059669)' }}
+      >
         <div className="flex items-center gap-3">
           <button
             onClick={onBack}

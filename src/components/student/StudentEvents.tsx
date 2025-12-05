@@ -3,6 +3,8 @@ import { Calendar, Clock, MapPin, Users, Tag, CheckCircle, Video } from 'lucide-
 
 export default function StudentEvents() {
   const [activeTab, setActiveTab] = useState<'events' | 'sessions'>('events');
+  const [registeredEvents, setRegisteredEvents] = useState<number[]>([1, 3]);
+  const [registeredSessions, setRegisteredSessions] = useState<number[]>([101, 103]);
 
   const events = [
     {
@@ -151,6 +153,28 @@ export default function StudentEvents() {
 
   const currentItems = activeTab === 'events' ? events : sessions;
 
+  const toggleRegistration = (id: number) => {
+    if (activeTab === 'events') {
+      setRegisteredEvents(prev =>
+        prev.includes(id)
+          ? prev.filter(eventId => eventId !== id)
+          : [...prev, id]
+      );
+    } else {
+      setRegisteredSessions(prev =>
+        prev.includes(id)
+          ? prev.filter(sid => sid !== id)
+          : [...prev, id]
+      );
+    }
+  };
+
+  const isRegistered = (id: number) => {
+    return activeTab === 'events' 
+      ? registeredEvents.includes(id) 
+      : registeredSessions.includes(id);
+  };
+
   const getColorClasses = (color: string) => {
     const colors: any = {
       blue: 'bg-blue-500',
@@ -207,7 +231,7 @@ export default function StudentEvents() {
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-2">
                     <span className="text-4xl">{item.image}</span>
-                    {item.registered && (
+                    {isRegistered(item.id) && (
                       <span className="px-2 py-1 bg-white/20 rounded-lg text-xs flex items-center gap-1">
                         <CheckCircle className="w-3 h-3" />
                         Registered
@@ -251,7 +275,7 @@ export default function StudentEvents() {
                 <div className="flex items-center gap-2">
                   <Users className="w-4 h-4 text-gray-600" />
                   <span className="text-sm text-gray-700">
-                    {item.attendees}/{item.capacity} registered
+                    {isRegistered(item.id) ? item.attendees + 1 : item.attendees}/{item.capacity} registered
                   </span>
                 </div>
                 <div className="flex items-center gap-2">
@@ -265,23 +289,29 @@ export default function StudentEvents() {
                 <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
                   <div
                     className={`h-full ${getColorClasses(item.color)}`}
-                    style={{ width: `${(item.attendees / item.capacity) * 100}%` }}
+                    style={{ width: `${((isRegistered(item.id) ? item.attendees + 1 : item.attendees) / item.capacity) * 100}%` }}
                   />
                 </div>
               </div>
 
               {/* Action Button */}
-              {item.registered ? (
+              {isRegistered(item.id) ? (
                 <div className="flex gap-2">
                   <button className="flex-1 py-3 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 transition-colors">
                     View Details
                   </button>
-                  <button className="flex-1 py-3 border-2 border-red-500 text-red-500 rounded-xl hover:bg-red-50 transition-colors">
+                  <button 
+                    onClick={() => toggleRegistration(item.id)}
+                    className="flex-1 py-3 border-2 border-red-500 text-red-500 rounded-xl hover:bg-red-50 transition-colors font-semibold"
+                  >
                     Cancel
                   </button>
                 </div>
               ) : (
-                <button className={`w-full py-3 ${getColorClasses(item.color)} text-white rounded-xl hover:opacity-90 transition-opacity font-semibold`}>
+                <button 
+                  onClick={() => toggleRegistration(item.id)}
+                  className={`w-full py-3 ${getColorClasses(item.color)} text-white rounded-xl hover:opacity-90 transition-opacity font-semibold`}
+                >
                   Register Now
                 </button>
               )}

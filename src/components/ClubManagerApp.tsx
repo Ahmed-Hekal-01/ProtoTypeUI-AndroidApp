@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { Home, Plus, Users, Bell, Settings, ArrowLeft } from 'lucide-react';
+import { Home, Plus, Users, Bell, UserCircle, ArrowLeft } from 'lucide-react';
 import ClubManagerHome from './club-manager/ClubManagerHome';
 import ClubManagerCreate from './club-manager/ClubManagerCreate';
 import ClubManagerAttendees from './club-manager/ClubManagerAttendees';
 import ClubManagerAnnouncements from './club-manager/ClubManagerAnnouncements';
-import ClubManagerSettings from './club-manager/ClubManagerSettings';
+import ClubManagerAccount from './club-manager/ClubManagerAccount';
 
-type Tab = 'home' | 'create' | 'attendees' | 'announcements' | 'settings';
+type Tab = 'home' | 'create' | 'attendees' | 'announcements' | 'account';
 
 interface ClubManagerAppProps {
   onBack: () => void;
@@ -20,7 +20,7 @@ export default function ClubManagerApp({ onBack }: ClubManagerAppProps) {
     { id: 'create' as Tab, icon: Plus, label: 'Create' },
     { id: 'attendees' as Tab, icon: Users, label: 'Attendees' },
     { id: 'announcements' as Tab, icon: Bell, label: 'Announce' },
-    { id: 'settings' as Tab, icon: Settings, label: 'Settings' },
+    { id: 'account' as Tab, icon: UserCircle, label: 'Account' },
   ];
 
   return (
@@ -47,7 +47,7 @@ export default function ClubManagerApp({ onBack }: ClubManagerAppProps) {
         {activeTab === 'create' && <ClubManagerCreate />}
         {activeTab === 'attendees' && <ClubManagerAttendees />}
         {activeTab === 'announcements' && <ClubManagerAnnouncements />}
-        {activeTab === 'settings' && <ClubManagerSettings />}
+        {activeTab === 'account' && <ClubManagerAccount />}
       </div>
 
       {/* Bottom Navigation */}
