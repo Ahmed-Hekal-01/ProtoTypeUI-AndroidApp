@@ -38,11 +38,14 @@ export default function StudentApp({ onBack }: StudentAppProps) {
 
   // Check if current tab is a subscreen (not in main nav)
   const isSubscreen = !tabs.some(tab => tab.id === activeTab);
+  
+  // Only show top bar for home page
+  const showTopBar = activeTab === 'home';
 
   return (
     <div className="min-h-screen bg-gray-50 pb-20 max-w-md mx-auto">
-      {/* Top Bar - Only show for main screens */}
-      {!isSubscreen && (
+      {/* Top Bar - Only show for home */}
+      {showTopBar && (
         <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-4 sticky top-0 z-10 shadow-md">
           <div className="flex items-center justify-between">
             <h1 className="text-xl font-bold">Cursor Park</h1>
@@ -66,9 +69,9 @@ export default function StudentApp({ onBack }: StudentAppProps) {
         {activeTab === 'home' && <StudentHome onNavigate={handleNavigate} />}
         {activeTab === 'study-rooms' && <StudentStudyRooms onBack={handleBackToHome} />}
         {activeTab === 'sports' && <StudentSports onBack={handleBackToHome} />}
-        {activeTab === 'events' && <StudentEvents />}
-        {activeTab === 'clubs' && <StudentClubs />}
-        {activeTab === 'profile' && <StudentProfile />}
+        {activeTab === 'events' && <StudentEvents onBack={handleBackToHome} />}
+        {activeTab === 'clubs' && <StudentClubs onBack={handleBackToHome} />}
+        {activeTab === 'profile' && <StudentProfile onBack={handleBackToHome} />}
         {activeTab === 'report-issue' && <StudentReportIssue onBack={handleBackToHome} />}
         {activeTab === 'notifications' && <StudentNotifications onBack={handleBackToHome} />}
         {activeTab === 'reservations' && <StudentReservations onBack={handleBackToHome} />}

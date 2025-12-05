@@ -1,8 +1,31 @@
-import { LogOut, ChevronRight, Mail, Phone } from 'lucide-react';
+import { LogOut, ChevronRight, Mail, Phone, ArrowLeft } from 'lucide-react';
 
-export default function StudentProfile() {
+interface StudentProfileProps {
+  onBack?: () => void;
+}
+
+export default function StudentProfile({ onBack }: StudentProfileProps) {
   return (
-    <div className="p-4 space-y-6 pb-8">
+    <div className="min-h-screen bg-gray-50">
+      {/* Top Bar */}
+      {onBack && (
+        <div 
+          className="text-white p-4 sticky top-0 z-10 shadow-md"
+          style={{ background: 'linear-gradient(to right, #2563eb, #4f46e5)' }}
+        >
+          <div className="flex items-center gap-3">
+            <button
+              onClick={onBack}
+              className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+            >
+              <ArrowLeft className="w-5 h-5" />
+            </button>
+            <h1 className="text-xl font-bold">Profile</h1>
+          </div>
+        </div>
+      )}
+
+      <div className="p-4 space-y-6 pb-8">
       {/* Profile Header */}
       <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-2xl p-6 shadow-lg">
         <div className="flex items-start gap-4 mb-4">
@@ -40,6 +63,7 @@ export default function StudentProfile() {
             <ChevronRight className="w-5 h-5" />
           </button>
         </div>
+      </div>
       </div>
     </div>
   );

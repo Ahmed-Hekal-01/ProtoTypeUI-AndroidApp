@@ -1,4 +1,4 @@
-import { Users, Calendar, MapPin, Heart, MessageCircle, Clock } from 'lucide-react';
+import { Users, Calendar, MapPin, Heart, MessageCircle, Clock, ArrowLeft } from 'lucide-react';
 import { useState } from 'react';
 
 interface StudentClubProfileProps {
@@ -113,13 +113,26 @@ export default function StudentClubProfile({ onBack }: StudentClubProfileProps) 
   const colors = getColorClasses();
 
   return (
-    <div className="p-4 space-y-4 pb-8">
-      {/* Header */}
-      <div>
-        <h2 className="text-2xl mb-2 text-gray-800">{club.name}</h2>
-        <p className="text-gray-600">{club.category}</p>
-      </div>
+    <div className="min-h-screen bg-gray-50">
+      {/* Top Bar */}
+      {onBack && (
+        <div 
+          className="text-white p-4 sticky top-0 z-10 shadow-md"
+          style={{ background: 'linear-gradient(to right, #2563eb, #4f46e5)' }}
+        >
+          <div className="flex items-center gap-3">
+            <button
+              onClick={onBack}
+              className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+            >
+              <ArrowLeft className="w-5 h-5" />
+            </button>
+            <h1 className="text-xl font-bold">{club.name}</h1>
+          </div>
+        </div>
+      )}
 
+      <div className="p-4 space-y-4 pb-8">
       {/* Toggle Tabs */}
       <div className="bg-gray-100 p-1 rounded-2xl flex gap-1">
         <button
@@ -285,6 +298,7 @@ export default function StudentClubProfile({ onBack }: StudentClubProfileProps) 
             ))}
           </div>
         )}
+      </div>
     </div>
   );
 }

@@ -1,8 +1,12 @@
 import { useState } from 'react';
-import { Search, Users, Calendar, TrendingUp, Check } from 'lucide-react';
+import { Search, Users, Calendar, TrendingUp, Check, ArrowLeft } from 'lucide-react';
 import StudentClubProfile from './StudentClubProfile';
 
-export default function StudentClubs() {
+interface StudentClubsProps {
+  onBack?: () => void;
+}
+
+export default function StudentClubs({ onBack }: StudentClubsProps) {
   const [selectedTab, setSelectedTab] = useState<'discover' | 'joined'>('discover');
   const [followedClubs, setFollowedClubs] = useState<number[]>([1, 3]);
   const [selectedClubId, setSelectedClubId] = useState<number | null>(null);
@@ -117,13 +121,26 @@ export default function StudentClubs() {
   };
 
   return (
-    <div className="p-4 space-y-4">
-      {/* Header */}
-      <div>
-        <h2 className="text-2xl mb-2 text-gray-800">Clubs</h2>
-        <p className="text-gray-600">Join clubs and attend exclusive sessions</p>
-      </div>
+    <div className="min-h-screen bg-gray-50">
+      {/* Top Bar */}
+      {onBack && (
+        <div 
+          className="text-white p-4 sticky top-0 z-10 shadow-md"
+          style={{ background: 'linear-gradient(to right, #2563eb, #4f46e5)' }}
+        >
+          <div className="flex items-center gap-3">
+            <button
+              onClick={onBack}
+              className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+            >
+              <ArrowLeft className="w-5 h-5" />
+            </button>
+            <h1 className="text-xl font-bold">Clubs</h1>
+          </div>
+        </div>
+      )}
 
+      <div className="p-4 space-y-4">
       {/* Search */}
       <div className="relative">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -306,6 +323,7 @@ export default function StudentClubs() {
             )}
           </>
         )}
+      </div>
       </div>
     </div>
   );
