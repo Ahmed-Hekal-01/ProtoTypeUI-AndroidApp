@@ -124,7 +124,7 @@ export default function StudentClubs({ onBack }: StudentClubsProps) {
     <div className="min-h-screen bg-gray-50">
       {/* Top Bar */}
       {onBack && (
-        <div 
+        <div
           className="text-white p-4 sticky top-0 z-10 shadow-md"
           style={{ background: 'linear-gradient(to right, #2563eb, #4f46e5)' }}
         >
@@ -252,17 +252,13 @@ export default function StudentClubs({ onBack }: StudentClubsProps) {
                 >
                   Discover clubs to join
                 </button>
-              </div>
-            ) : (
+              </div>            ) : (
               joinedClubs.map((club) => (
                 <div
                   key={club.id}
                   className="bg-white rounded-2xl shadow-md overflow-hidden"
                 >
-                  <div 
-                    className={`${getColorClasses(club.color)} p-6 text-white cursor-pointer hover:opacity-90 transition-opacity`}
-                    onClick={() => setSelectedClubId(club.id)}
-                  >
+                  <div className={`${getColorClasses(club.color)} p-6 text-white`}>
                     <div className="flex items-start justify-between mb-3">
                       <div className="flex items-center gap-3">
                         <span className="text-4xl">{club.icon}</span>
@@ -272,51 +268,44 @@ export default function StudentClubs({ onBack }: StudentClubsProps) {
                         </div>
                       </div>
                     </div>
+                    <p className="text-white/90 text-sm">{club.description}</p>
                   </div>
 
                   <div className="p-4">
-                    {club.upcomingSessions.length > 0 ? (
-                      <>
-                        <h4 className="text-sm text-gray-700 mb-3">Upcoming Sessions</h4>
-                        <div className="space-y-2 mb-4">
-                          {club.upcomingSessions.map((session, idx) => (
-                            <div
-                              key={idx}
-                              className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
-                            >
-                              <div>
-                                <p className="text-sm text-gray-800 mb-1">{session.title}</p>
-                                <div className="flex items-center gap-2 text-xs text-gray-600">
-                                  <Calendar className="w-3 h-3" />
-                                  <span>{session.date} at {session.time}</span>
-                                </div>
-                              </div>
-                              <button 
-                                onClick={() => toggleSessionRegistration(club.id, session.title)}
-                                className={`px-3 py-1.5 rounded-lg text-xs transition-colors ${
-                                  isSessionRegistered(club.id, session.title)
-                                    ? 'bg-green-600 text-white hover:bg-green-700'
-                                    : 'bg-indigo-600 text-white hover:bg-indigo-700'
-                                }`}
-                              >
-                                {isSessionRegistered(club.id, session.title) ? '✓ Registered' : 'Register'}
-                              </button>
-                            </div>
-                          ))}
-                        </div>
-                      </>
-                    ) : (
-                      <p className="text-sm text-gray-500 mb-4 text-center py-2">
-                        No upcoming sessions
-                      </p>
-                    )}
+                    <div className="flex items-center gap-4 mb-4">
+                      <div className="flex items-center gap-2 text-sm text-gray-600">
+                        <Users className="w-4 h-4" />
+                        <span>{club.members} members</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-sm text-gray-600">
+                        <Calendar className="w-4 h-4" />
+                        <span>{club.events} events</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-sm text-gray-600">
+                        <TrendingUp className="w-4 h-4" />
+                        <span>Active</span>
+                      </div>
+                    </div>
 
-                    <button 
-                      onClick={() => setSelectedClubId(club.id)}
-                      className="w-full py-2.5 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors text-sm font-medium"
-                    >
-                      View Profile
-                    </button>
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => toggleFollow(club.id)}
+                        className={`flex-1 py-3 rounded-xl font-medium transition-all flex items-center justify-center gap-2 ${
+                          followedClubs.includes(club.id)
+                            ? 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                            : `${getColorClasses(club.color)} text-white hover:opacity-90`
+                        }`}
+                      >
+                        {followedClubs.includes(club.id) && <Check className="w-4 h-4" />}
+                        {followedClubs.includes(club.id) ? 'Following' : 'Join Club'}
+                      </button>
+                      <button
+                        onClick={() => setSelectedClubId(club.id)}
+                        className="px-4 py-3 border-2 border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 transition-colors font-medium"
+                      >
+                        View
+                      </button>
+                    </div>
                   </div>
                 </div>
               ))
