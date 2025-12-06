@@ -135,22 +135,36 @@ export default function StudentSessionDetails({ session, isRegistered, onBack, o
               {session.longDescription || session.description + '. This interactive session provides an excellent opportunity to learn from an experienced instructor and engage with fellow learners. You will gain practical knowledge and skills that you can apply immediately.'}
             </p>
           </div>
+
+          {/* Registration Button in Content */}
+          <div className="bg-white rounded-xl p-4 shadow-md">
+            {isRegistered ? (
+              <button 
+                onClick={onToggleRegistration}
+                className="w-full py-3 border-2 border-red-500 text-red-500 rounded-xl hover:bg-red-50 transition-colors font-semibold"
+              >
+                Cancel Registration
+              </button>
+            ) : (
+              <button 
+                onClick={onToggleRegistration}
+                className={`w-full py-3 ${getColorClasses(session.color)} text-white rounded-xl hover:opacity-90 transition-opacity font-semibold`}
+              >
+                Register Now
+              </button>
+            )}
+          </div>
         </div>
 
         {/* Action Buttons */}
         <div className="fixed bottom-0 left-0 right-0 bg-white border-t p-4 shadow-lg max-w-md mx-auto">
           {isRegistered ? (
-            <div className="flex gap-2">
-              <button className="flex-1 py-3 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 transition-colors font-semibold">
-                {session.isOnline ? 'Join Session' : 'Add to Calendar'}
-              </button>
-              <button 
-                onClick={onToggleRegistration}
-                className="flex-1 py-3 border-2 border-red-500 text-red-500 rounded-xl hover:bg-red-50 transition-colors font-semibold"
-              >
-                Cancel Registration
-              </button>
-            </div>
+            <button 
+              onClick={onToggleRegistration}
+              className="w-full py-3 border-2 border-red-500 text-red-500 rounded-xl hover:bg-red-50 transition-colors font-semibold"
+            >
+              Cancel Registration
+            </button>
           ) : (
             <button 
               onClick={onToggleRegistration}

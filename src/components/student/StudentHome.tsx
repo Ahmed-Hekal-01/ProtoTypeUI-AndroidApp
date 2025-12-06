@@ -3,11 +3,11 @@ import { useState } from 'react';
 
 interface StudentHomeProps {
   onNavigate?: (tab: string) => void;
+  onViewEventDetails?: (eventId: number) => void;
 }
 
-export default function StudentHome({ onNavigate }: StudentHomeProps) {
+export default function StudentHome({ onNavigate, onViewEventDetails }: StudentHomeProps) {
   const [likedPosts, setLikedPosts] = useState<number[]>([]);
-  const [activePostTab, setActivePostTab] = useState<'all' | 'events'>('all');
   const [showComments, setShowComments] = useState(false);
   const [selectedPostId, setSelectedPostId] = useState<number | null>(null);
   const [newComment, setNewComment] = useState('');
@@ -167,9 +167,6 @@ export default function StudentHome({ onNavigate }: StudentHomeProps) {
     },
   ];
 
-  const filteredPosts = activePostTab === 'events'
-    ? posts.filter(post => post.isEvent)
-    : posts;
   const toggleLike = (postId: number) => {
     setLikedPosts(prev =>
       prev.includes(postId)
@@ -294,31 +291,9 @@ export default function StudentHome({ onNavigate }: StudentHomeProps) {
       <div className="px-4">
         <div className="flex items-center justify-between mb-3">
           <h3 className="text-gray-700 font-semibold">Latest Updates</h3>
-          <div className="flex gap-2">
-            <button
-              onClick={() => setActivePostTab('all')}
-              className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${
-                activePostTab === 'all'
-                  ? 'bg-blue-500 text-white'
-                  : 'bg-gray-200 text-gray-600 hover:bg-gray-300'
-              }`}
-            >
-              All
-            </button>
-            <button
-              onClick={() => setActivePostTab('events')}
-              className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${
-                activePostTab === 'events'
-                  ? 'bg-blue-500 text-white'
-                  : 'bg-gray-200 text-gray-600 hover:bg-gray-300'
-              }`}
-            >
-              Events
-            </button>
-          </div>
         </div>
         <div className="space-y-4">
-          {filteredPosts.map((post) => (
+          {posts.map((post) => (
             <div
               key={post.id}
               className="bg-white rounded-xl shadow-md overflow-hidden"
@@ -350,17 +325,17 @@ export default function StudentHome({ onNavigate }: StudentHomeProps) {
                 {/* Post Content */}
                 <p className="text-sm text-gray-700 mb-3">{post.content}</p>
 
-                {/* Event Info */}
+                {/* Event View Details Button */}
                 {post.isEvent && (
-                  <div className="bg-purple-50 border border-purple-200 rounded-lg p-3 mb-3">
-                    <div className="flex items-center gap-2 text-purple-700">
-                      <Calendar className="w-4 h-4" />
-                      <div className="text-xs">
-                        <p className="font-semibold">{post.eventDate}</p>
-                        <p>{post.eventTime}</p>
-                      </div>
-                    </div>
-                  </div>
+                  <button
+                    onClick={() => {
+                      onViewEventDetails?.(post.id);
+                      onNavigate?.('events');
+                    }}
+                    className="w-full bg-gradient-to-r from-purple-500 to-indigo-500 text-white rounded-lg px-4 py-2.5 text-sm font-medium hover:from-purple-600 hover:to-indigo-600 transition-all shadow-md mb-3"
+                  >
+                    View Details
+                  </button>
                 )}
               </div>
 

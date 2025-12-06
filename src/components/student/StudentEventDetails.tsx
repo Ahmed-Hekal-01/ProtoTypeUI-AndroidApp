@@ -128,6 +128,25 @@ export default function StudentEventDetails({ event, isRegistered, onBack, onTog
             </p>
           </div>
 
+          {/* Registration Button in Content */}
+          <div className="bg-white rounded-xl p-4 shadow-md">
+            {isRegistered ? (
+              <button 
+                onClick={onToggleRegistration}
+                className="w-full py-3 border-2 border-red-500 text-red-500 rounded-xl hover:bg-red-50 transition-colors font-semibold"
+              >
+                Cancel Registration
+              </button>
+            ) : (
+              <button 
+                onClick={onToggleRegistration}
+                className={`w-full py-3 ${getColorClasses(event.color)} text-white rounded-xl hover:opacity-90 transition-opacity font-semibold`}
+              >
+                Register Now
+              </button>
+            )}
+          </div>
+
           {/* Organizer Info */}
           <div className="bg-white rounded-xl p-4 shadow-md">
             <h3 className="font-semibold text-gray-800 mb-2">Organized By</h3>
@@ -146,17 +165,12 @@ export default function StudentEventDetails({ event, isRegistered, onBack, onTog
         {/* Action Buttons */}
         <div className="fixed bottom-0 left-0 right-0 bg-white border-t p-4 shadow-lg max-w-md mx-auto">
           {isRegistered ? (
-            <div className="flex gap-2">
-              <button className="flex-1 py-3 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 transition-colors font-semibold">
-                Add to Calendar
-              </button>
-              <button 
-                onClick={onToggleRegistration}
-                className="flex-1 py-3 border-2 border-red-500 text-red-500 rounded-xl hover:bg-red-50 transition-colors font-semibold"
-              >
-                Cancel Registration
-              </button>
-            </div>
+            <button 
+              onClick={onToggleRegistration}
+              className="w-full py-3 border-2 border-red-500 text-red-500 rounded-xl hover:bg-red-50 transition-colors font-semibold"
+            >
+              Cancel Registration
+            </button>
           ) : (
             <button 
               onClick={onToggleRegistration}

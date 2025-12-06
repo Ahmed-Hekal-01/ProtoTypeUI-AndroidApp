@@ -15,11 +15,13 @@ type Tab = 'home' | 'study-rooms' | 'sports' | 'events' | 'clubs' | 'profile' | 
 
 interface StudentAppProps {
   onBack: () => void;
+  onSwitchToClubManager?: () => void;
 }
 
-export default function StudentApp({ onBack }: StudentAppProps) {
+export default function StudentApp({ onBack, onSwitchToClubManager }: StudentAppProps) {
   const [activeTab, setActiveTab] = useState<Tab>('home');
   const [notificationCount, setNotificationCount] = useState(3);
+  const [selectedEventId, setSelectedEventId] = useState<number | null>(null);
 
   const tabs = [
     { id: 'home' as Tab, icon: Home, label: 'Home' },
@@ -32,8 +34,13 @@ export default function StudentApp({ onBack }: StudentAppProps) {
     setActiveTab(page as Tab);
   };
 
+  const handleViewEventDetails = (eventId: number) => {
+    setSelectedEventId(eventId);
+  };
+
   const handleBackToHome = () => {
     setActiveTab('home');
+    setSelectedEventId(null);
   };
 
   // Check if current tab is a subscreen (not in main nav)
@@ -66,12 +73,12 @@ export default function StudentApp({ onBack }: StudentAppProps) {
 
       {/* Content */}
       <div className="pb-4">
-        {activeTab === 'home' && <StudentHome onNavigate={handleNavigate} />}
+        {activeTab === 'home' && <StudentHome onNavigate={handleNavigate} onViewEventDetails={handleViewEventDetails} />}
         {activeTab === 'study-rooms' && <StudentStudyRooms onBack={handleBackToHome} />}
         {activeTab === 'sports' && <StudentSports onBack={handleBackToHome} />}
-        {activeTab === 'events' && <StudentEvents onBack={handleBackToHome} />}
+        {activeTab === 'events' && <StudentEvents onBack={handleBackToHome} initialEventId={selectedEventId} />}
         {activeTab === 'clubs' && <StudentClubs onBack={handleBackToHome} />}
-        {activeTab === 'profile' && <StudentProfile onBack={handleBackToHome} />}
+        {activeTab === 'profile' && <StudentProfile onBack={handleBackToHome} onSwitchToClubManager={onSwitchToClubManager} />}
         {activeTab === 'report-issue' && <StudentReportIssue onBack={handleBackToHome} />}
         {activeTab === 'notifications' && <StudentNotifications onBack={handleBackToHome} />}
         {activeTab === 'reservations' && <StudentReservations onBack={handleBackToHome} />}

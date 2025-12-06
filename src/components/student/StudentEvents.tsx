@@ -1,18 +1,27 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Calendar, Clock, MapPin, Users, Tag, CheckCircle, Video, ArrowLeft } from 'lucide-react';
 import StudentEventDetails from './StudentEventDetails';
 import StudentSessionDetails from './StudentSessionDetails';
 
 interface StudentEventsProps {
   onBack?: () => void;
+  initialEventId?: number | null;
 }
 
-export default function StudentEvents({ onBack }: StudentEventsProps) {
+export default function StudentEvents({ onBack, initialEventId }: StudentEventsProps) {
   const [activeTab, setActiveTab] = useState<'events' | 'sessions'>('events');
   const [registeredEvents, setRegisteredEvents] = useState<number[]>([1, 3]);
   const [registeredSessions, setRegisteredSessions] = useState<number[]>([101, 103]);
   const [selectedEventId, setSelectedEventId] = useState<number | null>(null);
   const [selectedSessionId, setSelectedSessionId] = useState<number | null>(null);
+
+  // If initialEventId is provided, show that event's details
+  useEffect(() => {
+    if (initialEventId) {
+      setSelectedEventId(initialEventId);
+      setActiveTab('events');
+    }
+  }, [initialEventId]);
 
   const events = [
     {

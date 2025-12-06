@@ -10,7 +10,7 @@ export default function App() {
   const [selectedRole, setSelectedRole] = useState<UserRole>(null);
 
   if (selectedRole === 'student') {
-    return <StudentApp onBack={() => setSelectedRole(null)} />;
+    return <StudentApp onBack={() => setSelectedRole(null)} onSwitchToClubManager={() => setSelectedRole('club-manager')} />;
   }
 
   if (selectedRole === 'club-manager') {
