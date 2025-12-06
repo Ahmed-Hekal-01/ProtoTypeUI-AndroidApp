@@ -52,6 +52,95 @@ export default function StudentProfile({ onBack }: StudentProfileProps) {
         </div>
       </div>
 
+      {/* QR Code Section */}
+      <div className="bg-white rounded-xl shadow-md p-6">
+        <h3 className="text-lg font-semibold text-gray-800 mb-4 text-center">My QR Code</h3>
+        <div className="flex justify-center mb-3">
+          <div className="bg-white p-4 rounded-xl shadow-inner border-2 border-gray-100">
+            <svg width="200" height="200" viewBox="0 0 200 200" className="w-full h-auto">
+              {/* QR Code pattern - simplified representation */}
+              <rect width="200" height="200" fill="white"/>
+              
+              {/* Corner markers */}
+              <g fill="black">
+                {/* Top-left corner */}
+                <rect x="10" y="10" width="50" height="50"/>
+                <rect x="20" y="20" width="30" height="30" fill="white"/>
+                <rect x="25" y="25" width="20" height="20" fill="black"/>
+                
+                {/* Top-right corner */}
+                <rect x="140" y="10" width="50" height="50"/>
+                <rect x="150" y="20" width="30" height="30" fill="white"/>
+                <rect x="155" y="25" width="20" height="20" fill="black"/>
+                
+                {/* Bottom-left corner */}
+                <rect x="10" y="140" width="50" height="50"/>
+                <rect x="20" y="150" width="30" height="30" fill="white"/>
+                <rect x="25" y="155" width="20" height="20" fill="black"/>
+                
+                {/* Data pattern - random pattern for visual effect */}
+                <rect x="70" y="10" width="10" height="10"/>
+                <rect x="90" y="10" width="10" height="10"/>
+                <rect x="110" y="10" width="10" height="10"/>
+                <rect x="80" y="20" width="10" height="10"/>
+                <rect x="100" y="20" width="10" height="10"/>
+                <rect x="120" y="20" width="10" height="10"/>
+                
+                <rect x="10" y="70" width="10" height="10"/>
+                <rect x="20" y="80" width="10" height="10"/>
+                <rect x="30" y="90" width="10" height="10"/>
+                <rect x="40" y="100" width="10" height="10"/>
+                <rect x="50" y="110" width="10" height="10"/>
+                
+                <rect x="70" y="70" width="10" height="10"/>
+                <rect x="90" y="70" width="10" height="10"/>
+                <rect x="110" y="70" width="10" height="10"/>
+                <rect x="130" y="70" width="10" height="10"/>
+                <rect x="150" y="70" width="10" height="10"/>
+                <rect x="170" y="70" width="10" height="10"/>
+                
+                <rect x="80" y="90" width="10" height="10"/>
+                <rect x="100" y="90" width="10" height="10"/>
+                <rect x="120" y="90" width="10" height="10"/>
+                <rect x="140" y="90" width="10" height="10"/>
+                <rect x="160" y="90" width="10" height="10"/>
+                <rect x="180" y="90" width="10" height="10"/>
+                
+                <rect x="70" y="110" width="10" height="10"/>
+                <rect x="90" y="110" width="10" height="10"/>
+                <rect x="110" y="110" width="10" height="10"/>
+                <rect x="130" y="110" width="10" height="10"/>
+                <rect x="150" y="110" width="10" height="10"/>
+                <rect x="170" y="110" width="10" height="10"/>
+                
+                <rect x="80" y="130" width="10" height="10"/>
+                <rect x="100" y="130" width="10" height="10"/>
+                <rect x="120" y="130" width="10" height="10"/>
+                <rect x="140" y="130" width="10" height="10"/>
+                <rect x="160" y="130" width="10" height="10"/>
+                <rect x="180" y="130" width="10" height="10"/>
+                
+                <rect x="70" y="150" width="10" height="10"/>
+                <rect x="90" y="150" width="10" height="10"/>
+                <rect x="110" y="150" width="10" height="10"/>
+                <rect x="130" y="150" width="10" height="10"/>
+                <rect x="150" y="150" width="10" height="10"/>
+                <rect x="170" y="150" width="10" height="10"/>
+                
+                <rect x="80" y="170" width="10" height="10"/>
+                <rect x="100" y="170" width="10" height="10"/>
+                <rect x="120" y="170" width="10" height="10"/>
+                <rect x="140" y="170" width="10" height="10"/>
+                <rect x="160" y="170" width="10" height="10"/>
+                <rect x="180" y="170" width="10" height="10"/>
+              </g>
+            </svg>
+          </div>
+        </div>
+        <p className="text-center text-sm text-gray-600 mb-2">Student ID: CS2023-1234</p>
+        <p className="text-center text-xs text-gray-400">Show this code for attendance and facility access</p>
+      </div>
+
       {/* Settings Menu - Log Out Only */}
       <div>
         <div className="bg-white rounded-xl shadow-md overflow-hidden">

@@ -133,6 +133,28 @@ export default function StudentClubProfile({ onBack }: StudentClubProfileProps) 
       )}
 
       <div className="p-4 space-y-4 pb-8">
+      {/* Club Info Card */}
+      <div className="bg-white rounded-2xl shadow-md overflow-hidden">
+        <div 
+          className="p-6 text-white"
+          style={{ background: 'linear-gradient(to right, #2563eb, #4f46e5)' }}
+        >
+          <div className="flex items-center gap-4 mb-3">
+            <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center text-4xl backdrop-blur-sm">
+              {club.icon}
+            </div>
+            <div className="flex-1">
+              <h2 className="text-2xl font-bold mb-2">{club.name}</h2>
+              <div className="flex items-center gap-1 text-sm text-blue-100">
+                <Users className="w-4 h-4" />
+                <span>{club.members} members</span>
+              </div>
+            </div>
+          </div>
+          <p className="text-white/90 text-sm leading-relaxed">{club.description}</p>
+        </div>
+      </div>
+
       {/* Toggle Tabs */}
       <div className="bg-gray-100 p-1 rounded-2xl flex gap-1">
         <button

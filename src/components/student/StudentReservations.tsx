@@ -241,11 +241,15 @@ export default function StudentReservations({ onBack }: StudentReservationsProps
                 {/* Actions */}
                 {reservation.status !== 'completed' && (
                   <div className="flex gap-2 pt-2 border-t border-gray-100">
-                    <button className="flex-1 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-lg transition-colors">
-                      View Details
-                    </button>
+                    {(reservation.type === 'Event' || reservation.type === 'Session') && (
+                      <button className="flex-1 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-lg transition-colors">
+                        View Details
+                      </button>
+                    )}
                     {reservation.status === 'upcoming' || reservation.status === 'registered' ? (
-                      <button className="flex items-center justify-center gap-1 px-4 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors">
+                      <button className={`flex items-center justify-center gap-1 px-4 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors ${
+                        reservation.type === 'Event' || reservation.type === 'Session' ? '' : 'flex-1'
+                      }`}>
                         <X className="w-4 h-4" />
                         Cancel
                       </button>
