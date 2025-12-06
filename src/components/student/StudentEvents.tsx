@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { Calendar, Clock, MapPin, Users, Tag, CheckCircle, Video, ArrowLeft } from 'lucide-react';
+import StudentEventDetails from './StudentEventDetails';
+import StudentSessionDetails from './StudentSessionDetails';
 
 interface StudentEventsProps {
   onBack?: () => void;
@@ -9,6 +11,8 @@ export default function StudentEvents({ onBack }: StudentEventsProps) {
   const [activeTab, setActiveTab] = useState<'events' | 'sessions'>('events');
   const [registeredEvents, setRegisteredEvents] = useState<number[]>([1, 3]);
   const [registeredSessions, setRegisteredSessions] = useState<number[]>([101, 103]);
+  const [selectedEventId, setSelectedEventId] = useState<number | null>(null);
+  const [selectedSessionId, setSelectedSessionId] = useState<number | null>(null);
 
   const events = [
     {
@@ -190,6 +194,36 @@ export default function StudentEvents({ onBack }: StudentEventsProps) {
     return colors[color] || 'bg-gray-500';
   };
 
+  // If an event is selected, show its details
+  if (selectedEventId !== null && activeTab === 'events') {
+    const selectedEvent = events.find(e => e.id === selectedEventId);
+    if (selectedEvent) {
+      return (
+        <StudentEventDetails
+          event={selectedEvent}
+          isRegistered={isRegistered(selectedEventId)}
+          onBack={() => setSelectedEventId(null)}
+          onToggleRegistration={() => toggleRegistration(selectedEventId)}
+        />
+      );
+    }
+  }
+
+  // If a session is selected, show its details
+  if (selectedSessionId !== null && activeTab === 'sessions') {
+    const selectedSession = sessions.find(s => s.id === selectedSessionId);
+    if (selectedSession) {
+      return (
+        <StudentSessionDetails
+          session={selectedSession}
+          isRegistered={isRegistered(selectedSessionId)}
+          onBack={() => setSelectedSessionId(null)}
+          onToggleRegistration={() => toggleRegistration(selectedSessionId)}
+        />
+      );
+    }
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Top Bar */}
@@ -243,7 +277,16 @@ export default function StudentEvents({ onBack }: StudentEventsProps) {
             className="bg-white rounded-2xl shadow-md overflow-hidden"
           >
             {/* Header with Icon */}
-            <div className={`${getColorClasses(item.color)} p-6 text-white relative`}>
+            <div 
+              className={`${getColorClasses(item.color)} p-6 text-white relative cursor-pointer hover:opacity-90 transition-opacity`}
+              onClick={() => {
+                if (activeTab === 'events') {
+                  setSelectedEventId(item.id);
+                } else {
+                  setSelectedSessionId(item.id);
+                }
+              }}
+            >
               <div className="flex items-start justify-between">
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-2">
@@ -295,10 +338,6 @@ export default function StudentEvents({ onBack }: StudentEventsProps) {
                     {isRegistered(item.id) ? item.attendees + 1 : item.attendees}/{item.capacity} registered
                   </span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <Tag className="w-4 h-4 text-gray-600" />
-                  <span className="text-sm text-gray-700">{item.category}</span>
-                </div>
               </div>
 
               {/* Progress Bar */}
@@ -314,23 +353,52 @@ export default function StudentEvents({ onBack }: StudentEventsProps) {
               {/* Action Button */}
               {isRegistered(item.id) ? (
                 <div className="flex gap-2">
-                  <button className="flex-1 py-3 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 transition-colors">
+                  <button 
+                    onClick={() => {
+                      if (activeTab === 'events') {
+                        setSelectedEventId(item.id);
+                      } else {
+                        setSelectedSessionId(item.id);
+                      }
+                    }}
+                    className="flex-1 py-3 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 transition-colors font-semibold"
+                  >
                     View Details
                   </button>
                   <button 
-                    onClick={() => toggleRegistration(item.id)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleRegistration(item.id);
+                    }}
                     className="flex-1 py-3 border-2 border-red-500 text-red-500 rounded-xl hover:bg-red-50 transition-colors font-semibold"
                   >
                     Cancel
                   </button>
                 </div>
               ) : (
-                <button 
-                  onClick={() => toggleRegistration(item.id)}
-                  className={`w-full py-3 ${getColorClasses(item.color)} text-white rounded-xl hover:opacity-90 transition-opacity font-semibold`}
-                >
-                  Register Now
-                </button>
+                <div className="flex gap-2">
+                  <button 
+                    onClick={() => {
+                      if (activeTab === 'events') {
+                        setSelectedEventId(item.id);
+                      } else {
+                        setSelectedSessionId(item.id);
+                      }
+                    }}
+                    className="flex-1 py-3 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 transition-colors font-semibold"
+                  >
+                    View Details
+                  </button>
+                  <button 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleRegistration(item.id);
+                    }}
+                    className={`flex-1 py-3 ${getColorClasses(item.color)} text-white rounded-xl hover:opacity-90 transition-opacity font-semibold`}
+                  >
+                    Register Now
+                  </button>
+                </div>
               )}
             </div>
           </div>
