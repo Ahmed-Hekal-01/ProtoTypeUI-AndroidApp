@@ -54,15 +54,8 @@ export default function ClubManagerHome() {
     { label: 'Post Update', icon: '📢', color: 'bg-pink-500' },
     { label: 'View Analytics', icon: '📊', color: 'bg-green-500' },
   ];
-
   return (
     <div className="p-4 space-y-6">
-      {/* Welcome Section */}
-      <div className="bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-2xl p-6 shadow-lg">
-        <h2 className="text-2xl mb-2">Welcome back! 👋</h2>
-        <p className="text-purple-100">Manage your club and engage with members</p>
-      </div>
-
       {/* Quick Actions */}
       <div>
         <h3 className="mb-3 text-gray-700">Quick Actions</h3>
