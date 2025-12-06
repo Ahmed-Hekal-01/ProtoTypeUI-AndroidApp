@@ -1,13 +1,42 @@
-import { User, Mail, Phone, Lock, Bell, Shield, LogOut, Camera, Edit2, Check, X } from 'lucide-react';
+import { User, Mail, LogOut, Edit2, Check, X, MessageCircle, Heart, Send, MoreVertical } from 'lucide-react';
 import { useState } from 'react';
 
 export default function ClubManagerAccount() {
   const [isEditing, setIsEditing] = useState(false);
   const [clubName, setClubName] = useState('Tech Club');
   const [email, setEmail] = useState('techclub@university.edu');
-  const [phone, setPhone] = useState('+1 (555) 987-6543');
   const [managerName, setManagerName] = useState('John Smith');
-
+  const [showComments, setShowComments] = useState(false);
+  const [newComment, setNewComment] = useState('');
+  const [comments, setComments] = useState([
+    {
+      id: 1,
+      user: 'Sarah Johnson',
+      avatar: '👩',
+      text: 'Great session today! Looking forward to the next one 🚀',
+      time: '2h ago',
+      likes: 12,
+      liked: false,
+    },
+    {
+      id: 2,
+      user: 'Michael Chen',
+      avatar: '👨',
+      text: 'Thanks for organizing this event!',
+      time: '5h ago',
+      likes: 8,
+      liked: true,
+    },
+    {
+      id: 3,
+      user: 'Emma Williams',
+      avatar: '👧',
+      text: 'Can we get the presentation slides?',
+      time: '1d ago',
+      likes: 5,
+      liked: false,
+    },
+  ]);
   const handleSave = () => {
     setIsEditing(false);
     // Save logic here
@@ -18,211 +47,124 @@ export default function ClubManagerAccount() {
     // Reset to original values
     setClubName('Tech Club');
     setEmail('techclub@university.edu');
-    setPhone('+1 (555) 987-6543');
     setManagerName('John Smith');
+  };
+
+  const handleAddComment = () => {
+    if (newComment.trim()) {
+      const comment = {
+        id: comments.length + 1,
+        user: managerName,
+        avatar: '💻',
+        text: newComment,
+        time: 'Just now',
+        likes: 0,
+        liked: false,
+      };
+      setComments([comment, ...comments]);
+      setNewComment('');
+    }
+  };
+
+  const toggleLike = (commentId: number) => {
+    setComments(comments.map(comment =>
+      comment.id === commentId
+        ? { ...comment, liked: !comment.liked, likes: comment.liked ? comment.likes - 1 : comment.likes + 1 }
+        : comment
+    ));
   };
 
   return (
     <div className="p-4 space-y-6 pb-8">
       {/* Profile Header */}
       <div className="bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-2xl p-6 shadow-lg">
-        <div className="flex flex-col items-center text-center">
-          <div className="relative mb-4">
-            <div className="w-24 h-24 bg-white/20 rounded-full flex items-center justify-center text-4xl backdrop-blur-sm">
+        <div className="flex items-start justify-between mb-4">
+          <div className="flex items-start gap-4">
+            <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center text-3xl backdrop-blur-sm">
               💻
             </div>
-            <button className="absolute bottom-0 right-0 w-8 h-8 bg-white text-purple-600 rounded-full flex items-center justify-center shadow-lg hover:bg-purple-50 transition-colors">
-              <Camera className="w-4 h-4" />
-            </button>
-          </div>
-          <h2 className="text-2xl font-bold mb-1">{clubName}</h2>
-          <p className="text-purple-100 text-sm mb-3">Technology & Innovation Club</p>
-          <div className="flex items-center gap-4 text-sm">
-            <div className="flex items-center gap-1">
-              <User className="w-4 h-4" />
-              <span>245 Members</span>
-            </div>
-            <div className="w-1 h-1 bg-white/40 rounded-full"></div>
-            <div>
-              <span>Since 2020</span>
+            <div className="flex-1">
+              <h2 className="text-2xl mb-1">{clubName}</h2>
+              <p className="text-purple-100 text-sm mb-1">Technology & Innovation</p>
+              <p className="text-purple-100 text-sm">245 Members</p>
             </div>
           </div>
-        </div>
-      </div>
 
-      {/* Account Information */}
-      <div>
-        <div className="flex items-center justify-between mb-3">
-          <h3 className="text-gray-700 font-semibold">Account Information</h3>
+          {/* Edit Button */}
           {!isEditing ? (
             <button
               onClick={() => setIsEditing(true)}
-              className="flex items-center gap-2 px-3 py-1.5 bg-purple-600 text-white text-sm rounded-lg hover:bg-purple-700 transition-colors"
+              className="p-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors"
             >
-              <Edit2 className="w-4 h-4" />
-              Edit
+              <Edit2 className="w-5 h-5" />
             </button>
           ) : (
             <div className="flex gap-2">
               <button
                 onClick={handleSave}
-                className="flex items-center gap-1 px-3 py-1.5 bg-green-600 text-white text-sm rounded-lg hover:bg-green-700 transition-colors"
+                className="p-2 bg-green-500 hover:bg-green-600 rounded-lg transition-colors"
               >
-                <Check className="w-4 h-4" />
-                Save
+                <Check className="w-5 h-5" />
               </button>
               <button
                 onClick={handleCancel}
-                className="flex items-center gap-1 px-3 py-1.5 bg-gray-500 text-white text-sm rounded-lg hover:bg-gray-600 transition-colors"
+                className="p-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors"
               >
-                <X className="w-4 h-4" />
-                Cancel
+                <X className="w-5 h-5" />
               </button>
             </div>
           )}
         </div>
 
-        <div className="bg-white rounded-xl shadow-md overflow-hidden">
-          <div className="divide-y divide-gray-100">
-            {/* Club Name */}
-            <div className="p-4">
-              <label className="text-sm text-gray-600 mb-2 block flex items-center gap-2">
-                <User className="w-4 h-4" />
-                Club Name
-              </label>
-              <input
-                type="text"
-                value={clubName}
-                onChange={(e) => setClubName(e.target.value)}
-                disabled={!isEditing}
-                className={`w-full p-3 rounded-lg outline-none border ${
-                  isEditing
-                    ? 'bg-gray-50 border-gray-200 focus:border-purple-500'
-                    : 'bg-gray-100 border-transparent cursor-not-allowed'
-                }`}
-              />
-            </div>
-
-            {/* Manager Name */}
-            <div className="p-4">
-              <label className="text-sm text-gray-600 mb-2 block flex items-center gap-2">
-                <User className="w-4 h-4" />
-                Manager Name
-              </label>
-              <input
-                type="text"
-                value={managerName}
-                onChange={(e) => setManagerName(e.target.value)}
-                disabled={!isEditing}
-                className={`w-full p-3 rounded-lg outline-none border ${
-                  isEditing
-                    ? 'bg-gray-50 border-gray-200 focus:border-purple-500'
-                    : 'bg-gray-100 border-transparent cursor-not-allowed'
-                }`}
-              />
-            </div>
-
-            {/* Email */}
-            <div className="p-4">
-              <label className="text-sm text-gray-600 mb-2 block flex items-center gap-2">
-                <Mail className="w-4 h-4" />
-                Email Address
-              </label>
+        {/* Contact Info */}
+        <div className="space-y-2 text-sm text-purple-100">
+          <div className="flex items-center gap-2">
+            <Mail className="w-4 h-4" />
+            {isEditing ? (
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                disabled={!isEditing}
-                className={`w-full p-3 rounded-lg outline-none border ${
-                  isEditing
-                    ? 'bg-gray-50 border-gray-200 focus:border-purple-500'
-                    : 'bg-gray-100 border-transparent cursor-not-allowed'
-                }`}
+                className="flex-1 bg-white/10 border border-white/20 rounded px-2 py-1 outline-none focus:bg-white/20 text-white placeholder-purple-200"
               />
-            </div>
-
-            {/* Phone */}
-            <div className="p-4">
-              <label className="text-sm text-gray-600 mb-2 block flex items-center gap-2">
-                <Phone className="w-4 h-4" />
-                Phone Number
-              </label>
+            ) : (
+              <span>{email}</span>
+            )}
+          </div>
+          <div className="flex items-center gap-2">
+            <User className="w-4 h-4" />
+            {isEditing ? (
               <input
-                type="tel"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                disabled={!isEditing}
-                className={`w-full p-3 rounded-lg outline-none border ${
-                  isEditing
-                    ? 'bg-gray-50 border-gray-200 focus:border-purple-500'
-                    : 'bg-gray-100 border-transparent cursor-not-allowed'
-                }`}
+                type="text"
+                value={managerName}
+                onChange={(e) => setManagerName(e.target.value)}
+                placeholder="Manager Name"
+                className="flex-1 bg-white/10 border border-white/20 rounded px-2 py-1 outline-none focus:bg-white/20 text-white placeholder-purple-200"
               />
-            </div>
+            ) : (
+              <span>Manager: {managerName}</span>
+            )}
           </div>
         </div>
-      </div>
-
-      {/* Security Settings */}
-      <div>
-        <h3 className="mb-3 text-gray-700 font-semibold">Security</h3>
-        <div className="bg-white rounded-xl shadow-md overflow-hidden">
-          <button className="w-full p-4 flex items-center justify-between hover:bg-gray-50 transition-colors">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
-                <Lock className="w-5 h-5 text-purple-600" />
-              </div>
-              <div className="text-left">
-                <p className="text-gray-800 font-medium">Change Password</p>
-                <p className="text-sm text-gray-500">Update your account password</p>
-              </div>
-            </div>
-            <span className="text-gray-400">›</span>
-          </button>
-
-          <div className="border-t border-gray-100"></div>
-
-          <button className="w-full p-4 flex items-center justify-between hover:bg-gray-50 transition-colors">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                <Shield className="w-5 h-5 text-blue-600" />
-              </div>
-              <div className="text-left">
-                <p className="text-gray-800 font-medium">Two-Factor Authentication</p>
-                <p className="text-sm text-gray-500">Add extra security to your account</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">Off</span>
-              <span className="text-gray-400">›</span>
-            </div>
-          </button>
-        </div>
-      </div>
-
-      {/* Notification Preferences */}
-      <div>
-        <h3 className="mb-3 text-gray-700 font-semibold">Notifications</h3>
-        <div className="bg-white rounded-xl shadow-md overflow-hidden">
-          <button className="w-full p-4 flex items-center justify-between hover:bg-gray-50 transition-colors">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
-                <Bell className="w-5 h-5 text-green-600" />
-              </div>
-              <div className="text-left">
-                <p className="text-gray-800 font-medium">Notification Settings</p>
-                <p className="text-sm text-gray-500">Manage push notifications and emails</p>
-              </div>
-            </div>
-            <span className="text-gray-400">›</span>
-          </button>
-        </div>
-      </div>
-
-      {/* Account Actions */}
+      </div>      {/* Account Actions */}
       <div>
         <h3 className="mb-3 text-gray-700 font-semibold">Account Actions</h3>
         <div className="bg-white rounded-xl shadow-md overflow-hidden">
+          <button
+            onClick={() => setShowComments(true)}
+            className="w-full p-4 flex items-center justify-between hover:bg-gray-50 transition-colors border-b border-gray-100"
+          >
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
+                <MessageCircle className="w-5 h-5 text-purple-600" />
+              </div>
+              <div className="text-left">
+                <p className="text-gray-800 font-medium">View Comments</p>
+                <p className="text-sm text-gray-500">{comments.length} comments</p>
+              </div>
+            </div>
+            <span className="text-gray-400">›</span>
+          </button>
           <button className="w-full p-4 flex items-center justify-between hover:bg-gray-50 transition-colors">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center">
@@ -236,13 +178,122 @@ export default function ClubManagerAccount() {
             <span className="text-gray-400">›</span>
           </button>
         </div>
-      </div>
-
-      {/* App Info */}
+      </div>      {/* App Info */}
       <div className="text-center text-sm text-gray-500 space-y-1 pt-4">
         <p>Club Manager Portal v1.0.0</p>
         <p>© 2025 University Campus App</p>
       </div>
+
+      {/* Comments Modal - Instagram Style */}
+      {showComments && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-end md:items-center justify-center">
+          <div className="bg-white w-full max-w-md h-[85vh] md:h-[600px] md:rounded-2xl flex flex-col animate-slide-up">
+            {/* Header */}
+            <div className="flex items-center justify-between p-4 border-b border-gray-200">
+              <h3 className="text-lg font-semibold text-gray-800">Comments</h3>
+              <button
+                onClick={() => setShowComments(false)}
+                className="text-gray-400 hover:text-gray-600 transition-colors"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+
+            {/* Comments List */}
+            <div className="flex-1 overflow-y-auto">
+              {comments.length === 0 ? (
+                <div className="flex flex-col items-center justify-center h-full text-gray-400">
+                  <MessageCircle className="w-16 h-16 mb-3 opacity-50" />
+                  <p className="text-lg font-medium">No comments yet</p>
+                  <p className="text-sm">Be the first to comment</p>
+                </div>
+              ) : (
+                <div className="divide-y divide-gray-100">
+                  {comments.map((comment) => (
+                    <div key={comment.id} className="p-4 hover:bg-gray-50 transition-colors">
+                      <div className="flex gap-3">
+                        {/* Avatar */}
+                        <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-lg flex-shrink-0">
+                          {comment.avatar}
+                        </div>
+
+                        {/* Comment Content */}
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-start justify-between gap-2">
+                            <div className="flex-1">
+                              <p className="text-sm">
+                                <span className="font-semibold text-gray-800">{comment.user}</span>
+                                {' '}
+                                <span className="text-gray-700">{comment.text}</span>
+                              </p>
+                              <div className="flex items-center gap-4 mt-2 text-xs text-gray-500">
+                                <span>{comment.time}</span>
+                                {comment.likes > 0 && (
+                                  <span className="font-medium">{comment.likes} {comment.likes === 1 ? 'like' : 'likes'}</span>
+                                )}
+                                <button className="font-medium hover:text-gray-700">Reply</button>
+                              </div>
+                            </div>
+
+                            {/* Like Button */}
+                            <button
+                              onClick={() => toggleLike(comment.id)}
+                              className="flex-shrink-0 mt-1"
+                            >
+                              <Heart
+                                className={`w-4 h-4 transition-all ${
+                                  comment.liked
+                                    ? 'fill-red-500 text-red-500'
+                                    : 'text-gray-400 hover:text-gray-600'
+                                }`}
+                              />
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* More Options */}
+                      <button className="absolute top-4 right-4 p-1 hover:bg-gray-100 rounded-full hidden">
+                        <MoreVertical className="w-4 h-4 text-gray-400" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Add Comment Input */}
+            <div className="border-t border-gray-200 p-4">
+              <div className="flex items-center gap-3">
+                {/* Avatar */}
+                <div className="w-8 h-8 bg-gradient-to-br from-purple-600 to-pink-600 rounded-full flex items-center justify-center text-lg flex-shrink-0">
+                  💻
+                </div>
+
+                {/* Input */}
+                <div className="flex-1 flex items-center gap-2 bg-gray-100 rounded-full px-4 py-2">
+                  <input
+                    type="text"
+                    value={newComment}
+                    onChange={(e) => setNewComment(e.target.value)}
+                    onKeyPress={(e) => e.key === 'Enter' && handleAddComment()}
+                    placeholder="Add a comment..."
+                    className="flex-1 bg-transparent outline-none text-sm placeholder-gray-500"
+                  />
+                  {newComment.trim() && (
+                    <button
+                      onClick={handleAddComment}
+                      className="text-purple-600 hover:text-purple-700 font-semibold text-sm transition-colors"
+                    >
+                      Post
+                    </button>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

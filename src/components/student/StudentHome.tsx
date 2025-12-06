@@ -1,4 +1,4 @@
-import { Bell, Calendar, Clock, MapPin, AlertCircle, CheckCircle, Heart, MessageCircle, BookOpen, Dumbbell, AlertTriangle, Pin } from 'lucide-react';
+import { Bell, Calendar, Clock, MapPin, AlertCircle, CheckCircle, Heart, MessageCircle, BookOpen, Dumbbell, AlertTriangle, Pin, X } from 'lucide-react';
 import { useState } from 'react';
 
 interface StudentHomeProps {
@@ -8,6 +8,18 @@ interface StudentHomeProps {
 export default function StudentHome({ onNavigate }: StudentHomeProps) {
   const [likedPosts, setLikedPosts] = useState<number[]>([]);
   const [activePostTab, setActivePostTab] = useState<'all' | 'events'>('all');
+  const [showComments, setShowComments] = useState(false);
+  const [selectedPostId, setSelectedPostId] = useState<number | null>(null);
+  const [newComment, setNewComment] = useState('');
+  const [postComments, setPostComments] = useState<{ [key: number]: any[] }>({
+    1: [
+      { id: 1, user: 'Sarah Johnson', avatar: '👩‍🎓', text: 'Can\'t wait to attend! 🎉', time: '1h ago', likes: 5, liked: false },
+      { id: 2, user: 'Michael Chen', avatar: '👨', text: 'Will there be certificates?', time: '30m ago', likes: 2, liked: false },
+    ],
+    2: [
+      { id: 1, user: 'Emma Williams', avatar: '👧', text: 'Thanks for the update!', time: '2h ago', likes: 3, liked: false },
+    ],
+  });
   const upcomingReservations = [
     {
       id: 1,
@@ -158,7 +170,6 @@ export default function StudentHome({ onNavigate }: StudentHomeProps) {
   const filteredPosts = activePostTab === 'events'
     ? posts.filter(post => post.isEvent)
     : posts;
-
   const toggleLike = (postId: number) => {
     setLikedPosts(prev =>
       prev.includes(postId)
@@ -166,6 +177,45 @@ export default function StudentHome({ onNavigate }: StudentHomeProps) {
         : [...prev, postId]
     );
   };
+
+  const openComments = (postId: number) => {
+    setSelectedPostId(postId);
+    setShowComments(true);
+  };
+
+  const handleAddComment = () => {
+    if (newComment.trim() && selectedPostId !== null) {
+      const comment = {
+        id: (postComments[selectedPostId]?.length || 0) + 1,
+        user: 'Sarah Johnson',
+        avatar: '👩‍🎓',
+        text: newComment,
+        time: 'Just now',
+        likes: 0,
+        liked: false,
+      };
+      setPostComments(prev => ({
+        ...prev,
+        [selectedPostId]: [comment, ...(prev[selectedPostId] || [])],
+      }));
+      setNewComment('');
+    }
+  };
+
+  const toggleCommentLike = (commentId: number) => {
+    if (selectedPostId === null) return;
+    setPostComments(prev => ({
+      ...prev,
+      [selectedPostId]: prev[selectedPostId]?.map(comment =>
+        comment.id === commentId
+          ? { ...comment, liked: !comment.liked, likes: comment.liked ? comment.likes - 1 : comment.likes + 1 }
+          : comment
+      ) || [],
+    }));
+  };
+
+  const currentComments = selectedPostId !== null ? (postComments[selectedPostId] || []) : [];
+  const selectedPost = posts.find(p => p.id === selectedPostId);
 
   return (
     <div className="space-y-4 pb-4">
@@ -323,9 +373,7 @@ export default function StudentHome({ onNavigate }: StudentHomeProps) {
                     className="w-full h-64 object-cover"
                   />
                 </div>
-              )}
-
-              {/* Post Actions */}
+              )}              {/* Post Actions */}
               <div className="border-t border-gray-100 px-4 py-2.5">
                 <div className="flex items-center gap-6 text-gray-600">
                   <button
@@ -337,16 +385,153 @@ export default function StudentHome({ onNavigate }: StudentHomeProps) {
                     <Heart className={`w-5 h-5 ${likedPosts.includes(post.id) ? 'fill-red-500' : ''}`} />
                     <span className="text-sm">{likedPosts.includes(post.id) ? post.likes + 1 : post.likes}</span>
                   </button>
-                  <button className="flex items-center gap-2 py-1 hover:text-blue-500 transition-colors">
+                  <button
+                    onClick={() => openComments(post.id)}
+                    className="flex items-center gap-2 py-1 hover:text-blue-500 transition-colors"
+                  >
                     <MessageCircle className="w-5 h-5" />
-                    <span className="text-sm">{post.comments}</span>
+                    <span className="text-sm">{postComments[post.id]?.length || post.comments}</span>
                   </button>
                 </div>
               </div>
-            </div>
-          ))}
+            </div>          ))}
         </div>
       </div>
+
+      {/* Comments Modal - Instagram Style */}
+      {showComments && selectedPost && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-end md:items-center justify-center">
+          <div className="bg-white w-full max-w-md h-[85vh] md:h-[600px] md:rounded-2xl flex flex-col animate-slide-up">
+            {/* Header */}
+            <div className="flex items-center justify-between p-4 border-b border-gray-200">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-full flex items-center justify-center text-lg">
+                  {selectedPost.avatar}
+                </div>
+                <div>
+                  <h3 className="text-sm font-semibold text-gray-800">{selectedPost.author}</h3>
+                  <p className="text-xs text-gray-500">{selectedPost.time}</p>
+                </div>
+              </div>
+              <button
+                onClick={() => {
+                  setShowComments(false);
+                  setSelectedPostId(null);
+                }}
+                className="text-gray-400 hover:text-gray-600 transition-colors"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+
+            {/* Comments List */}
+            <div className="flex-1 overflow-y-auto">
+              {/* Original Post */}
+              <div className="p-4 border-b border-gray-100">
+                <div className="flex gap-3">
+                  <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-full flex items-center justify-center text-lg flex-shrink-0">
+                    {selectedPost.avatar}
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-sm">
+                      <span className="font-semibold text-gray-800">{selectedPost.author}</span>
+                      {' '}
+                      <span className="text-gray-700">{selectedPost.content}</span>
+                    </p>
+                    <p className="text-xs text-gray-500 mt-2">{selectedPost.time}</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Comments */}
+              {currentComments.length === 0 ? (
+                <div className="flex flex-col items-center justify-center h-32 text-gray-400">
+                  <MessageCircle className="w-12 h-12 mb-2 opacity-50" />
+                  <p className="text-sm">No comments yet</p>
+                  <p className="text-xs">Be the first to comment</p>
+                </div>
+              ) : (
+                <div className="divide-y divide-gray-100">
+                  {currentComments.map((comment) => (
+                    <div key={comment.id} className="p-4 hover:bg-gray-50 transition-colors">
+                      <div className="flex gap-3">
+                        {/* Avatar */}
+                        <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-full flex items-center justify-center text-lg flex-shrink-0">
+                          {comment.avatar}
+                        </div>
+
+                        {/* Comment Content */}
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-start justify-between gap-2">
+                            <div className="flex-1">
+                              <p className="text-sm">
+                                <span className="font-semibold text-gray-800">{comment.user}</span>
+                                {' '}
+                                <span className="text-gray-700">{comment.text}</span>
+                              </p>
+                              <div className="flex items-center gap-4 mt-2 text-xs text-gray-500">
+                                <span>{comment.time}</span>
+                                {comment.likes > 0 && (
+                                  <span className="font-medium">{comment.likes} {comment.likes === 1 ? 'like' : 'likes'}</span>
+                                )}
+                                <button className="font-medium hover:text-gray-700">Reply</button>
+                              </div>
+                            </div>
+
+                            {/* Like Button */}
+                            <button
+                              onClick={() => toggleCommentLike(comment.id)}
+                              className="flex-shrink-0 mt-1"
+                            >
+                              <Heart
+                                className={`w-4 h-4 transition-all ${
+                                  comment.liked
+                                    ? 'fill-red-500 text-red-500'
+                                    : 'text-gray-400 hover:text-gray-600'
+                                }`}
+                              />
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Add Comment Input */}
+            <div className="border-t border-gray-200 p-4">
+              <div className="flex items-center gap-3">
+                {/* Avatar */}
+                <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-full flex items-center justify-center text-lg flex-shrink-0">
+                  👩‍🎓
+                </div>
+
+                {/* Input */}
+                <div className="flex-1 flex items-center gap-2 bg-gray-100 rounded-full px-4 py-2">
+                  <input
+                    type="text"
+                    value={newComment}
+                    onChange={(e) => setNewComment(e.target.value)}
+                    onKeyPress={(e) => e.key === 'Enter' && handleAddComment()}
+                    placeholder="Add a comment..."
+                    className="flex-1 bg-transparent outline-none text-sm placeholder-gray-500"
+                  />
+                  {newComment.trim() && (
+                    <button
+                      onClick={handleAddComment}
+                      className="text-blue-600 hover:text-blue-700 font-semibold text-sm transition-colors"
+                    >
+                      Post
+                    </button>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

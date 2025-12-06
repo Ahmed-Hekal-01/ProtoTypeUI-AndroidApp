@@ -1,12 +1,10 @@
 import { useState } from 'react';
-import { Home, Plus, Users, Bell, UserCircle, ArrowLeft } from 'lucide-react';
+import { Home, Users, UserCircle, ArrowLeft } from 'lucide-react';
 import ClubManagerHome from './club-manager/ClubManagerHome';
-import ClubManagerCreate from './club-manager/ClubManagerCreate';
 import ClubManagerAttendees from './club-manager/ClubManagerAttendees';
-import ClubManagerAnnouncements from './club-manager/ClubManagerAnnouncements';
 import ClubManagerAccount from './club-manager/ClubManagerAccount';
 
-type Tab = 'home' | 'create' | 'attendees' | 'announcements' | 'account';
+type Tab = 'home' | 'attendees' | 'account';
 
 interface ClubManagerAppProps {
   onBack: () => void;
@@ -17,9 +15,7 @@ export default function ClubManagerApp({ onBack }: ClubManagerAppProps) {
 
   const tabs = [
     { id: 'home' as Tab, icon: Home, label: 'Home' },
-    { id: 'create' as Tab, icon: Plus, label: 'Create' },
     { id: 'attendees' as Tab, icon: Users, label: 'Attendees' },
-    { id: 'announcements' as Tab, icon: Bell, label: 'Announce' },
     { id: 'account' as Tab, icon: UserCircle, label: 'Account' },
   ];
 
@@ -39,20 +35,16 @@ export default function ClubManagerApp({ onBack }: ClubManagerAppProps) {
             <p className="text-purple-100 text-sm">Club Manager Portal</p>
           </div>
         </div>
-      </div>
-
-      {/* Content */}
+      </div>      {/* Content */}
       <div className="pb-4">
         {activeTab === 'home' && <ClubManagerHome />}
-        {activeTab === 'create' && <ClubManagerCreate />}
         {activeTab === 'attendees' && <ClubManagerAttendees />}
-        {activeTab === 'announcements' && <ClubManagerAnnouncements />}
         {activeTab === 'account' && <ClubManagerAccount />}
       </div>
 
       {/* Bottom Navigation */}
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg max-w-md mx-auto">
-        <div className="grid grid-cols-5">
+        <div className="grid grid-cols-3">
           {tabs.map((tab) => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;

@@ -1,210 +1,280 @@
-import { TrendingUp, Users, Calendar, Eye, Heart, MessageCircle, BarChart3, Clock } from 'lucide-react';
+import { useState } from 'react';
+import { Send, Image, Calendar, Users, Eye, Heart, MessageCircle, Share2, Clock } from 'lucide-react';
 
-export default function ClubManagerHome() {
-  const stats = [
-    { label: 'Total Members', value: '245', change: '+12', icon: Users, color: 'bg-blue-500' },
-    { label: 'Active Events', value: '4', change: '+1', icon: Calendar, color: 'bg-purple-500' },
-    { label: 'Total Registrations', value: '156', change: '+28', icon: TrendingUp, color: 'bg-green-500' },
-    { label: 'Engagement Rate', value: '78%', change: '+5%', icon: Heart, color: 'bg-pink-500' },
-  ];
+export default function ClubManagerHome() {  const [postType, setPostType] = useState<'all' | 'event' | 'general'>('all');
 
-  const upcomingEvents = [
+  const announcements = [
     {
       id: 1,
-      title: 'AI & Machine Learning Workshop',
-      date: 'Dec 5, 2025',
-      time: '3:00 PM',
-      registered: 45,
-      capacity: 60,
-      status: 'approved',
-    },
-    {
-      id: 2,
-      title: 'Web Development Basics',
-      date: 'Dec 3, 2025',
-      time: '4:00 PM',
-      registered: 32,
-      capacity: 40,
-      status: 'pending',
-    },
-  ];
-
-  const recentPosts = [
-    {
-      id: 1,
-      content: 'Excited to announce our AI workshop! Registration open now 🚀',
+      type: 'event',
+      content: 'Excited to announce our AI workshop! Registration is now open. Don\'t miss this opportunity to learn from industry experts! 🚀',
+      eventName: 'AI & Machine Learning Workshop',
+      date: '2 hours ago',
+      views: 230,
       likes: 45,
       comments: 12,
-      views: 230,
-      time: '2 hours ago',
+      shares: 8,
+      audience: 'All Members + Engineering Faculty',
+      socialMedia: true,
     },
     {
       id: 2,
-      content: 'Thank you to everyone who attended last week\'s coding session!',
+      type: 'general',
+      content: 'Thank you to everyone who attended last week\'s coding session! Your participation and enthusiasm made it a huge success. See you at the next one! 💻',
+      date: '1 day ago',
+      views: 340,
       likes: 67,
       comments: 18,
-      views: 340,
-      time: '1 day ago',
+      shares: 5,
+      audience: 'Club Members Only',
+      socialMedia: true,
+    },
+    {
+      id: 3,
+      type: 'event',
+      content: 'Reminder: Web Development session starts tomorrow at 4 PM. Make sure you bring your laptop!',
+      eventName: 'Web Development Basics',
+      date: '2 days ago',
+      views: 180,
+      likes: 32,
+      comments: 7,
+      shares: 3,
+      audience: 'Registered Attendees',
+      socialMedia: false,
     },
   ];
 
-  const quickActions = [
-    { label: 'Create Event', icon: '📅', color: 'bg-blue-500' },
-    { label: 'New Session', icon: '🎓', color: 'bg-purple-500' },
-    { label: 'Post Update', icon: '📢', color: 'bg-pink-500' },
-    { label: 'View Analytics', icon: '📊', color: 'bg-green-500' },
-  ];
+  const filteredAnnouncements = announcements.filter(
+    a => postType === 'all' || a.type === postType
+  );
+
   return (
-    <div className="p-4 space-y-6">
-      {/* Quick Actions */}
+    <div className="p-4 space-y-4">
+      {/* Header */}
       <div>
-        <h3 className="mb-3 text-gray-700">Quick Actions</h3>
-        <div className="grid grid-cols-2 gap-3">
-          {quickActions.map((action, index) => (
-            <button
-              key={index}
-              className="bg-white rounded-xl p-4 shadow-md hover:shadow-lg transition-all active:scale-95 flex flex-col items-center gap-2"
-            >
-              <div className={`w-12 h-12 ${action.color} rounded-xl flex items-center justify-center text-2xl`}>
-                {action.icon}
+        <h2 className="text-2xl mb-2 text-gray-800">Announcements</h2>
+        <p className="text-gray-600">Create and manage club announcements</p>
+      </div>
+
+      {/* Create New Post Card */}
+      <div className="bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-2xl p-6 shadow-lg">
+        <h3 className="text-lg mb-4">Create New Post</h3>
+
+        <textarea
+          rows={4}
+          placeholder="What's new with your club?"
+          className="w-full p-4 bg-white/10 backdrop-blur-sm rounded-xl outline-none placeholder-white/60 text-white resize-none mb-4 border border-white/20"
+        />
+
+        {/* Post Options */}
+        <div className="space-y-3 mb-4">
+          <div className="bg-white/10 backdrop-blur-sm rounded-xl p-3">
+            <label className="text-sm mb-2 block">Target Audience</label>
+            <select className="w-full p-2 bg-white/10 backdrop-blur-sm rounded-lg outline-none border border-white/20">
+              <option className="text-gray-800">All Club Members</option>
+              <option className="text-gray-800">Event Attendees Only</option>
+              <option className="text-gray-800">Members + Engineering Faculty</option>
+              <option className="text-gray-800">Members + Business Faculty</option>
+            </select>
+          </div>
+
+          <div className="bg-white/10 backdrop-blur-sm rounded-xl p-3">
+            <label className="flex items-center justify-between">
+              <span className="text-sm">Link to Event (Optional)</span>
+              <input type="checkbox" className="w-4 h-4" />
+            </label>
+          </div>
+
+          <div className="bg-white/10 backdrop-blur-sm rounded-xl p-3">
+            <label className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Share2 className="w-4 h-4" />
+                <span className="text-sm">Post to Social Media</span>
               </div>
-              <span className="text-sm text-gray-700">{action.label}</span>
-            </button>
-          ))}
+              <input type="checkbox" defaultChecked className="w-4 h-4" />
+            </label>
+          </div>
+        </div>
+
+        {/* Action Buttons */}
+        <div className="flex gap-2">
+          <button className="flex items-center gap-2 px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors">
+            <Image className="w-4 h-4" />
+            <span className="text-sm">Image</span>
+          </button>
+          <button className="flex items-center gap-2 px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors">
+            <Calendar className="w-4 h-4" />
+            <span className="text-sm">Event</span>
+          </button>
+          <button className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-white text-purple-600 hover:bg-white/90 rounded-lg transition-colors">
+            <Send className="w-4 h-4" />
+            <span className="text-sm">Publish</span>
+          </button>
         </div>
       </div>
 
-      {/* Stats Grid */}
+      {/* Filter Tabs */}
+      <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+        <button
+          onClick={() => setPostType('all')}
+          className={`px-4 py-2 rounded-full whitespace-nowrap transition-all ${
+            postType === 'all'
+              ? 'bg-purple-600 text-white shadow-md'
+              : 'bg-white text-gray-600 border border-gray-200'
+          }`}
+        >
+          All Posts
+        </button>
+        <button
+          onClick={() => setPostType('event')}
+          className={`px-4 py-2 rounded-full whitespace-nowrap transition-all ${
+            postType === 'event'
+              ? 'bg-purple-600 text-white shadow-md'
+              : 'bg-white text-gray-600 border border-gray-200'
+          }`}
+        >
+          Event Posts
+        </button>
+        <button
+          onClick={() => setPostType('general')}
+          className={`px-4 py-2 rounded-full whitespace-nowrap transition-all ${
+            postType === 'general'
+              ? 'bg-purple-600 text-white shadow-md'
+              : 'bg-white text-gray-600 border border-gray-200'
+          }`}
+        >
+          General Posts
+        </button>
+      </div>
+
+      {/* Announcements List */}
       <div>
-        <h3 className="mb-3 text-gray-700 flex items-center gap-2">
-          <BarChart3 className="w-5 h-5" />
-          Club Statistics
-        </h3>
-        <div className="grid grid-cols-2 gap-3">
-          {stats.map((stat, idx) => {
-            const Icon = stat.icon;
-            return (
-              <div
-                key={idx}
-                className="bg-white rounded-xl p-4 shadow-md"
-              >
-                <div className="flex items-start justify-between mb-3">
-                  <div className={`w-10 h-10 ${stat.color} rounded-lg flex items-center justify-center`}>
-                    <Icon className="w-5 h-5 text-white" />
+        <h3 className="mb-3 text-gray-700">Recent Announcements</h3>
+        <div className="space-y-4">
+          {filteredAnnouncements.map((announcement) => (
+            <div
+              key={announcement.id}
+              className="bg-white rounded-xl shadow-md overflow-hidden"
+            >
+              {/* Post Header */}
+              <div className="p-4 border-b border-gray-100">
+                <div className="flex items-start justify-between mb-2">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-gradient-to-br from-purple-600 to-pink-600 rounded-full flex items-center justify-center text-white">
+                      💻
+                    </div>
+                    <div>
+                      <h4 className="text-sm text-gray-800">Tech Club</h4>
+                      <div className="flex items-center gap-2 text-xs text-gray-500">
+                        <Clock className="w-3 h-3" />
+                        <span>{announcement.date}</span>
+                      </div>
+                    </div>
                   </div>
-                  <span className="text-xs text-green-600 bg-green-50 px-2 py-1 rounded-full">
-                    {stat.change}
+                  <span className={`px-2 py-1 rounded text-xs ${
+                    announcement.type === 'event'
+                      ? 'bg-blue-100 text-blue-700'
+                      : 'bg-gray-100 text-gray-700'
+                  }`}>
+                    {announcement.type}
                   </span>
                 </div>
-                <p className="text-2xl text-gray-800 mb-1">{stat.value}</p>
-                <p className="text-xs text-gray-600">{stat.label}</p>
               </div>
-            );
-          })}
-        </div>
-      </div>
 
-      {/* Upcoming Events */}
-      <div>
-        <div className="flex items-center justify-between mb-3">
-          <h3 className="text-gray-700">Upcoming Events</h3>
-          <button className="text-sm text-purple-600">View All</button>
-        </div>
-        <div className="space-y-3">
-          {upcomingEvents.map((event) => (
-            <div
-              key={event.id}
-              className="bg-white rounded-xl p-4 shadow-md"
-            >
-              <div className="flex items-start justify-between mb-3">
-                <div className="flex-1">
-                  <h4 className="text-gray-800 mb-2">{event.title}</h4>
-                  <div className="flex items-center gap-4 text-sm text-gray-600">
-                    <span className="flex items-center gap-1">
+              {/* Post Content */}
+              <div className="p-4">
+                <p className="text-sm text-gray-700 mb-3">{announcement.content}</p>
+
+                {announcement.eventName && (
+                  <div className="mb-3 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                    <div className="flex items-center gap-2 text-sm text-blue-800">
                       <Calendar className="w-4 h-4" />
-                      {event.date}
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <Clock className="w-4 h-4" />
-                      {event.time}
-                    </span>
+                      <span>Linked to: {announcement.eventName}</span>
+                    </div>
+                  </div>
+                )}
+
+                <div className="flex items-center gap-2 mb-3">
+                  <Users className="w-4 h-4 text-gray-400" />
+                  <span className="text-xs text-gray-600">{announcement.audience}</span>
+                  {announcement.socialMedia && (
+                    <>
+                      <span className="text-xs text-gray-400">•</span>
+                      <Share2 className="w-3 h-3 text-blue-500" />
+                      <span className="text-xs text-blue-600">Posted on social media</span>
+                    </>
+                  )}
+                </div>
+
+                {/* Engagement Stats */}
+                <div className="flex items-center gap-4 py-3 border-t border-gray-100">
+                  <button className="flex items-center gap-1 text-gray-600 hover:text-red-600 transition-colors">
+                    <Heart className="w-4 h-4" />
+                    <span className="text-sm">{announcement.likes}</span>
+                  </button>
+                  <button className="flex items-center gap-1 text-gray-600 hover:text-blue-600 transition-colors">
+                    <MessageCircle className="w-4 h-4" />
+                    <span className="text-sm">{announcement.comments}</span>
+                  </button>
+                  <button className="flex items-center gap-1 text-gray-600 hover:text-green-600 transition-colors">
+                    <Share2 className="w-4 h-4" />
+                    <span className="text-sm">{announcement.shares}</span>
+                  </button>
+                  <div className="flex items-center gap-1 text-gray-500 ml-auto">
+                    <Eye className="w-4 h-4" />
+                    <span className="text-sm">{announcement.views}</span>
                   </div>
                 </div>
-                <span className={`px-3 py-1 rounded-full text-xs ${
-                  event.status === 'approved'
-                    ? 'bg-green-100 text-green-700'
-                    : 'bg-yellow-100 text-yellow-700'
-                }`}>
-                  {event.status}
-                </span>
               </div>
 
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2 text-sm text-gray-600">
-                  <Users className="w-4 h-4" />
-                  <span>{event.registered}/{event.capacity} registered</span>
-                </div>
-                <div className="h-2 w-24 bg-gray-200 rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-purple-600"
-                    style={{ width: `${(event.registered / event.capacity) * 100}%` }}
-                  />
-                </div>
+              {/* Post Actions */}
+              <div className="p-3 bg-gray-50 flex gap-2">
+                <button className="flex-1 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg transition-colors">
+                  View Comments
+                </button>
+                <button className="flex-1 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg transition-colors">
+                  Edit
+                </button>
+                <button className="flex-1 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors">
+                  Delete
+                </button>
               </div>
             </div>
           ))}
         </div>
       </div>
 
-      {/* Recent Posts Performance */}
-      <div>
-        <div className="flex items-center justify-between mb-3">
-          <h3 className="text-gray-700">Recent Posts</h3>
-          <button className="text-sm text-purple-600">View All</button>
-        </div>
-        <div className="space-y-3">
-          {recentPosts.map((post) => (
-            <div
-              key={post.id}
-              className="bg-white rounded-xl p-4 shadow-md"
-            >
-              <p className="text-sm text-gray-800 mb-3">{post.content}</p>
-              <div className="flex items-center gap-4 text-sm text-gray-600">
-                <span className="flex items-center gap-1">
-                  <Heart className="w-4 h-4" />
-                  {post.likes}
-                </span>
-                <span className="flex items-center gap-1">
-                  <MessageCircle className="w-4 h-4" />
-                  {post.comments}
-                </span>
-                <span className="flex items-center gap-1">
-                  <Eye className="w-4 h-4" />
-                  {post.views}
-                </span>
-                <span className="ml-auto text-xs text-gray-400">{post.time}</span>
-              </div>
+      {/* Engagement Summary */}
+      <div className="bg-white rounded-xl p-4 shadow-md">
+        <h3 className="text-gray-700 mb-4">This Week's Engagement</h3>
+        <div className="grid grid-cols-4 gap-3">
+          <div className="text-center">
+            <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-2">
+              <Eye className="w-5 h-5 text-blue-600" />
             </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Member Activity */}
-      <div>
-        <h3 className="mb-3 text-gray-700">Member Activity (Last 7 Days)</h3>
-        <div className="bg-white rounded-xl p-4 shadow-md">
-          <div className="flex items-end justify-between h-32 gap-2">
-            {[45, 62, 38, 75, 55, 82, 68].map((value, idx) => (
-              <div key={idx} className="flex-1 flex flex-col items-center gap-2">
-                <div
-                  className="w-full bg-gradient-to-t from-purple-600 to-purple-400 rounded-t-lg"
-                  style={{ height: `${value}%` }}
-                />
-                <span className="text-xs text-gray-500">
-                  {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'][idx]}
-                </span>
-              </div>
-            ))}
+            <p className="text-lg text-gray-800">750</p>
+            <p className="text-xs text-gray-600">Views</p>
+          </div>
+          <div className="text-center">
+            <div className="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center mx-auto mb-2">
+              <Heart className="w-5 h-5 text-red-600" />
+            </div>
+            <p className="text-lg text-gray-800">144</p>
+            <p className="text-xs text-gray-600">Likes</p>
+          </div>
+          <div className="text-center">
+            <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center mx-auto mb-2">
+              <MessageCircle className="w-5 h-5 text-purple-600" />
+            </div>
+            <p className="text-lg text-gray-800">37</p>
+            <p className="text-xs text-gray-600">Comments</p>
+          </div>
+          <div className="text-center">
+            <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-2">
+              <Share2 className="w-5 h-5 text-green-600" />
+            </div>
+            <p className="text-lg text-gray-800">16</p>
+            <p className="text-xs text-gray-600">Shares</p>
           </div>
         </div>
       </div>
