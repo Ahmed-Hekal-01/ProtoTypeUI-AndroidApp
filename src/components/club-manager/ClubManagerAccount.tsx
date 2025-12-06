@@ -1,9 +1,16 @@
-import { User, Mail, LogOut, Edit2, Check, X } from 'lucide-react';
+import { User, Mail, LogOut, Edit2, Check, X, RefreshCw, Camera } from 'lucide-react';
 import { useState } from 'react';
 
-export default function ClubManagerAccount() {
+interface ClubManagerAccountProps {
+  onSwitchToStudent?: () => void;
+}
+
+export default function ClubManagerAccount({ onSwitchToStudent }: ClubManagerAccountProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [clubName, setClubName] = useState('Tech Club');
+  const [clubDescription, setClubDescription] = useState('Technology & Innovation');
+  const [clubFullDescription, setClubFullDescription] = useState('A community for tech enthusiasts to learn, build, and innovate together. We organize workshops, hackathons, and tech talks.');
+  const [clubImage, setClubImage] = useState('💻');
   const [email, setEmail] = useState('techclub@university.edu');
   const [managerName, setManagerName] = useState('John Smith');
 
@@ -16,6 +23,9 @@ export default function ClubManagerAccount() {
     setIsEditing(false);
     // Reset to original values
     setClubName('Tech Club');
+    setClubDescription('Technology & Innovation');
+    setClubFullDescription('A community for tech enthusiasts to learn, build, and innovate together. We organize workshops, hackathons, and tech talks.');
+    setClubImage('💻');
     setEmail('techclub@university.edu');
     setManagerName('John Smith');
   };
@@ -25,13 +35,41 @@ export default function ClubManagerAccount() {
       {/* Profile Header */}
       <div className="bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-2xl p-6 shadow-lg">
         <div className="flex items-start justify-between mb-4">
-          <div className="flex items-start gap-4">
-            <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center text-3xl backdrop-blur-sm">
-              💻
+          <div className="flex items-start gap-4 flex-1">
+            <div className="relative">
+              <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center text-3xl backdrop-blur-sm">
+                {clubImage}
+              </div>
+              {isEditing && (
+                <button className="absolute -bottom-1 -right-1 w-8 h-8 bg-white text-purple-600 rounded-full flex items-center justify-center shadow-lg hover:bg-purple-50 transition-colors">
+                  <Camera className="w-4 h-4" />
+                </button>
+              )}
             </div>
             <div className="flex-1">
-              <h2 className="text-2xl mb-1">{clubName}</h2>
-              <p className="text-purple-100 text-sm mb-1">Technology & Innovation</p>
+              {isEditing ? (
+                <>
+                  <input
+                    type="text"
+                    value={clubName}
+                    onChange={(e) => setClubName(e.target.value)}
+                    className="w-full text-2xl mb-1 bg-white/10 border border-white/20 rounded px-2 py-1 outline-none focus:bg-white/20 text-white placeholder-purple-200"
+                    placeholder="Club Name"
+                  />
+                  <input
+                    type="text"
+                    value={clubDescription}
+                    onChange={(e) => setClubDescription(e.target.value)}
+                    className="w-full text-sm mb-1 bg-white/10 border border-white/20 rounded px-2 py-1 outline-none focus:bg-white/20 text-purple-100 placeholder-purple-200"
+                    placeholder="Club Description"
+                  />
+                </>
+              ) : (
+                <>
+                  <h2 className="text-2xl mb-1">{clubName}</h2>
+                  <p className="text-purple-100 text-sm mb-1">{clubDescription}</p>
+                </>
+              )}
               <p className="text-purple-100 text-sm">245 Members</p>
             </div>
           </div>
@@ -92,7 +130,34 @@ export default function ClubManagerAccount() {
             )}
           </div>
         </div>
-      </div>      {/* Account Actions */}
+      </div>
+
+      {/* Club Description */}
+      <div className="bg-white rounded-xl p-4 shadow-md">
+        <h3 className="mb-3 text-gray-700 font-semibold">About the Club</h3>
+        {isEditing ? (
+          <textarea
+            value={clubFullDescription}
+            onChange={(e) => setClubFullDescription(e.target.value)}
+            rows={4}
+            placeholder="Club description..."
+            className="w-full p-3 border border-gray-300 rounded-lg outline-none focus:border-purple-500 resize-none text-gray-700"
+          />
+        ) : (
+          <p className="text-gray-600 text-sm leading-relaxed">{clubFullDescription}</p>
+        )}
+      </div>
+
+      {/* Toggle to Student Mode Button */}
+      {onSwitchToStudent && (
+        <button
+          onClick={onSwitchToStudent}
+          className="w-full py-3 px-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-xl transition-all flex items-center justify-center gap-2 shadow-md hover:shadow-lg"
+        >
+          <RefreshCw className="w-5 h-5" />
+          <span className="font-medium">Switch to Student Mode</span>
+        </button>
+      )}      {/* Account Actions */}
       <div>
         <h3 className="mb-3 text-gray-700 font-semibold">Account Actions</h3>
         <div className="bg-white rounded-xl shadow-md overflow-hidden">

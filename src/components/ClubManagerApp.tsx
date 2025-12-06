@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Home, Users, UserCircle, ArrowLeft } from 'lucide-react';
+import { Home, Users, UserCircle } from 'lucide-react';
 import ClubManagerHome from './club-manager/ClubManagerHome';
 import ClubManagerAttendees from './club-manager/ClubManagerAttendees';
 import ClubManagerAccount from './club-manager/ClubManagerAccount';
@@ -8,9 +8,10 @@ type Tab = 'home' | 'attendees' | 'account';
 
 interface ClubManagerAppProps {
   onBack: () => void;
+  onSwitchToStudent?: () => void;
 }
 
-export default function ClubManagerApp({ onBack }: ClubManagerAppProps) {
+export default function ClubManagerApp({ onBack, onSwitchToStudent }: ClubManagerAppProps) {
   const [activeTab, setActiveTab] = useState<Tab>('home');
 
   const tabs = [
@@ -24,12 +25,6 @@ export default function ClubManagerApp({ onBack }: ClubManagerAppProps) {
       {/* Top Bar */}
       <div className="bg-gradient-to-r from-purple-600 to-pink-600 text-white p-4 sticky top-0 z-10 shadow-md">
         <div className="flex items-center gap-3">
-          <button
-            onClick={onBack}
-            className="p-2 hover:bg-white/10 rounded-lg transition-colors"
-          >
-            <ArrowLeft className="w-5 h-5" />
-          </button>
           <div className="flex-1">
             <h1 className="text-xl">Tech Club</h1>
             <p className="text-purple-100 text-sm">Club Manager Portal</p>
@@ -39,7 +34,7 @@ export default function ClubManagerApp({ onBack }: ClubManagerAppProps) {
       <div className="pb-4">
         {activeTab === 'home' && <ClubManagerHome />}
         {activeTab === 'attendees' && <ClubManagerAttendees />}
-        {activeTab === 'account' && <ClubManagerAccount />}
+        {activeTab === 'account' && <ClubManagerAccount onSwitchToStudent={onSwitchToStudent} />}
       </div>
 
       {/* Bottom Navigation */}

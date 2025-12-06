@@ -14,7 +14,7 @@ export default function App() {
   }
 
   if (selectedRole === 'club-manager') {
-    return <ClubManagerApp onBack={() => setSelectedRole(null)} />;
+    return <ClubManagerApp onBack={() => setSelectedRole(null)} onSwitchToStudent={() => setSelectedRole('student')} />;
   }
 
   if (selectedRole === 'admin') {

@@ -1,7 +1,45 @@
 import { useState } from 'react';
-import { Send, Image, Calendar, Users, Eye, Heart, MessageCircle, Share2, Clock } from 'lucide-react';
+import { Send, Image, Calendar, Users, Eye, Heart, MessageCircle, Share2, Clock, Plus, X } from 'lucide-react';
 
-export default function ClubManagerHome() {  const [postType, setPostType] = useState<'all' | 'event' | 'general'>('all');
+type PostLinkType = 'none' | 'event' | 'session';
+
+export default function ClubManagerHome() {
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [modalType, setModalType] = useState<'post' | 'event' | 'session'>('post');
+  const [postContent, setPostContent] = useState('');
+  const [postImage, setPostImage] = useState<string>('');
+  const [eventImage, setEventImage] = useState<string>('');
+  const [sessionImage, setSessionImage] = useState<string>('');
+  const [linkType, setLinkType] = useState<PostLinkType>('none');
+  const [selectedEventOrSession, setSelectedEventOrSession] = useState('');
+  const [postType, setPostType] = useState<'all' | 'event' | 'general'>('all');
+
+  const events = [
+    { id: 1, name: 'AI & Machine Learning Workshop' },
+    { id: 2, name: 'Web Development Basics' },
+    { id: 3, name: 'Mobile App Development' },
+  ];
+
+  const sessions = [
+    { id: 101, name: 'Python Programming Session' },
+    { id: 102, name: 'React.js Fundamentals' },
+    { id: 103, name: 'Database Design' },
+  ];
+
+  const handleOpenModal = (type: 'post' | 'event' | 'session') => {
+    setModalType(type);
+    setShowCreateModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowCreateModal(false);
+    setPostContent('');
+    setPostImage('');
+    setEventImage('');
+    setSessionImage('');
+    setLinkType('none');
+    setSelectedEventOrSession('');
+  };
 
   const announcements = [
     {
@@ -49,108 +87,60 @@ export default function ClubManagerHome() {  const [postType, setPostType] = use
   );
 
   return (
-    <div className="p-4 space-y-4">
-      {/* Header */}
-      <div>
-        <h2 className="text-2xl mb-2 text-gray-800">Announcements</h2>
-        <p className="text-gray-600">Create and manage club announcements</p>
-      </div>
+    <div className="flex flex-col h-screen">
+      {/* Fixed Header and Quick Actions */}
+      <div className="flex-shrink-0 p-4 space-y-4 bg-gray-50">
+        {/* Header */}
+        <div>
+          <h2 className="text-2xl mb-2 text-gray-800">Club Manager</h2>
+          <p className="text-gray-600">Manage your club activities</p>
+        </div>
 
-      {/* Create New Post Card */}
-      <div className="bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-2xl p-6 shadow-lg">
-        <h3 className="text-lg mb-4">Create New Post</h3>
-
-        <textarea
-          rows={4}
-          placeholder="What's new with your club?"
-          className="w-full p-4 bg-white/10 backdrop-blur-sm rounded-xl outline-none placeholder-white/60 text-white resize-none mb-4 border border-white/20"
-        />
-
-        {/* Post Options */}
-        <div className="space-y-3 mb-4">
-          <div className="bg-white/10 backdrop-blur-sm rounded-xl p-3">
-            <label className="text-sm mb-2 block">Target Audience</label>
-            <select className="w-full p-2 bg-white/10 backdrop-blur-sm rounded-lg outline-none border border-white/20">
-              <option className="text-gray-800">All Club Members</option>
-              <option className="text-gray-800">Event Attendees Only</option>
-              <option className="text-gray-800">Members + Engineering Faculty</option>
-              <option className="text-gray-800">Members + Business Faculty</option>
-            </select>
-          </div>
-
-          <div className="bg-white/10 backdrop-blur-sm rounded-xl p-3">
-            <label className="flex items-center justify-between">
-              <span className="text-sm">Link to Event (Optional)</span>
-              <input type="checkbox" className="w-4 h-4" />
-            </label>
-          </div>
-
-          <div className="bg-white/10 backdrop-blur-sm rounded-xl p-3">
-            <label className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Share2 className="w-4 h-4" />
-                <span className="text-sm">Post to Social Media</span>
+        {/* Quick Actions */}
+        <div className="grid grid-cols-3 gap-3">
+          <button
+            onClick={() => handleOpenModal('post')}
+            className="bg-gradient-to-br from-purple-500 to-purple-600 text-white rounded-xl p-4 shadow-md hover:shadow-lg transition-all active:scale-95"
+          >
+            <div className="flex flex-col items-center gap-2">
+              <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
+                <Plus className="w-6 h-6" />
               </div>
-              <input type="checkbox" defaultChecked className="w-4 h-4" />
-            </label>
-          </div>
-        </div>
+              <span className="text-sm font-medium">Create Post</span>
+            </div>
+          </button>
 
-        {/* Action Buttons */}
-        <div className="flex gap-2">
-          <button className="flex items-center gap-2 px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors">
-            <Image className="w-4 h-4" />
-            <span className="text-sm">Image</span>
+          <button
+            onClick={() => handleOpenModal('event')}
+            className="bg-gradient-to-br from-blue-500 to-blue-600 text-white rounded-xl p-4 shadow-md hover:shadow-lg transition-all active:scale-95"
+          >
+            <div className="flex flex-col items-center gap-2">
+              <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
+                <Calendar className="w-6 h-6" />
+              </div>
+              <span className="text-sm font-medium">Schedule Event</span>
+            </div>
           </button>
-          <button className="flex items-center gap-2 px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors">
-            <Calendar className="w-4 h-4" />
-            <span className="text-sm">Event</span>
-          </button>
-          <button className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-white text-purple-600 hover:bg-white/90 rounded-lg transition-colors">
-            <Send className="w-4 h-4" />
-            <span className="text-sm">Publish</span>
+
+          <button
+            onClick={() => handleOpenModal('session')}
+            className="bg-gradient-to-br from-pink-500 to-pink-600 text-white rounded-xl p-4 shadow-md hover:shadow-lg transition-all active:scale-95"
+          >
+            <div className="flex flex-col items-center gap-2">
+              <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
+                <Users className="w-6 h-6" />
+              </div>
+              <span className="text-sm font-medium">Schedule Session</span>
+            </div>
           </button>
         </div>
       </div>
 
-      {/* Filter Tabs */}
-      <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
-        <button
-          onClick={() => setPostType('all')}
-          className={`px-4 py-2 rounded-full whitespace-nowrap transition-all ${
-            postType === 'all'
-              ? 'bg-purple-600 text-white shadow-md'
-              : 'bg-white text-gray-600 border border-gray-200'
-          }`}
-        >
-          All Posts
-        </button>
-        <button
-          onClick={() => setPostType('event')}
-          className={`px-4 py-2 rounded-full whitespace-nowrap transition-all ${
-            postType === 'event'
-              ? 'bg-purple-600 text-white shadow-md'
-              : 'bg-white text-gray-600 border border-gray-200'
-          }`}
-        >
-          Event Posts
-        </button>
-        <button
-          onClick={() => setPostType('general')}
-          className={`px-4 py-2 rounded-full whitespace-nowrap transition-all ${
-            postType === 'general'
-              ? 'bg-purple-600 text-white shadow-md'
-              : 'bg-white text-gray-600 border border-gray-200'
-          }`}
-        >
-          General Posts
-        </button>
-      </div>
-
-      {/* Announcements List */}
-      <div>
-        <h3 className="mb-3 text-gray-700">Recent Announcements</h3>
-        <div className="space-y-4">
+      {/* Scrollable Announcements List */}
+      <div className="flex-1 overflow-y-auto p-4">
+        <div>
+          <h3 className="mb-3 text-gray-700">Recent Announcements</h3>
+          <div className="space-y-4 pb-20">
           {filteredAnnouncements.map((announcement) => (
             <div
               key={announcement.id}
@@ -194,18 +184,6 @@ export default function ClubManagerHome() {  const [postType, setPostType] = use
                   </div>
                 )}
 
-                <div className="flex items-center gap-2 mb-3">
-                  <Users className="w-4 h-4 text-gray-400" />
-                  <span className="text-xs text-gray-600">{announcement.audience}</span>
-                  {announcement.socialMedia && (
-                    <>
-                      <span className="text-xs text-gray-400">•</span>
-                      <Share2 className="w-3 h-3 text-blue-500" />
-                      <span className="text-xs text-blue-600">Posted on social media</span>
-                    </>
-                  )}
-                </div>
-
                 {/* Engagement Stats */}
                 <div className="flex items-center gap-4 py-3 border-t border-gray-100">
                   <button className="flex items-center gap-1 text-gray-600 hover:text-red-600 transition-colors">
@@ -216,14 +194,6 @@ export default function ClubManagerHome() {  const [postType, setPostType] = use
                     <MessageCircle className="w-4 h-4" />
                     <span className="text-sm">{announcement.comments}</span>
                   </button>
-                  <button className="flex items-center gap-1 text-gray-600 hover:text-green-600 transition-colors">
-                    <Share2 className="w-4 h-4" />
-                    <span className="text-sm">{announcement.shares}</span>
-                  </button>
-                  <div className="flex items-center gap-1 text-gray-500 ml-auto">
-                    <Eye className="w-4 h-4" />
-                    <span className="text-sm">{announcement.views}</span>
-                  </div>
                 </div>
               </div>
 
@@ -243,41 +213,336 @@ export default function ClubManagerHome() {  const [postType, setPostType] = use
           ))}
         </div>
       </div>
+      </div>
 
-      {/* Engagement Summary */}
-      <div className="bg-white rounded-xl p-4 shadow-md">
-        <h3 className="text-gray-700 mb-4">This Week's Engagement</h3>
-        <div className="grid grid-cols-4 gap-3">
-          <div className="text-center">
-            <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-2">
-              <Eye className="w-5 h-5 text-blue-600" />
+      {/* Create Modal */}
+      {showCreateModal && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl w-full max-w-md flex flex-col max-h-[85vh] overflow-hidden shadow-2xl">
+            {/* Modal Header */}
+            <div className="flex-shrink-0 bg-white border-b border-gray-200 p-4 flex items-center justify-between">
+              <h3 className="text-lg font-semibold text-gray-800">
+                {modalType === 'post' && 'Create Post'}
+                {modalType === 'event' && 'Schedule Event'}
+                {modalType === 'session' && 'Schedule Session'}
+              </h3>
+              <button onClick={handleCloseModal} className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                <X className="w-5 h-5 text-gray-600" />
+              </button>
             </div>
-            <p className="text-lg text-gray-800">750</p>
-            <p className="text-xs text-gray-600">Views</p>
-          </div>
-          <div className="text-center">
-            <div className="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center mx-auto mb-2">
-              <Heart className="w-5 h-5 text-red-600" />
+
+            {/* Modal Content - Scrollable */}
+            <div className="flex-1 overflow-y-auto p-4 space-y-4">
+              {modalType === 'post' && (
+                <>
+                  <div>
+                    <label className="text-sm text-gray-700 mb-2 block">Post Content</label>
+                    <textarea
+                      rows={4}
+                      value={postContent}
+                      onChange={(e) => setPostContent(e.target.value)}
+                      placeholder="What's new with your club?"
+                      className="w-full p-3 border border-gray-300 rounded-lg outline-none focus:border-purple-500 resize-none"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-sm text-gray-700 mb-2 block">Post Image</label>
+                    <div className="space-y-2">
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          if (file) {
+                            const reader = new FileReader();
+                            reader.onloadend = () => {
+                              setPostImage(reader.result as string);
+                            };
+                            reader.readAsDataURL(file);
+                          }
+                        }}
+                        className="w-full p-3 border border-gray-300 rounded-lg outline-none focus:border-purple-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100"
+                      />
+                      {postImage && (
+                        <div className="relative w-full h-48 rounded-lg overflow-hidden border border-gray-300">
+                          <img src={postImage} alt="Post preview" className="w-full h-full object-cover" />
+                          <button
+                            onClick={() => setPostImage('')}
+                            className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors"
+                          >
+                            <X className="w-4 h-4" />
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="text-sm text-gray-700 mb-2 block">Link to (Optional)</label>
+                    <select 
+                      value={linkType}
+                      onChange={(e) => setLinkType(e.target.value as PostLinkType)}
+                      className="w-full p-3 border border-gray-300 rounded-lg outline-none focus:border-purple-500"
+                    >
+                      <option value="none">No Link</option>
+                      <option value="event">Link to Event</option>
+                      <option value="session">Link to Session</option>
+                    </select>
+                  </div>
+
+                  {linkType !== 'none' && (
+                    <div>
+                      <label className="text-sm text-gray-700 mb-2 block">
+                        Select {linkType === 'event' ? 'Event' : 'Session'}
+                      </label>
+                      <select 
+                        value={selectedEventOrSession}
+                        onChange={(e) => setSelectedEventOrSession(e.target.value)}
+                        className="w-full p-3 border border-gray-300 rounded-lg outline-none focus:border-purple-500"
+                      >
+                        <option value="">Select...</option>
+                        {(linkType === 'event' ? events : sessions).map((item) => (
+                          <option key={item.id} value={item.id}>{item.name}</option>
+                        ))}
+                      </select>
+                    </div>
+                  )}
+
+                  <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                    <div className="flex items-center gap-2">
+                      <Share2 className="w-4 h-4 text-gray-600" />
+                      <span className="text-sm text-gray-700">Post to Social Media</span>
+                    </div>
+                    <input type="checkbox" defaultChecked className="w-4 h-4" />
+                  </div>
+                </>
+              )}
+
+              {modalType === 'event' && (
+                <>
+                  <div>
+                    <label className="text-sm text-gray-700 mb-2 block">Event Name</label>
+                    <input
+                      type="text"
+                      placeholder="Enter event name"
+                      className="w-full p-3 border border-gray-300 rounded-lg outline-none focus:border-blue-500"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-sm text-gray-700 mb-2 block">Event Image</label>
+                    <div className="space-y-2">
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          if (file) {
+                            const reader = new FileReader();
+                            reader.onloadend = () => {
+                              setEventImage(reader.result as string);
+                            };
+                            reader.readAsDataURL(file);
+                          }
+                        }}
+                        className="w-full p-3 border border-gray-300 rounded-lg outline-none focus:border-blue-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                      />
+                      {eventImage && (
+                        <div className="relative w-full h-48 rounded-lg overflow-hidden border border-gray-300">
+                          <img src={eventImage} alt="Event preview" className="w-full h-full object-cover" />
+                          <button
+                            onClick={() => setEventImage('')}
+                            className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors"
+                          >
+                            <X className="w-4 h-4" />
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="text-sm text-gray-700 mb-2 block">Date</label>
+                    <input
+                      type="date"
+                      className="w-full p-3 border border-gray-300 rounded-lg outline-none focus:border-blue-500"
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="text-sm text-gray-700 mb-2 block">Start Time</label>
+                      <input
+                        type="time"
+                        className="w-full p-3 border border-gray-300 rounded-lg outline-none focus:border-blue-500"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-sm text-gray-700 mb-2 block">End Time</label>
+                      <input
+                        type="time"
+                        className="w-full p-3 border border-gray-300 rounded-lg outline-none focus:border-blue-500"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="text-sm text-gray-700 mb-2 block">Location</label>
+                    <input
+                      type="text"
+                      placeholder="Enter location"
+                      className="w-full p-3 border border-gray-300 rounded-lg outline-none focus:border-blue-500"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-sm text-gray-700 mb-2 block">Description</label>
+                    <textarea
+                      rows={3}
+                      placeholder="Event description"
+                      className="w-full p-3 border border-gray-300 rounded-lg outline-none focus:border-blue-500 resize-none"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-sm text-gray-700 mb-2 block">Capacity</label>
+                    <input
+                      type="number"
+                      placeholder="Max attendees"
+                      className="w-full p-3 border border-gray-300 rounded-lg outline-none focus:border-blue-500"
+                    />
+                  </div>
+                </>
+              )}
+
+              {modalType === 'session' && (
+                <>
+                  <div>
+                    <label className="text-sm text-gray-700 mb-2 block">Session Name</label>
+                    <input
+                      type="text"
+                      placeholder="Enter session name"
+                      className="w-full p-3 border border-gray-300 rounded-lg outline-none focus:border-pink-500"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-sm text-gray-700 mb-2 block">Session Image</label>
+                    <div className="space-y-2">
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          if (file) {
+                            const reader = new FileReader();
+                            reader.onloadend = () => {
+                              setSessionImage(reader.result as string);
+                            };
+                            reader.readAsDataURL(file);
+                          }
+                        }}
+                        className="w-full p-3 border border-gray-300 rounded-lg outline-none focus:border-pink-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:bg-pink-50 file:text-pink-700 hover:file:bg-pink-100"
+                      />
+                      {sessionImage && (
+                        <div className="relative w-full h-48 rounded-lg overflow-hidden border border-gray-300">
+                          <img src={sessionImage} alt="Session preview" className="w-full h-full object-cover" />
+                          <button
+                            onClick={() => setSessionImage('')}
+                            className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors"
+                          >
+                            <X className="w-4 h-4" />
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="text-sm text-gray-700 mb-2 block">Date</label>
+                    <input
+                      type="date"
+                      className="w-full p-3 border border-gray-300 rounded-lg outline-none focus:border-pink-500"
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="text-sm text-gray-700 mb-2 block">Start Time</label>
+                      <input
+                        type="time"
+                        className="w-full p-3 border border-gray-300 rounded-lg outline-none focus:border-pink-500"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-sm text-gray-700 mb-2 block">End Time</label>
+                      <input
+                        type="time"
+                        className="w-full p-3 border border-gray-300 rounded-lg outline-none focus:border-pink-500"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="text-sm text-gray-700 mb-2 block">Location/Link</label>
+                    <input
+                      type="text"
+                      placeholder="Physical location or online link"
+                      className="w-full p-3 border border-gray-300 rounded-lg outline-none focus:border-pink-500"
+                    />
+                  </div>
+
+                  <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                    <span className="text-sm text-gray-700">Online Session</span>
+                    <input type="checkbox" className="w-4 h-4" />
+                  </div>
+
+                  <div>
+                    <label className="text-sm text-gray-700 mb-2 block">Description</label>
+                    <textarea
+                      rows={3}
+                      placeholder="Session description"
+                      className="w-full p-3 border border-gray-300 rounded-lg outline-none focus:border-pink-500 resize-none"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-sm text-gray-700 mb-2 block">Capacity</label>
+                    <input
+                      type="number"
+                      placeholder="Max participants"
+                      className="w-full p-3 border border-gray-300 rounded-lg outline-none focus:border-pink-500"
+                    />
+                  </div>
+                </>
+              )}
             </div>
-            <p className="text-lg text-gray-800">144</p>
-            <p className="text-xs text-gray-600">Likes</p>
-          </div>
-          <div className="text-center">
-            <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center mx-auto mb-2">
-              <MessageCircle className="w-5 h-5 text-purple-600" />
+
+            {/* Modal Actions - Fixed Footer */}
+            <div className="flex-shrink-0 border-t border-gray-200 p-4 bg-white">
+              <div className="flex gap-2">
+                <button
+                  onClick={handleCloseModal}
+                  className="flex-1 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors font-medium"
+                >
+                  Cancel
+                </button>
+                <button
+                  className={`flex-1 py-3 text-white rounded-lg hover:opacity-90 transition-opacity font-medium ${
+                    modalType === 'post' ? 'bg-purple-600' :
+                    modalType === 'event' ? 'bg-blue-600' : 'bg-pink-600'
+                  }`}
+                >
+                  {modalType === 'post' && 'Publish Post'}
+                  {modalType === 'event' && 'Create Event'}
+                  {modalType === 'session' && 'Create Session'}
+                </button>
+              </div>
             </div>
-            <p className="text-lg text-gray-800">37</p>
-            <p className="text-xs text-gray-600">Comments</p>
-          </div>
-          <div className="text-center">
-            <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-2">
-              <Share2 className="w-5 h-5 text-green-600" />
-            </div>
-            <p className="text-lg text-gray-800">16</p>
-            <p className="text-xs text-gray-600">Shares</p>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
