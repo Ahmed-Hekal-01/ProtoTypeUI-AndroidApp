@@ -331,38 +331,6 @@ export default function ClubManagerHome() {
                   </div>
 
                   <div>
-                    <label className="text-sm text-gray-700 mb-2 block">Event Image</label>
-                    <div className="space-y-2">
-                      <input
-                        type="file"
-                        accept="image/*"
-                        onChange={(e) => {
-                          const file = e.target.files?.[0];
-                          if (file) {
-                            const reader = new FileReader();
-                            reader.onloadend = () => {
-                              setEventImage(reader.result as string);
-                            };
-                            reader.readAsDataURL(file);
-                          }
-                        }}
-                        className="w-full p-3 border border-gray-300 rounded-lg outline-none focus:border-blue-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
-                      />
-                      {eventImage && (
-                        <div className="relative w-full h-48 rounded-lg overflow-hidden border border-gray-300">
-                          <img src={eventImage} alt="Event preview" className="w-full h-full object-cover" />
-                          <button
-                            onClick={() => setEventImage('')}
-                            className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors"
-                          >
-                            <X className="w-4 h-4" />
-                          </button>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-
-                  <div>
                     <label className="text-sm text-gray-700 mb-2 block">Date</label>
                     <input
                       type="date"
@@ -388,15 +356,6 @@ export default function ClubManagerHome() {
                   </div>
 
                   <div>
-                    <label className="text-sm text-gray-700 mb-2 block">Location</label>
-                    <input
-                      type="text"
-                      placeholder="Enter location"
-                      className="w-full p-3 border border-gray-300 rounded-lg outline-none focus:border-blue-500"
-                    />
-                  </div>
-
-                  <div>
                     <label className="text-sm text-gray-700 mb-2 block">Description</label>
                     <textarea
                       rows={3}
@@ -406,10 +365,10 @@ export default function ClubManagerHome() {
                   </div>
 
                   <div>
-                    <label className="text-sm text-gray-700 mb-2 block">Capacity</label>
+                    <label className="text-sm text-gray-700 mb-2 block">Expected Max Registration</label>
                     <input
                       type="number"
-                      placeholder="Max attendees"
+                      placeholder="Expected max registrations"
                       className="w-full p-3 border border-gray-300 rounded-lg outline-none focus:border-blue-500"
                     />
                   </div>
@@ -428,38 +387,6 @@ export default function ClubManagerHome() {
                   </div>
 
                   <div>
-                    <label className="text-sm text-gray-700 mb-2 block">Session Image</label>
-                    <div className="space-y-2">
-                      <input
-                        type="file"
-                        accept="image/*"
-                        onChange={(e) => {
-                          const file = e.target.files?.[0];
-                          if (file) {
-                            const reader = new FileReader();
-                            reader.onloadend = () => {
-                              setSessionImage(reader.result as string);
-                            };
-                            reader.readAsDataURL(file);
-                          }
-                        }}
-                        className="w-full p-3 border border-gray-300 rounded-lg outline-none focus:border-pink-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:bg-pink-50 file:text-pink-700 hover:file:bg-pink-100"
-                      />
-                      {sessionImage && (
-                        <div className="relative w-full h-48 rounded-lg overflow-hidden border border-gray-300">
-                          <img src={sessionImage} alt="Session preview" className="w-full h-full object-cover" />
-                          <button
-                            onClick={() => setSessionImage('')}
-                            className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors"
-                          >
-                            <X className="w-4 h-4" />
-                          </button>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-
-                  <div>
                     <label className="text-sm text-gray-700 mb-2 block">Date</label>
                     <input
                       type="date"
@@ -484,15 +411,6 @@ export default function ClubManagerHome() {
                     </div>
                   </div>
 
-                  <div>
-                    <label className="text-sm text-gray-700 mb-2 block">Location/Link</label>
-                    <input
-                      type="text"
-                      placeholder="Physical location or online link"
-                      className="w-full p-3 border border-gray-300 rounded-lg outline-none focus:border-pink-500"
-                    />
-                  </div>
-
                   <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                     <span className="text-sm text-gray-700">Online Session</span>
                     <input type="checkbox" className="w-4 h-4" />
@@ -508,10 +426,10 @@ export default function ClubManagerHome() {
                   </div>
 
                   <div>
-                    <label className="text-sm text-gray-700 mb-2 block">Capacity</label>
+                    <label className="text-sm text-gray-700 mb-2 block">Expected Max Registration</label>
                     <input
                       type="number"
-                      placeholder="Max participants"
+                      placeholder="Expected max registrations"
                       className="w-full p-3 border border-gray-300 rounded-lg outline-none focus:border-pink-500"
                     />
                   </div>

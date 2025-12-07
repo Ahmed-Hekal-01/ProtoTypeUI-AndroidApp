@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Search, Users, Mail, CheckCircle, Clock, Calendar, QrCode, MessageSquare } from 'lucide-react';
+import { Search, Users, Mail, CheckCircle, Clock, Calendar, QrCode } from 'lucide-react';
 
 export default function ClubManagerAttendees() {
   const [selectedEvent, setSelectedEvent] = useState<string>('ai-workshop');
@@ -91,25 +91,6 @@ export default function ClubManagerAttendees() {
       <div className="bg-white rounded-xl p-4 shadow-md">
         <h3 className="text-lg text-gray-800 font-semibold">{currentEvent?.name}</h3>
         <p className="text-sm text-gray-600 mt-1">{currentEvent?.date}</p>
-      </div>      {/* Quick Stats */}
-      <div className="bg-white rounded-xl p-4 shadow-md">
-        <h3 className="text-gray-700 mb-4 font-semibold">Quick Stats</h3>
-        <div className="grid grid-cols-3 gap-4">
-          <div className="text-center">
-            <p className="text-2xl text-purple-600 mb-1">{registeredList.length}</p>
-            <p className="text-xs text-gray-600">Total Registered</p>
-          </div>
-          <div className="text-center">
-            <p className="text-2xl text-green-600 mb-1">{attendedList.length}</p>
-            <p className="text-xs text-gray-600">Attended</p>
-          </div>
-          <div className="text-center">
-            <p className="text-2xl text-orange-600 mb-1">
-              {Math.round((attendedList.length / registeredList.length) * 100)}%
-            </p>
-            <p className="text-xs text-gray-600">Attendance Rate</p>
-          </div>
-        </div>
       </div>
 
       {/* View Mode Selector */}
@@ -147,12 +128,8 @@ export default function ClubManagerAttendees() {
       </div>      {/* Registered List */}
       {viewMode === 'registered' && (
         <div className="space-y-3">
-          <div className="flex items-center justify-between">
-            <h3 className="text-gray-700">Registered Attendees</h3>
-            <button className="px-4 py-2 bg-purple-600 text-white rounded-lg text-sm font-medium hover:bg-purple-700 transition-colors">
-              Sync
-            </button>
-          </div>          {registeredList.map((attendee) => (
+          <h3 className="text-gray-700">Registered Attendees</h3>
+          {registeredList.map((attendee) => (
             <div
               key={attendee.id}
               className="bg-white rounded-xl p-4 shadow-md"
@@ -185,14 +162,6 @@ export default function ClubManagerAttendees() {
                 <span className="text-xs text-gray-500">
                   Registered: {attendee.registeredDate}
                 </span>
-                <div className="flex gap-2">
-                  <button className="p-2 hover:bg-gray-50 rounded-lg transition-colors">
-                    <MessageSquare className="w-4 h-4 text-green-600" />
-                  </button>
-                  <button className="p-2 hover:bg-gray-50 rounded-lg transition-colors">
-                    <Mail className="w-4 h-4 text-gray-600" />
-                  </button>
-                </div>
               </div>
             </div>
           ))}
@@ -202,9 +171,9 @@ export default function ClubManagerAttendees() {
         <div className="space-y-3">
           <div className="flex items-center justify-between">
             <h3 className="text-gray-700">Checked-In Attendees</h3>
-            <span className="text-sm text-gray-500">
-              {attendedList.length}/{registeredList.length} attended
-            </span>
+            <button className="px-4 py-2 bg-purple-600 text-white rounded-lg text-sm font-medium hover:bg-purple-700 transition-colors">
+              Sync
+            </button>
           </div>
           {attendedList.length > 0 ? (
             attendedList.map((attendee) => (
