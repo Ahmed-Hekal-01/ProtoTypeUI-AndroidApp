@@ -3,13 +3,14 @@ import { Send, Image, Calendar, Users, Eye, Heart, MessageCircle, Share2, Clock,
 
 type PostLinkType = 'none' | 'event' | 'session';
 
-export default function ClubManagerHome() {
+interface ClubManagerHomeProps {
+  onNavigate: (screen: 'schedule-event' | 'schedule-session') => void;
+}
+
+export default function ClubManagerHome({ onNavigate }: ClubManagerHomeProps) {
   const [showCreateModal, setShowCreateModal] = useState(false);
-  const [modalType, setModalType] = useState<'post' | 'event' | 'session'>('post');
   const [postContent, setPostContent] = useState('');
   const [postImage, setPostImage] = useState<string>('');
-  const [eventImage, setEventImage] = useState<string>('');
-  const [sessionImage, setSessionImage] = useState<string>('');
   const [linkType, setLinkType] = useState<PostLinkType>('none');
   const [selectedEventOrSession, setSelectedEventOrSession] = useState('');
   const [postType, setPostType] = useState<'all' | 'event' | 'general'>('all');
@@ -26,8 +27,7 @@ export default function ClubManagerHome() {
     { id: 103, name: 'Database Design' },
   ];
 
-  const handleOpenModal = (type: 'post' | 'event' | 'session') => {
-    setModalType(type);
+  const handleOpenModal = () => {
     setShowCreateModal(true);
   };
 
@@ -35,8 +35,6 @@ export default function ClubManagerHome() {
     setShowCreateModal(false);
     setPostContent('');
     setPostImage('');
-    setEventImage('');
-    setSessionImage('');
     setLinkType('none');
     setSelectedEventOrSession('');
   };
@@ -99,7 +97,7 @@ export default function ClubManagerHome() {
         {/* Quick Actions */}
         <div className="grid grid-cols-3 gap-3">
           <button
-            onClick={() => handleOpenModal('post')}
+            onClick={handleOpenModal}
             className="bg-gradient-to-br from-purple-500 to-purple-600 text-white rounded-xl p-4 shadow-md hover:shadow-lg transition-all active:scale-95"
           >
             <div className="flex flex-col items-center gap-2">
@@ -111,7 +109,7 @@ export default function ClubManagerHome() {
           </button>
 
           <button
-            onClick={() => handleOpenModal('event')}
+            onClick={() => onNavigate('schedule-event')}
             className="bg-gradient-to-br from-blue-500 to-blue-600 text-white rounded-xl p-4 shadow-md hover:shadow-lg transition-all active:scale-95"
           >
             <div className="flex flex-col items-center gap-2">
@@ -123,7 +121,7 @@ export default function ClubManagerHome() {
           </button>
 
           <button
-            onClick={() => handleOpenModal('session')}
+            onClick={() => onNavigate('schedule-session')}
             className="bg-gradient-to-br from-pink-500 to-pink-600 text-white rounded-xl p-4 shadow-md hover:shadow-lg transition-all active:scale-95"
           >
             <div className="flex flex-col items-center gap-2">
@@ -221,11 +219,7 @@ export default function ClubManagerHome() {
           <div className="bg-white rounded-2xl w-full max-w-md flex flex-col max-h-[85vh] overflow-hidden shadow-2xl">
             {/* Modal Header */}
             <div className="flex-shrink-0 bg-white border-b border-gray-200 p-4 flex items-center justify-between">
-              <h3 className="text-lg font-semibold text-gray-800">
-                {modalType === 'post' && 'Create Post'}
-                {modalType === 'event' && 'Schedule Event'}
-                {modalType === 'session' && 'Schedule Session'}
-              </h3>
+              <h3 className="text-lg font-semibold text-gray-800">Create Post</h3>
               <button onClick={handleCloseModal} className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
                 <X className="w-5 h-5 text-gray-600" />
               </button>
@@ -233,8 +227,6 @@ export default function ClubManagerHome() {
 
             {/* Modal Content - Scrollable */}
             <div className="flex-1 overflow-y-auto p-4 space-y-4">
-              {modalType === 'post' && (
-                <>
                   <div>
                     <label className="text-sm text-gray-700 mb-2 block">Post Content</label>
                     <textarea
@@ -316,125 +308,6 @@ export default function ClubManagerHome() {
                     </div>
                     <input type="checkbox" defaultChecked className="w-4 h-4" />
                   </div>
-                </>
-              )}
-
-              {modalType === 'event' && (
-                <>
-                  <div>
-                    <label className="text-sm text-gray-700 mb-2 block">Event Name</label>
-                    <input
-                      type="text"
-                      placeholder="Enter event name"
-                      className="w-full p-3 border border-gray-300 rounded-lg outline-none focus:border-blue-500"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="text-sm text-gray-700 mb-2 block">Date</label>
-                    <input
-                      type="date"
-                      className="w-full p-3 border border-gray-300 rounded-lg outline-none focus:border-blue-500"
-                    />
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-3">
-                    <div>
-                      <label className="text-sm text-gray-700 mb-2 block">Start Time</label>
-                      <input
-                        type="time"
-                        className="w-full p-3 border border-gray-300 rounded-lg outline-none focus:border-blue-500"
-                      />
-                    </div>
-                    <div>
-                      <label className="text-sm text-gray-700 mb-2 block">End Time</label>
-                      <input
-                        type="time"
-                        className="w-full p-3 border border-gray-300 rounded-lg outline-none focus:border-blue-500"
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="text-sm text-gray-700 mb-2 block">Description</label>
-                    <textarea
-                      rows={3}
-                      placeholder="Event description"
-                      className="w-full p-3 border border-gray-300 rounded-lg outline-none focus:border-blue-500 resize-none"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="text-sm text-gray-700 mb-2 block">Expected Max Registration</label>
-                    <input
-                      type="number"
-                      placeholder="Expected max registrations"
-                      className="w-full p-3 border border-gray-300 rounded-lg outline-none focus:border-blue-500"
-                    />
-                  </div>
-                </>
-              )}
-
-              {modalType === 'session' && (
-                <>
-                  <div>
-                    <label className="text-sm text-gray-700 mb-2 block">Session Name</label>
-                    <input
-                      type="text"
-                      placeholder="Enter session name"
-                      className="w-full p-3 border border-gray-300 rounded-lg outline-none focus:border-pink-500"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="text-sm text-gray-700 mb-2 block">Date</label>
-                    <input
-                      type="date"
-                      className="w-full p-3 border border-gray-300 rounded-lg outline-none focus:border-pink-500"
-                    />
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-3">
-                    <div>
-                      <label className="text-sm text-gray-700 mb-2 block">Start Time</label>
-                      <input
-                        type="time"
-                        className="w-full p-3 border border-gray-300 rounded-lg outline-none focus:border-pink-500"
-                      />
-                    </div>
-                    <div>
-                      <label className="text-sm text-gray-700 mb-2 block">End Time</label>
-                      <input
-                        type="time"
-                        className="w-full p-3 border border-gray-300 rounded-lg outline-none focus:border-pink-500"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                    <span className="text-sm text-gray-700">Online Session</span>
-                    <input type="checkbox" className="w-4 h-4" />
-                  </div>
-
-                  <div>
-                    <label className="text-sm text-gray-700 mb-2 block">Description</label>
-                    <textarea
-                      rows={3}
-                      placeholder="Session description"
-                      className="w-full p-3 border border-gray-300 rounded-lg outline-none focus:border-pink-500 resize-none"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="text-sm text-gray-700 mb-2 block">Expected Max Registration</label>
-                    <input
-                      type="number"
-                      placeholder="Expected max registrations"
-                      className="w-full p-3 border border-gray-300 rounded-lg outline-none focus:border-pink-500"
-                    />
-                  </div>
-                </>
-              )}
             </div>
 
             {/* Modal Actions - Fixed Footer */}
@@ -447,14 +320,9 @@ export default function ClubManagerHome() {
                   Cancel
                 </button>
                 <button
-                  className={`flex-1 py-3 text-white rounded-lg hover:opacity-90 transition-opacity font-medium ${
-                    modalType === 'post' ? 'bg-purple-600' :
-                    modalType === 'event' ? 'bg-blue-600' : 'bg-pink-600'
-                  }`}
+                  className="flex-1 py-3 bg-purple-600 text-white rounded-lg hover:opacity-90 transition-opacity font-medium"
                 >
-                  {modalType === 'post' && 'Publish Post'}
-                  {modalType === 'event' && 'Create Event'}
-                  {modalType === 'session' && 'Create Session'}
+                  Publish Post
                 </button>
               </div>
             </div>

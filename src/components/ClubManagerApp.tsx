@@ -1,10 +1,14 @@
 import { useState } from 'react';
-import { Home, Users, UserCircle } from 'lucide-react';
+import { Home, Users, UserCircle, FileText } from 'lucide-react';
 import ClubManagerHome from './club-manager/ClubManagerHome';
 import ClubManagerAttendees from './club-manager/ClubManagerAttendees';
 import ClubManagerAccount from './club-manager/ClubManagerAccount';
+import ClubManagerRequests from './club-manager/ClubManagerRequests';
+import ClubManagerScheduleEvent from './club-manager/ClubManagerScheduleEvent';
+import ClubManagerScheduleSession from './club-manager/ClubManagerScheduleSession';
 
-type Tab = 'home' | 'attendees' | 'account';
+type Tab = 'home' | 'requests' | 'attendees' | 'account';
+type Screen = Tab | 'schedule-event' | 'schedule-session';
 
 interface ClubManagerAppProps {
   onBack: () => void;
@@ -13,53 +17,80 @@ interface ClubManagerAppProps {
 
 export default function ClubManagerApp({ onBack, onSwitchToStudent }: ClubManagerAppProps) {
   const [activeTab, setActiveTab] = useState<Tab>('home');
+  const [currentScreen, setCurrentScreen] = useState<Screen>('home');
 
   const tabs = [
     { id: 'home' as Tab, icon: Home, label: 'Home' },
+    { id: 'requests' as Tab, icon: FileText, label: 'Requests' },
     { id: 'attendees' as Tab, icon: Users, label: 'Attendees' },
     { id: 'account' as Tab, icon: UserCircle, label: 'Account' },
   ];
 
+  const handleNavigate = (screen: Screen) => {
+    setCurrentScreen(screen);
+    if (screen === 'home' || screen === 'requests' || screen === 'attendees' || screen === 'account') {
+      setActiveTab(screen);
+    }
+  };
+
+  const handleBackToHome = () => {
+    setCurrentScreen('home');
+    setActiveTab('home');
+  };
+
+  // Hide bottom navigation for full-screen views
+  const showBottomNav = currentScreen === 'home' || currentScreen === 'requests' || 
+                        currentScreen === 'attendees' || currentScreen === 'account';
+
   return (
     <div className="min-h-screen bg-gray-50 pb-20 max-w-md mx-auto">
-      {/* Top Bar */}
-      <div className="bg-gradient-to-r from-purple-600 to-pink-600 text-white p-4 sticky top-0 z-10 shadow-md">
-        <div className="flex items-center gap-3">
-          <div className="flex-1">
-            <h1 className="text-xl">Tech Club</h1>
-            <p className="text-purple-100 text-sm">Club Manager Portal</p>
+      {/* Top Bar - Only show for main tabs */}
+      {showBottomNav && (
+        <div className="bg-gradient-to-r from-purple-600 to-pink-600 text-white p-4 sticky top-0 z-10 shadow-md">
+          <div className="flex items-center gap-3">
+            <div className="flex-1">
+              <h1 className="text-xl">Tech Club</h1>
+              <p className="text-purple-100 text-sm">Club Manager Portal</p>
+            </div>
           </div>
         </div>
-      </div>      {/* Content */}
+      )}
+
+      {/* Content */}
       <div className="pb-4">
-        {activeTab === 'home' && <ClubManagerHome />}
-        {activeTab === 'attendees' && <ClubManagerAttendees />}
-        {activeTab === 'account' && <ClubManagerAccount onSwitchToStudent={onSwitchToStudent} />}
+        {currentScreen === 'home' && <ClubManagerHome onNavigate={handleNavigate} />}
+        {currentScreen === 'requests' && <ClubManagerRequests />}
+        {currentScreen === 'attendees' && <ClubManagerAttendees />}
+        {currentScreen === 'account' && <ClubManagerAccount onSwitchToStudent={onSwitchToStudent} />}
+        {currentScreen === 'schedule-event' && <ClubManagerScheduleEvent onBack={handleBackToHome} />}
+        {currentScreen === 'schedule-session' && <ClubManagerScheduleSession onBack={handleBackToHome} />}
       </div>
 
-      {/* Bottom Navigation */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg max-w-md mx-auto">
-        <div className="grid grid-cols-3">
-          {tabs.map((tab) => {
-            const Icon = tab.icon;
-            const isActive = activeTab === tab.id;
-            return (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`flex flex-col items-center py-3 px-2 transition-colors ${
-                  isActive
-                    ? 'text-purple-600'
-                    : 'text-gray-500 hover:text-gray-700'
-                }`}
-              >
-                <Icon className={`w-5 h-5 mb-1 ${isActive ? 'fill-purple-600/20' : ''}`} />
-                <span className="text-xs">{tab.label}</span>
-              </button>
-            );
-          })}
+      {/* Bottom Navigation - Only show for main tabs */}
+      {showBottomNav && (
+        <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg max-w-md mx-auto">
+          <div className="grid grid-cols-4">
+            {tabs.map((tab) => {
+              const Icon = tab.icon;
+              const isActive = activeTab === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => handleNavigate(tab.id)}
+                  className={`flex flex-col items-center py-3 px-2 transition-colors ${
+                    isActive
+                      ? 'text-purple-600'
+                      : 'text-gray-500 hover:text-gray-700'
+                  }`}
+                >
+                  <Icon className={`w-5 h-5 mb-1 ${isActive ? 'fill-purple-600/20' : ''}`} />
+                  <span className="text-xs">{tab.label}</span>
+                </button>
+              );
+            })}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
