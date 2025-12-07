@@ -92,9 +92,9 @@ export default function StudentNotifications({ onBack }: StudentNotificationsPro
       case 'success':
         return 'bg-green-50 border-green-200';
       case 'info':
-        return 'bg-gray-50 border-gray-200';
+        return 'bg-white border-[#EFEFEF]';
       default:
-        return 'bg-gray-50 border-gray-200';
+        return 'bg-white border-[#EFEFEF]';
     }
   };
 
@@ -107,16 +107,16 @@ export default function StudentNotifications({ onBack }: StudentNotificationsPro
       case 'success':
         return 'bg-green-500';
       case 'info':
-        return 'bg-gray-500';
+        return 'bg-white0';
       default:
-        return 'bg-gray-500';
+        return 'bg-white0';
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-4">
+    <div className="min-h-screen bg-white pb-4">
       {/* Header with Back Button */}
-      <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-4 sticky top-0 z-10 shadow-md">
+      <div className="bg-white text-black border-b border-[#EFEFEF] p-4 sticky top-0 z-10 shadow-md">
         <div className="flex items-center gap-3">
           <button
             onClick={onBack}
@@ -146,7 +146,7 @@ export default function StudentNotifications({ onBack }: StudentNotificationsPro
         {notifications.length === 0 ? (
           <div className="text-center py-12">
             <Bell className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-            <h3 className="text-gray-600 font-semibold mb-2">No notifications</h3>
+            <h3 className="text-[#8E8E8E] font-semibold mb-2">No notifications</h3>
             <p className="text-gray-500 text-sm">You're all caught up!</p>
           </div>
         ) : (
@@ -167,26 +167,26 @@ export default function StudentNotifications({ onBack }: StudentNotificationsPro
                   {/* Content */}
                   <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between gap-2 mb-1">
-                      <h4 className={`text-sm font-semibold ${!notification.read ? 'text-gray-900' : 'text-gray-700'}`}>
+                      <h4 className={`text-sm font-semibold ${!notification.read ? 'text-gray-900' : 'text-black'}`}>
                         {notification.title}
                         {!notification.read && (
-                          <span className="ml-2 inline-block w-2 h-2 bg-blue-600 rounded-full"></span>
+                          <span className="ml-2 inline-block w-2 h-2 bg-[#0095F6] rounded-full"></span>
                         )}
                       </h4>
                       <button
                         onClick={() => deleteNotification(notification.id)}
-                        className="text-gray-400 hover:text-gray-600 transition-colors p-1"
+                        className="text-gray-400 hover:text-[#8E8E8E] transition-colors p-1"
                       >
                         <X className="w-4 h-4" />
                       </button>
                     </div>
-                    <p className="text-sm text-gray-600 mb-2">{notification.message}</p>
+                    <p className="text-sm text-[#8E8E8E] mb-2">{notification.message}</p>
                     <div className="flex items-center justify-between">
                       <p className="text-xs text-gray-500">{notification.time}</p>
                       {!notification.read && (
                         <button
                           onClick={() => markAsRead(notification.id)}
-                          className="text-xs text-blue-600 hover:text-blue-700 font-medium"
+                          className="text-xs text-[#0095F6] hover:text-[#0081D6] font-medium"
                         >
                           Mark as read
                         </button>

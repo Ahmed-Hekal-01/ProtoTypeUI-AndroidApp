@@ -109,7 +109,7 @@ export default function StudentReservations({ onBack }: StudentReservationsProps
         );
       case 'completed':
         return (
-          <span className="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-xs font-medium">
+          <span className="px-3 py-1 bg-gray-100 text-[#8E8E8E] rounded-full text-xs font-medium">
             Completed
           </span>
         );
@@ -127,14 +127,14 @@ export default function StudentReservations({ onBack }: StudentReservationsProps
       case 'purple':
         return 'border-purple-500 bg-purple-500';
       default:
-        return 'border-gray-500 bg-gray-500';
+        return 'border-gray-500 bg-white0';
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white">
       {/* Header with Back Button */}
-      <div className="bg-gradient-to-r from-indigo-600 to-blue-600 text-white p-4 sticky top-0 z-10 shadow-md">
+      <div className="bg-white text-black border-b border-[#EFEFEF] p-4 sticky top-0 z-10 shadow-md">
         <div className="flex items-center gap-3">
           <button
             onClick={onBack}
@@ -156,8 +156,8 @@ export default function StudentReservations({ onBack }: StudentReservationsProps
             onClick={() => setSelectedFilter('all')}
             className={`px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-colors ${
               selectedFilter === 'all'
-                ? 'bg-indigo-600 text-white shadow-md'
-                : 'bg-white text-gray-600 hover:bg-gray-50'
+                ? 'bg-[#0095F6] text-white shadow-md'
+                : 'bg-white text-[#8E8E8E] hover:bg-white'
             }`}
           >
             All ({reservations.length})
@@ -166,8 +166,8 @@ export default function StudentReservations({ onBack }: StudentReservationsProps
             onClick={() => setSelectedFilter('active')}
             className={`px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-colors ${
               selectedFilter === 'active'
-                ? 'bg-indigo-600 text-white shadow-md'
-                : 'bg-white text-gray-600 hover:bg-gray-50'
+                ? 'bg-[#0095F6] text-white shadow-md'
+                : 'bg-white text-[#8E8E8E] hover:bg-white'
             }`}
           >
             Active ({reservations.filter(r => r.status === 'active').length})
@@ -176,8 +176,8 @@ export default function StudentReservations({ onBack }: StudentReservationsProps
             onClick={() => setSelectedFilter('upcoming')}
             className={`px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-colors ${
               selectedFilter === 'upcoming'
-                ? 'bg-indigo-600 text-white shadow-md'
-                : 'bg-white text-gray-600 hover:bg-gray-50'
+                ? 'bg-[#0095F6] text-white shadow-md'
+                : 'bg-white text-[#8E8E8E] hover:bg-white'
             }`}
           >
             Upcoming ({reservations.filter(r => r.status === 'upcoming' || r.status === 'registered').length})
@@ -186,8 +186,8 @@ export default function StudentReservations({ onBack }: StudentReservationsProps
             onClick={() => setSelectedFilter('past')}
             className={`px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-colors ${
               selectedFilter === 'past'
-                ? 'bg-indigo-600 text-white shadow-md'
-                : 'bg-white text-gray-600 hover:bg-gray-50'
+                ? 'bg-[#0095F6] text-white shadow-md'
+                : 'bg-white text-[#8E8E8E] hover:bg-white'
             }`}
           >
             Past ({reservations.filter(r => r.status === 'completed').length})
@@ -217,8 +217,8 @@ export default function StudentReservations({ onBack }: StudentReservationsProps
                       <div className="flex items-center gap-2 mb-1">
                         <span className="text-xs font-medium text-gray-500 uppercase">{reservation.type}</span>
                       </div>
-                      <h4 className="text-gray-800 font-medium mb-1">{reservation.name}</h4>
-                      <div className="flex items-center gap-1 text-sm text-gray-600">
+                      <h4 className="text-black font-medium mb-1">{reservation.name}</h4>
+                      <div className="flex items-center gap-1 text-sm text-[#8E8E8E]">
                         <MapPin className="w-3 h-3" />
                         <span className="text-xs">{reservation.location}</span>
                       </div>
@@ -227,7 +227,7 @@ export default function StudentReservations({ onBack }: StudentReservationsProps
                   {getStatusBadge(reservation.status)}
                 </div>
 
-                <div className="flex items-center gap-4 mb-3 text-sm text-gray-600">
+                <div className="flex items-center gap-4 mb-3 text-sm text-[#8E8E8E]">
                   <span className="flex items-center gap-1.5">
                     <Calendar className="w-4 h-4" />
                     {reservation.fullDate}
@@ -242,7 +242,7 @@ export default function StudentReservations({ onBack }: StudentReservationsProps
                 {reservation.status !== 'completed' && (
                   <div className="flex gap-2 pt-2 border-t border-gray-100">
                     {(reservation.type === 'Event' || reservation.type === 'Session') && (
-                      <button className="flex-1 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-lg transition-colors">
+                      <button className="flex-1 py-2 text-sm text-black hover:bg-white rounded-lg transition-colors">
                         View Details
                       </button>
                     )}

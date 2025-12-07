@@ -200,7 +200,7 @@ export default function StudentEvents({ onBack, initialEventId }: StudentEventsP
       pink: 'bg-pink-500',
       indigo: 'bg-indigo-500',
     };
-    return colors[color] || 'bg-gray-500';
+    return colors[color] || 'bg-white0';
   };
 
   // If an event is selected, show its details
@@ -234,7 +234,7 @@ export default function StudentEvents({ onBack, initialEventId }: StudentEventsP
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white">
       {/* Top Bar */}
       {onBack && (
         <div 
@@ -260,8 +260,8 @@ export default function StudentEvents({ onBack, initialEventId }: StudentEventsP
           onClick={() => setActiveTab('events')}
           className={`flex-1 py-3 rounded-xl font-semibold transition-all ${
             activeTab === 'events'
-              ? 'bg-blue-600 text-white shadow-md'
-              : 'text-gray-600'
+              ? 'bg-[#0095F6] text-white shadow-md'
+              : 'text-[#8E8E8E]'
           }`}
         >
           Events
@@ -270,8 +270,8 @@ export default function StudentEvents({ onBack, initialEventId }: StudentEventsP
           onClick={() => setActiveTab('sessions')}
           className={`flex-1 py-3 rounded-xl font-semibold transition-all ${
             activeTab === 'sessions'
-              ? 'bg-blue-600 text-white shadow-md'
-              : 'text-gray-600'
+              ? 'bg-[#0095F6] text-white shadow-md'
+              : 'text-[#8E8E8E]'
           }`}
         >
           Sessions
@@ -323,27 +323,27 @@ export default function StudentEvents({ onBack, initialEventId }: StudentEventsP
 
             {/* Details */}
             <div className="p-4">
-              <p className="text-gray-600 text-sm mb-4">{item.description}</p>
+              <p className="text-[#8E8E8E] text-sm mb-4">{item.description}</p>
 
               <div className="space-y-2 mb-4">
-                <div className="flex items-center gap-2 text-sm text-gray-600">
+                <div className="flex items-center gap-2 text-sm text-[#8E8E8E]">
                   <Calendar className="w-4 h-4" />
                   <span>{item.date}</span>
                 </div>
-                <div className="flex items-center gap-2 text-sm text-gray-600">
+                <div className="flex items-center gap-2 text-sm text-[#8E8E8E]">
                   <Clock className="w-4 h-4" />
                   <span>{item.time}</span>
                 </div>
-                <div className="flex items-center gap-2 text-sm text-gray-600">
+                <div className="flex items-center gap-2 text-sm text-[#8E8E8E]">
                   <MapPin className="w-4 h-4" />
                   <span>{item.location}</span>
                 </div>
               </div>
 
-              <div className="flex items-center justify-between mb-4 p-3 bg-gray-50 rounded-lg">
+              <div className="flex items-center justify-between mb-4 p-3 bg-white rounded-lg">
                 <div className="flex items-center gap-2">
-                  <Users className="w-4 h-4 text-gray-600" />
-                  <span className="text-sm text-gray-700">
+                  <Users className="w-4 h-4 text-[#8E8E8E]" />
+                  <span className="text-sm text-black">
                     {isRegistered(item.id) ? item.attendees + 1 : item.attendees}/{item.capacity} registered
                   </span>
                 </div>
@@ -370,7 +370,7 @@ export default function StudentEvents({ onBack, initialEventId }: StudentEventsP
                         setSelectedSessionId(item.id);
                       }
                     }}
-                    className="flex-1 py-3 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 transition-colors font-semibold"
+                    className="flex-1 py-3 bg-gray-100 text-black rounded-xl hover:bg-gray-200 transition-colors font-semibold"
                   >
                     View Details
                   </button>
@@ -394,7 +394,7 @@ export default function StudentEvents({ onBack, initialEventId }: StudentEventsP
                         setSelectedSessionId(item.id);
                       }
                     }}
-                    className="flex-1 py-3 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 transition-colors font-semibold"
+                    className="flex-1 py-3 bg-gray-100 text-black rounded-xl hover:bg-gray-200 transition-colors font-semibold"
                   >
                     View Details
                   </button>

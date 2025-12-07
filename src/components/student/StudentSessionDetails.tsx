@@ -31,11 +31,11 @@ export default function StudentSessionDetails({ session, isRegistered, onBack, o
       pink: 'bg-pink-500',
       indigo: 'bg-indigo-500',
     };
-    return colors[color] || 'bg-gray-500';
+    return colors[color] || 'bg-white0';
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white">
       {/* Top Bar */}
       <div 
         className="text-white p-4 sticky top-0 z-10 shadow-md"
@@ -83,22 +83,22 @@ export default function StudentSessionDetails({ session, isRegistered, onBack, o
         <div className="p-4 space-y-4">
           {/* Quick Info */}
           <div className="bg-white rounded-xl p-4 shadow-md space-y-3">
-            <div className="flex items-center gap-3 text-gray-700">
-              <Calendar className="w-5 h-5 text-blue-600" />
+            <div className="flex items-center gap-3 text-black">
+              <Calendar className="w-5 h-5 text-[#0095F6]" />
               <div>
                 <p className="text-xs text-gray-500">Date</p>
                 <p className="font-medium">{session.date}</p>
               </div>
             </div>
-            <div className="flex items-center gap-3 text-gray-700">
-              <Clock className="w-5 h-5 text-blue-600" />
+            <div className="flex items-center gap-3 text-black">
+              <Clock className="w-5 h-5 text-[#0095F6]" />
               <div>
                 <p className="text-xs text-gray-500">Duration</p>
                 <p className="font-medium">{session.time}</p>
               </div>
             </div>
-            <div className="flex items-center gap-3 text-gray-700">
-              <MapPin className="w-5 h-5 text-blue-600" />
+            <div className="flex items-center gap-3 text-black">
+              <MapPin className="w-5 h-5 text-[#0095F6]" />
               <div>
                 <p className="text-xs text-gray-500">Location</p>
                 <p className="font-medium">{session.location}</p>
@@ -110,10 +110,10 @@ export default function StudentSessionDetails({ session, isRegistered, onBack, o
           <div className="bg-white rounded-xl p-4 shadow-md">
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-2">
-                <Users className="w-5 h-5 text-gray-600" />
-                <span className="font-medium text-gray-700">Enrollment</span>
+                <Users className="w-5 h-5 text-[#8E8E8E]" />
+                <span className="font-medium text-black">Enrollment</span>
               </div>
-              <span className="text-sm text-gray-600">
+              <span className="text-sm text-[#8E8E8E]">
                 {isRegistered ? session.attendees + 1 : session.attendees}/{session.capacity}
               </span>
             </div>
@@ -130,8 +130,8 @@ export default function StudentSessionDetails({ session, isRegistered, onBack, o
 
           {/* Description */}
           <div className="bg-white rounded-xl p-4 shadow-md">
-            <h3 className="font-semibold text-gray-800 mb-2">About This Session</h3>
-            <p className="text-gray-600 text-sm leading-relaxed">
+            <h3 className="font-semibold text-black mb-2">About This Session</h3>
+            <p className="text-[#8E8E8E] text-sm leading-relaxed">
               {session.longDescription || session.description + '. This interactive session provides an excellent opportunity to learn from an experienced instructor and engage with fellow learners. You will gain practical knowledge and skills that you can apply immediately.'}
             </p>
           </div>

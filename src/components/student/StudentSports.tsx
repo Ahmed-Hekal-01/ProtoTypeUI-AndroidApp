@@ -93,7 +93,7 @@ export default function StudentSports({ onBack }: StudentSportsProps) {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white">
       {/* Header with Back Button */}
       <div 
         className="text-white p-4 sticky top-0 z-10 shadow-md"
@@ -120,14 +120,14 @@ export default function StudentSports({ onBack }: StudentSportsProps) {
           <input
             type="text"
             placeholder="Search sports..."
-            className="w-full pl-10 pr-4 py-3 bg-white rounded-xl border border-gray-200 focus:border-green-500 focus:outline-none shadow-sm"
+            className="w-full pl-10 pr-4 py-3 bg-white rounded-xl border border-[#EFEFEF] focus:border-green-500 focus:outline-none shadow-sm"
           />
         </div>
 
       {/* My Reservations */}
       {myReservations.length > 0 && (
         <div>
-          <h3 className="mb-3 text-gray-700">My Reservations</h3>
+          <h3 className="mb-3 text-black">My Reservations</h3>
           <div className="space-y-3">
             {myReservations.map((reservation, idx) => (
               <div
@@ -165,7 +165,7 @@ export default function StudentSports({ onBack }: StudentSportsProps) {
       {/* Gym Sessions */}
       <div>
         <div className="flex items-center justify-between mb-3">
-          <h3 className="text-gray-700 flex items-center gap-2">
+          <h3 className="text-black flex items-center gap-2">
             💪 Gym Sessions
           </h3>
           <span className="text-xs text-gray-500">No minimum required</span>
@@ -181,9 +181,9 @@ export default function StudentSports({ onBack }: StudentSportsProps) {
               <div className="flex-1">
                 <div className="flex items-center gap-2 mb-1">
                   <Clock className="w-4 h-4 text-gray-400" />
-                  <span className="text-gray-800">{slot.time}</span>
+                  <span className="text-black">{slot.time}</span>
                 </div>
-                <div className="flex items-center gap-2 text-sm text-gray-600">
+                <div className="flex items-center gap-2 text-sm text-[#8E8E8E]">
                   <Users className="w-4 h-4" />
                   <span>{slot.available}/{slot.capacity} spots available</span>
                 </div>
@@ -204,7 +204,7 @@ export default function StudentSports({ onBack }: StudentSportsProps) {
 
       {/* Team Sports */}
       <div>
-        <h3 className="mb-3 text-gray-700">Team Sports</h3>
+        <h3 className="mb-3 text-black">Team Sports</h3>
         <div className="space-y-3">
           {sports.map((sport) => (
             <div
@@ -214,12 +214,12 @@ export default function StudentSports({ onBack }: StudentSportsProps) {
               <div className="flex items-start gap-3 mb-3">
                 <div className="text-3xl">{sport.icon}</div>
                 <div className="flex-1">
-                  <h4 className="text-gray-800 mb-1">{sport.name}</h4>
-                  <div className="flex items-center gap-1 text-sm text-gray-600 mb-1">
+                  <h4 className="text-black mb-1">{sport.name}</h4>
+                  <div className="flex items-center gap-1 text-sm text-[#8E8E8E] mb-1">
                     <MapPin className="w-4 h-4" />
                     {sport.location}
                   </div>
-                  <div className="flex items-center gap-4 text-xs text-gray-600">
+                  <div className="flex items-center gap-4 text-xs text-[#8E8E8E]">
                     <span className="flex items-center gap-1">
                       <Users className="w-3 h-3" />
                       {sport.minPlayers}-{sport.maxPlayers} players
@@ -240,15 +240,15 @@ export default function StudentSports({ onBack }: StudentSportsProps) {
               </div>
 
               <div className="space-y-2 mb-3">
-                <div className="text-sm text-gray-700 mb-2">Available Facilities:</div>
+                <div className="text-sm text-black mb-2">Available Facilities:</div>
                 {sport.facilities.map((facility, idx) => (
                   <div
                     key={idx}
-                    className="flex items-center justify-between p-2 bg-gray-50 rounded-lg"
+                    className="flex items-center justify-between p-2 bg-white rounded-lg"
                   >
-                    <span className="text-sm text-gray-700">{facility.name}</span>
+                    <span className="text-sm text-black">{facility.name}</span>
                     <div className="flex items-center gap-2">
-                      <span className="text-xs text-gray-600">{facility.available}</span>
+                      <span className="text-xs text-[#8E8E8E]">{facility.available}</span>
                       {facility.status === 'available' ? (
                         <span className="w-2 h-2 bg-green-500 rounded-full" />
                       ) : (
@@ -275,12 +275,12 @@ export default function StudentSports({ onBack }: StudentSportsProps) {
         <div className="fixed inset-0 bg-black/50 flex items-end justify-center z-50 max-w-md mx-auto">
           <div className="bg-white rounded-t-3xl w-full p-6 animate-slide-up">
             <div className="w-12 h-1 bg-gray-300 rounded-full mx-auto mb-6" />
-            <h3 className="text-xl mb-4 text-gray-800">Book {selectedSport.name}</h3>
+            <h3 className="text-xl mb-4 text-black">Book {selectedSport.name}</h3>
 
             <div className="space-y-4 mb-6">
               <div>
-                <label className="text-sm text-gray-600 mb-2 block">Select Facility</label>
-                <select className="w-full p-3 bg-gray-50 rounded-lg outline-none">
+                <label className="text-sm text-[#8E8E8E] mb-2 block">Select Facility</label>
+                <select className="w-full p-3 bg-white rounded-lg outline-none">
                   {selectedSport.facilities.map((facility: any, idx: number) => (
                     <option key={idx} disabled={facility.status === 'occupied'}>
                       {facility.name} - {facility.available}
@@ -290,17 +290,17 @@ export default function StudentSports({ onBack }: StudentSportsProps) {
               </div>
 
               <div>
-                <label className="text-sm text-gray-600 mb-2 block">Date</label>
+                <label className="text-sm text-[#8E8E8E] mb-2 block">Date</label>
                 <input
                   type="date"
-                  className="w-full p-3 bg-gray-50 rounded-lg outline-none"
+                  className="w-full p-3 bg-white rounded-lg outline-none"
                   defaultValue="2025-12-01"
                 />
               </div>
 
               <div>
-                <label className="text-sm text-gray-600 mb-2 block">Time Slot</label>
-                <select className="w-full p-3 bg-gray-50 rounded-lg outline-none">
+                <label className="text-sm text-[#8E8E8E] mb-2 block">Time Slot</label>
+                <select className="w-full p-3 bg-white rounded-lg outline-none">
                   <option>4:00 PM - 5:30 PM</option>
                   <option>5:00 PM - 6:30 PM</option>
                   <option>6:00 PM - 7:30 PM</option>
@@ -309,7 +309,7 @@ export default function StudentSports({ onBack }: StudentSportsProps) {
               </div>
 
               <div>
-                <label className="text-sm text-gray-600 mb-2 block">
+                <label className="text-sm text-[#8E8E8E] mb-2 block">
                   Expected Players ({selectedSport.minPlayers}-{selectedSport.maxPlayers})
                 </label>
                 <input
@@ -317,7 +317,7 @@ export default function StudentSports({ onBack }: StudentSportsProps) {
                   min={selectedSport.minPlayers}
                   max={selectedSport.maxPlayers}
                   defaultValue={selectedSport.minPlayers}
-                  className="w-full p-3 bg-gray-50 rounded-lg outline-none"
+                  className="w-full p-3 bg-white rounded-lg outline-none"
                 />
               </div>
             </div>
@@ -325,7 +325,7 @@ export default function StudentSports({ onBack }: StudentSportsProps) {
             <div className="flex gap-3">
               <button
                 onClick={() => setShowBookingModal(false)}
-                className="flex-1 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                className="flex-1 py-3 border border-[#EFEFEF] rounded-lg hover:bg-white transition-colors"
               >
                 Cancel
               </button>

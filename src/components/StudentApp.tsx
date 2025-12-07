@@ -50,19 +50,19 @@ export default function StudentApp({ onBack, onSwitchToClubManager }: StudentApp
   const showTopBar = activeTab === 'home';
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-20 max-w-md mx-auto">
+    <div className="min-h-screen bg-white pb-20 max-w-md mx-auto">
       {/* Top Bar - Only show for home */}
       {showTopBar && (
-        <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-4 sticky top-0 z-10 shadow-md">
+        <div className="bg-white text-black p-4 sticky top-0 z-10 border-b border-[#EFEFEF]">
           <div className="flex items-center justify-between">
             <h1 className="text-xl font-bold">Cursor Park</h1>
             <button
               onClick={() => setActiveTab('notifications')}
-              className="p-2 hover:bg-white/10 rounded-lg transition-colors relative"
+              className="p-2 hover:bg-gray-50 rounded-lg transition-colors relative"
             >
               <Bell className="w-6 h-6" />
               {notificationCount > 0 && (
-                <span className="absolute top-1 right-1 w-5 h-5 bg-red-500 rounded-full text-xs flex items-center justify-center font-bold">
+                <span className="absolute top-1 right-1 w-5 h-5 bg-red-500 rounded-full text-xs flex items-center justify-center font-bold text-white">
                   {notificationCount}
                 </span>
               )}
@@ -87,7 +87,7 @@ export default function StudentApp({ onBack, onSwitchToClubManager }: StudentApp
 
       {/* Bottom Navigation - Only show for main screens */}
       {!isSubscreen && (
-        <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg max-w-md mx-auto">
+        <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-[#EFEFEF] max-w-md mx-auto">
           <div className="grid grid-cols-4">
             {tabs.map((tab) => {
               const Icon = tab.icon;
@@ -98,11 +98,11 @@ export default function StudentApp({ onBack, onSwitchToClubManager }: StudentApp
                   onClick={() => setActiveTab(tab.id)}
                   className={`flex flex-col items-center py-3 px-2 transition-colors ${
                     isActive
-                      ? 'text-blue-600'
-                      : 'text-gray-500 hover:text-gray-700'
+                      ? 'text-black'
+                      : 'text-[#8E8E8E] hover:text-black'
                   }`}
                 >
-                  <Icon className={`w-6 h-6 mb-1 ${isActive ? 'fill-blue-600/20' : ''}`} />
+                  <Icon className={`w-6 h-6 mb-1 ${isActive ? '' : ''}`} />
                   <span className="text-xs">{tab.label}</span>
                 </button>
               );

@@ -7,7 +7,7 @@ interface StudentProfileProps {
 
 export default function StudentProfile({ onBack, onSwitchToClubManager }: StudentProfileProps) {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white">
       {/* Top Bar */}
       {onBack && (
         <div
@@ -28,20 +28,20 @@ export default function StudentProfile({ onBack, onSwitchToClubManager }: Studen
 
       <div className="p-4 space-y-6 pb-8">
       {/* Profile Header */}
-      <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-2xl p-6 shadow-lg">
+      <div className="bg-white rounded-2xl p-6 shadow-lg border border-[#EFEFEF]">
         <div className="flex items-start gap-4 mb-4">
-          <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center text-3xl backdrop-blur-sm">
+          <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center text-3xl">
             👩‍🎓
           </div>
           <div className="flex-1">
-            <h2 className="text-2xl mb-1">Sarah Johnson</h2>
-            <p className="text-blue-100 text-sm mb-1">Computer Science • Junior</p>
-            <p className="text-blue-100 text-sm">ID: CS2023-1234</p>
+            <h2 className="text-2xl mb-1 text-black">Sarah Johnson</h2>
+            <p className="text-[#8E8E8E] text-sm mb-1">Computer Science • Junior</p>
+            <p className="text-[#8E8E8E] text-sm">ID: CS2023-1234</p>
           </div>
         </div>
 
         {/* Contact Info */}
-        <div className="space-y-2 text-sm text-blue-100">
+        <div className="space-y-2 text-sm text-[#8E8E8E]">
           <div className="flex items-center gap-2">
             <Mail className="w-4 h-4" />
             <span>sarah.johnson@university.edu</span>
@@ -55,7 +55,7 @@ export default function StudentProfile({ onBack, onSwitchToClubManager }: Studen
 
       {/* QR Code Section */}
       <div className="bg-white rounded-xl shadow-md p-6">
-        <h3 className="text-lg font-semibold text-gray-800 mb-4 text-center">My QR Code</h3>
+        <h3 className="text-lg font-semibold text-black mb-4 text-center">My QR Code</h3>
         <div className="flex justify-center mb-3">
           <div className="bg-white p-4 rounded-xl shadow-inner border-2 border-gray-100">
             <svg width="200" height="200" viewBox="0 0 200 200" className="w-full h-auto">
@@ -138,7 +138,7 @@ export default function StudentProfile({ onBack, onSwitchToClubManager }: Studen
             </svg>
           </div>
         </div>
-        <p className="text-center text-sm text-gray-600 mb-2">Student ID: CS2023-1234</p>
+        <p className="text-center text-sm text-[#8E8E8E] mb-2">Student ID: CS2023-1234</p>
         <p className="text-center text-xs text-gray-400">Show this code for attendance and facility access</p>
       </div>
 
@@ -148,7 +148,7 @@ export default function StudentProfile({ onBack, onSwitchToClubManager }: Studen
           {onSwitchToClubManager && (
             <button 
               onClick={onSwitchToClubManager}
-              className="w-full p-4 flex items-center justify-between hover:bg-blue-50 transition-colors text-blue-600 border-b border-gray-100"
+              className="w-full p-4 flex items-center justify-between hover:bg-gray-50 transition-colors text-[#0095F6] border-b border-gray-100"
             >
               <div className="flex items-center gap-3">
                 <RefreshCw className="w-5 h-5" />

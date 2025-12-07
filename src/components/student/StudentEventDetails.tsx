@@ -31,11 +31,11 @@ export default function StudentEventDetails({ event, isRegistered, onBack, onTog
       pink: 'bg-pink-500',
       indigo: 'bg-indigo-500',
     };
-    return colors[color] || 'bg-gray-500';
+    return colors[color] || 'bg-white0';
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white">
       {/* Top Bar */}
       <div 
         className="text-white p-4 sticky top-0 z-10 shadow-md"
@@ -75,22 +75,22 @@ export default function StudentEventDetails({ event, isRegistered, onBack, onTog
         <div className="p-4 space-y-4">
           {/* Quick Info */}
           <div className="bg-white rounded-xl p-4 shadow-md space-y-3">
-            <div className="flex items-center gap-3 text-gray-700">
-              <Calendar className="w-5 h-5 text-blue-600" />
+            <div className="flex items-center gap-3 text-black">
+              <Calendar className="w-5 h-5 text-[#0095F6]" />
               <div>
                 <p className="text-xs text-gray-500">Date</p>
                 <p className="font-medium">{event.date}</p>
               </div>
             </div>
-            <div className="flex items-center gap-3 text-gray-700">
-              <Clock className="w-5 h-5 text-blue-600" />
+            <div className="flex items-center gap-3 text-black">
+              <Clock className="w-5 h-5 text-[#0095F6]" />
               <div>
                 <p className="text-xs text-gray-500">Time</p>
                 <p className="font-medium">{event.time}</p>
               </div>
             </div>
-            <div className="flex items-center gap-3 text-gray-700">
-              <MapPin className="w-5 h-5 text-blue-600" />
+            <div className="flex items-center gap-3 text-black">
+              <MapPin className="w-5 h-5 text-[#0095F6]" />
               <div>
                 <p className="text-xs text-gray-500">Location</p>
                 <p className="font-medium">{event.location}</p>
@@ -102,10 +102,10 @@ export default function StudentEventDetails({ event, isRegistered, onBack, onTog
           <div className="bg-white rounded-xl p-4 shadow-md">
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-2">
-                <Users className="w-5 h-5 text-gray-600" />
-                <span className="font-medium text-gray-700">Attendance</span>
+                <Users className="w-5 h-5 text-[#8E8E8E]" />
+                <span className="font-medium text-black">Attendance</span>
               </div>
-              <span className="text-sm text-gray-600">
+              <span className="text-sm text-[#8E8E8E]">
                 {isRegistered ? event.attendees + 1 : event.attendees}/{event.capacity}
               </span>
             </div>
@@ -122,8 +122,8 @@ export default function StudentEventDetails({ event, isRegistered, onBack, onTog
 
           {/* Description */}
           <div className="bg-white rounded-xl p-4 shadow-md">
-            <h3 className="font-semibold text-gray-800 mb-2">About This Event</h3>
-            <p className="text-gray-600 text-sm leading-relaxed">
+            <h3 className="font-semibold text-black mb-2">About This Event</h3>
+            <p className="text-[#8E8E8E] text-sm leading-relaxed">
               {event.longDescription || event.description + '. Join us for an exciting and informative session that will provide valuable insights and hands-on experience. This event is perfect for anyone interested in learning more about the topic and connecting with like-minded individuals.'}
             </p>
           </div>
@@ -149,13 +149,13 @@ export default function StudentEventDetails({ event, isRegistered, onBack, onTog
 
           {/* Organizer Info */}
           <div className="bg-white rounded-xl p-4 shadow-md">
-            <h3 className="font-semibold text-gray-800 mb-2">Organized By</h3>
+            <h3 className="font-semibold text-black mb-2">Organized By</h3>
             <div className="flex items-center gap-3">
               <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center text-2xl">
                 {event.image}
               </div>
               <div>
-                <p className="font-medium text-gray-800">{event.club}</p>
+                <p className="font-medium text-black">{event.club}</p>
                 <p className="text-sm text-gray-500">{event.organizer || 'Event Organizer'}</p>
               </div>
             </div>

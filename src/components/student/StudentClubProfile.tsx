@@ -156,14 +156,14 @@ export default function StudentClubProfile({ onBack }: StudentClubProfileProps) 
       bgLight: 'bg-blue-50',
       text: 'text-blue-700',
       border: 'border-blue-500',
-      gradient: 'from-blue-600 to-indigo-600',
+      gradient: 'from-white to-white',
     };
   };
 
   const colors = getColorClasses();
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white">
       {/* Top Bar */}
       {onBack && (
         <div
@@ -211,8 +211,8 @@ export default function StudentClubProfile({ onBack }: StudentClubProfileProps) 
           onClick={() => setActiveTab('posts')}
           className={`flex-1 py-3 rounded-xl font-semibold transition-all ${
             activeTab === 'posts'
-              ? 'bg-blue-600 text-white shadow-md'
-              : 'text-gray-600'
+              ? 'bg-[#0095F6] text-white shadow-md'
+              : 'text-[#8E8E8E]'
           }`}
         >
           Posts
@@ -221,8 +221,8 @@ export default function StudentClubProfile({ onBack }: StudentClubProfileProps) 
           onClick={() => setActiveTab('sessions')}
           className={`flex-1 py-3 rounded-xl font-semibold transition-all ${
             activeTab === 'sessions'
-              ? 'bg-blue-600 text-white shadow-md'
-              : 'text-gray-600'
+              ? 'bg-[#0095F6] text-white shadow-md'
+              : 'text-[#8E8E8E]'
           }`}
         >
           Sessions
@@ -235,22 +235,22 @@ export default function StudentClubProfile({ onBack }: StudentClubProfileProps) 
           {upcomingSessions.map((session) => (
             <div
               key={session.id}
-              className="bg-white rounded-2xl shadow-md overflow-hidden"
+              className="bg-white rounded-2xl shadow-md overflow-hidden border border-[#EFEFEF]"
             >
               {/* Header with Icon */}
-              <div className="bg-blue-500 p-6 text-white relative">
+              <div className="bg-white p-6 border-b border-[#EFEFEF] relative">
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-2">
                       <span className="text-4xl">📚</span>
                       {registeredSessions.includes(session.id) && (
-                        <span className="px-2 py-1 bg-white/20 rounded-lg text-xs flex items-center gap-1">
+                        <span className="px-2 py-1 bg-[#0095F6] text-white rounded-lg text-xs flex items-center gap-1">
                           ✓ Registered
                         </span>
                       )}
                     </div>
-                    <h3 className="text-xl mb-2">{session.title}</h3>
-                    <p className="text-white/90 text-sm">{club.name}</p>
+                    <h3 className="text-xl mb-2 text-black">{session.title}</h3>
+                    <p className="text-[#8E8E8E] text-sm">{club.name}</p>
                   </div>
                 </div>
               </div>
@@ -258,28 +258,28 @@ export default function StudentClubProfile({ onBack }: StudentClubProfileProps) 
               {/* Details */}
               <div className="p-4">
                 <div className="space-y-2 mb-4">
-                  <div className="flex items-center gap-2 text-sm text-gray-600">
+                  <div className="flex items-center gap-2 text-sm text-[#8E8E8E]">
                     <Calendar className="w-4 h-4" />
                     <span>{session.date}</span>
                   </div>
-                  <div className="flex items-center gap-2 text-sm text-gray-600">
+                  <div className="flex items-center gap-2 text-sm text-[#8E8E8E]">
                     <Clock className="w-4 h-4" />
                     <span>{session.time}</span>
                   </div>
-                  <div className="flex items-center gap-2 text-sm text-gray-600">
+                  <div className="flex items-center gap-2 text-sm text-[#8E8E8E]">
                     <MapPin className="w-4 h-4" />
                     <span>{session.location}</span>
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between mb-4 p-3 bg-gray-50 rounded-lg">
+                <div className="flex items-center justify-between mb-4 p-3 bg-white rounded-lg">
                   <div className="flex items-center gap-2">
-                    <Users className="w-4 h-4 text-gray-600" />
-                    <span className="text-sm text-gray-600">
+                    <Users className="w-4 h-4 text-[#8E8E8E]" />
+                    <span className="text-sm text-[#8E8E8E]">
                       {registeredSessions.includes(session.id) ? session.attendees + 1 : session.attendees}/{session.maxAttendees} Registered
                     </span>
                   </div>
-                  <span className="text-sm font-medium text-blue-600">
+                  <span className="text-sm font-medium text-[#0095F6]">
                     {registeredSessions.includes(session.id)
                       ? session.maxAttendees - session.attendees - 1
                       : session.maxAttendees - session.attendees} spots left
@@ -290,8 +290,8 @@ export default function StudentClubProfile({ onBack }: StudentClubProfileProps) 
                   onClick={() => toggleRegistration(session.id)}
                   className={`w-full py-3 rounded-xl transition-colors font-semibold ${
                     registeredSessions.includes(session.id)
-                      ? 'bg-green-600 text-white hover:bg-green-700'
-                      : 'bg-blue-600 text-white hover:bg-blue-700'
+                      ? 'bg-[#0095F6] text-white hover:bg-[#0081D6]'
+                      : 'bg-[#0095F6] text-white hover:bg-[#0081D6]'
                   }`}
                 >
                   {registeredSessions.includes(session.id) ? '✓ Registered' : 'Register'}
@@ -321,8 +321,8 @@ export default function StudentClubProfile({ onBack }: StudentClubProfileProps) 
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center gap-2">
-                        <h4 className="text-sm font-semibold text-gray-800">{club.name}</h4>
-                        <span className="px-2 py-0.5 bg-blue-50 text-blue-700 text-xs rounded-full font-medium">
+                        <h4 className="text-sm font-semibold text-black">{club.name}</h4>
+                        <span className="px-2 py-0.5 bg-gray-100 text-[#8E8E8E] text-xs rounded-full font-medium">
                           Club
                         </span>
                       </div>
@@ -331,7 +331,7 @@ export default function StudentClubProfile({ onBack }: StudentClubProfileProps) 
                   </div>
 
                   {/* Post Content */}
-                  <p className="text-sm text-gray-700 mb-3">{post.content}</p>
+                  <p className="text-sm text-black mb-3">{post.content}</p>
                 </div>
 
                 {/* Post Image */}
@@ -348,7 +348,7 @@ export default function StudentClubProfile({ onBack }: StudentClubProfileProps) 
                   </div>
                 )}                {/* Post Actions */}
                 <div className="border-t border-gray-100 px-4 py-3">
-                  <div className="flex items-center gap-6 text-gray-600">
+                  <div className="flex items-center gap-6 text-[#8E8E8E]">
                     <button
                       onClick={() => toggleLike(post.id)}
                       className={`flex items-center gap-2 transition-colors ${
@@ -360,7 +360,7 @@ export default function StudentClubProfile({ onBack }: StudentClubProfileProps) 
                     </button>
                     <button
                       onClick={() => openComments(post.id)}
-                      className="flex items-center gap-2 hover:text-blue-500 transition-colors"
+                      className="flex items-center gap-2 hover:text-[#0095F6] transition-colors"
                     >
                       <MessageCircle className="w-5 h-5" />
                       <span className="text-sm">{postComments[post.id]?.length || post.comments}</span>
@@ -377,13 +377,13 @@ export default function StudentClubProfile({ onBack }: StudentClubProfileProps) 
         <div className="fixed inset-0 bg-black/50 z-50 flex items-end md:items-center justify-center">
           <div className="bg-white w-full max-w-md h-[85vh] md:h-[600px] md:rounded-2xl flex flex-col animate-slide-up">
             {/* Header */}
-            <div className="flex items-center justify-between p-4 border-b border-gray-200">
+            <div className="flex items-center justify-between p-4 border-b border-[#EFEFEF]">
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-full flex items-center justify-center text-lg">
+                <div className="w-8 h-8 bg-gradient-to-br from-[#0095F6] to-[#0095F6] rounded-full flex items-center justify-center text-lg">
                   {club.icon}
                 </div>
                 <div>
-                  <h3 className="text-sm font-semibold text-gray-800">{club.name}</h3>
+                  <h3 className="text-sm font-semibold text-black">{club.name}</h3>
                   <p className="text-xs text-gray-500">{selectedPost.time}</p>
                 </div>
               </div>
@@ -392,7 +392,7 @@ export default function StudentClubProfile({ onBack }: StudentClubProfileProps) 
                   setShowComments(false);
                   setSelectedPostId(null);
                 }}
-                className="text-gray-400 hover:text-gray-600 transition-colors"
+                className="text-gray-400 hover:text-[#8E8E8E] transition-colors"
               >
                 <X className="w-6 h-6" />
               </button>
@@ -403,14 +403,14 @@ export default function StudentClubProfile({ onBack }: StudentClubProfileProps) 
               {/* Original Post */}
               <div className="p-4 border-b border-gray-100">
                 <div className="flex gap-3">
-                  <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-full flex items-center justify-center text-lg flex-shrink-0">
+                  <div className="w-8 h-8 bg-gradient-to-br from-[#0095F6] to-[#0095F6] rounded-full flex items-center justify-center text-lg flex-shrink-0">
                     {club.icon}
                   </div>
                   <div className="flex-1">
                     <p className="text-sm">
-                      <span className="font-semibold text-gray-800">{club.name}</span>
+                      <span className="font-semibold text-black">{club.name}</span>
                       {' '}
-                      <span className="text-gray-700">{selectedPost.content}</span>
+                      <span className="text-black">{selectedPost.content}</span>
                     </p>
                     <p className="text-xs text-gray-500 mt-2">{selectedPost.time}</p>
                   </div>
@@ -427,10 +427,10 @@ export default function StudentClubProfile({ onBack }: StudentClubProfileProps) 
               ) : (
                 <div className="divide-y divide-gray-100">
                   {currentComments.map((comment) => (
-                    <div key={comment.id} className="p-4 hover:bg-gray-50 transition-colors">
+                    <div key={comment.id} className="p-4 hover:bg-white transition-colors">
                       <div className="flex gap-3">
                         {/* Avatar */}
-                        <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-full flex items-center justify-center text-lg flex-shrink-0">
+                        <div className="w-8 h-8 bg-gradient-to-br from-[#0095F6] to-[#0095F6] rounded-full flex items-center justify-center text-lg flex-shrink-0">
                           {comment.avatar}
                         </div>
 
@@ -439,16 +439,16 @@ export default function StudentClubProfile({ onBack }: StudentClubProfileProps) 
                           <div className="flex items-start justify-between gap-2">
                             <div className="flex-1">
                               <p className="text-sm">
-                                <span className="font-semibold text-gray-800">{comment.user}</span>
+                                <span className="font-semibold text-black">{comment.user}</span>
                                 {' '}
-                                <span className="text-gray-700">{comment.text}</span>
+                                <span className="text-black">{comment.text}</span>
                               </p>
                               <div className="flex items-center gap-4 mt-2 text-xs text-gray-500">
                                 <span>{comment.time}</span>
                                 {comment.likes > 0 && (
                                   <span className="font-medium">{comment.likes} {comment.likes === 1 ? 'like' : 'likes'}</span>
                                 )}
-                                <button className="font-medium hover:text-gray-700">Reply</button>
+                                <button className="font-medium hover:text-black">Reply</button>
                               </div>
                             </div>
 
@@ -461,7 +461,7 @@ export default function StudentClubProfile({ onBack }: StudentClubProfileProps) 
                                 className={`w-4 h-4 transition-all ${
                                   comment.liked
                                     ? 'fill-red-500 text-red-500'
-                                    : 'text-gray-400 hover:text-gray-600'
+                                    : 'text-gray-400 hover:text-[#8E8E8E]'
                                 }`}
                               />
                             </button>
@@ -475,10 +475,10 @@ export default function StudentClubProfile({ onBack }: StudentClubProfileProps) 
             </div>
 
             {/* Add Comment Input */}
-            <div className="border-t border-gray-200 p-4">
+            <div className="border-t border-[#EFEFEF] p-4">
               <div className="flex items-center gap-3">
                 {/* Avatar */}
-                <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-full flex items-center justify-center text-lg flex-shrink-0">
+                <div className="w-8 h-8 bg-gradient-to-br from-white to-white rounded-full flex items-center justify-center text-lg flex-shrink-0">
                   👩‍🎓
                 </div>
 
@@ -495,7 +495,7 @@ export default function StudentClubProfile({ onBack }: StudentClubProfileProps) 
                   {newComment.trim() && (
                     <button
                       onClick={handleAddComment}
-                      className="text-blue-600 hover:text-blue-700 font-semibold text-sm transition-colors"
+                      className="text-[#0095F6] hover:text-[#0081D6] font-semibold text-sm transition-colors"
                     >
                       Post
                     </button>

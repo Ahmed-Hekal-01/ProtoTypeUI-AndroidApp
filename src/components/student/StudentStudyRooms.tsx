@@ -26,9 +26,9 @@ export default function StudentStudyRooms({ onBack }: StudentStudyRoomsProps) {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white">
       {/* Header with Back Button */}
-      <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-4 sticky top-0 z-10 shadow-md">
+      <div className="bg-white text-black border-b border-[#EFEFEF] p-4 sticky top-0 z-10 shadow-md">
         <div className="flex items-center gap-3">
           <button
             onClick={onBack}
@@ -65,7 +65,7 @@ export default function StudentStudyRooms({ onBack }: StudentStudyRoomsProps) {
           <form onSubmit={handlePrivateRoomSubmit} className="bg-white rounded-xl p-5 shadow-md space-y-4">
             {/* Date */}
             <div>
-              <label className="text-sm text-gray-700 mb-2 block font-semibold flex items-center gap-2">
+              <label className="text-sm text-black mb-2 block font-semibold flex items-center gap-2">
                 <Calendar className="w-4 h-4" />
                 Date
               </label>
@@ -73,7 +73,7 @@ export default function StudentStudyRooms({ onBack }: StudentStudyRoomsProps) {
                 type="date"
                 value={bookingDate}
                 onChange={(e) => setBookingDate(e.target.value)}
-                className="w-full p-3 bg-gray-50 rounded-xl border border-gray-200 focus:border-blue-500 focus:outline-none"
+                className="w-full p-3 bg-white rounded-xl border border-[#EFEFEF] focus:border-blue-500 focus:outline-none"
                 required
                 min={new Date().toISOString().split('T')[0]}
               />
@@ -81,14 +81,14 @@ export default function StudentStudyRooms({ onBack }: StudentStudyRoomsProps) {
 
             {/* Time Slot */}
             <div>
-              <label className="text-sm text-gray-700 mb-2 block font-semibold flex items-center gap-2">
+              <label className="text-sm text-black mb-2 block font-semibold flex items-center gap-2">
                 <Clock className="w-4 h-4" />
                 Time Slot
               </label>
               <select
                 value={timeSlot}
                 onChange={(e) => setTimeSlot(e.target.value)}
-                className="w-full p-3 bg-gray-50 rounded-xl border border-gray-200 focus:border-blue-500 focus:outline-none"
+                className="w-full p-3 bg-white rounded-xl border border-[#EFEFEF] focus:border-blue-500 focus:outline-none"
                 required
               >
                 <option value="">Select a time slot</option>
@@ -102,7 +102,7 @@ export default function StudentStudyRooms({ onBack }: StudentStudyRoomsProps) {
 
             {/* Number of People */}
             <div>
-              <label className="text-sm text-gray-700 mb-2 block font-semibold flex items-center gap-2">
+              <label className="text-sm text-black mb-2 block font-semibold flex items-center gap-2">
                 <Users className="w-4 h-4" />
                 Number of People
               </label>
@@ -112,7 +112,7 @@ export default function StudentStudyRooms({ onBack }: StudentStudyRoomsProps) {
                 max="8"
                 value={numberOfPeople}
                 onChange={(e) => setNumberOfPeople(e.target.value)}
-                className="w-full p-3 bg-gray-50 rounded-xl border border-gray-200 focus:border-blue-500 focus:outline-none"
+                className="w-full p-3 bg-white rounded-xl border border-[#EFEFEF] focus:border-blue-500 focus:outline-none"
                 required
               />
               <p className="text-xs text-gray-500 mt-1">Maximum 8 people per room</p>
@@ -120,14 +120,14 @@ export default function StudentStudyRooms({ onBack }: StudentStudyRoomsProps) {
 
             {/* Purpose */}
             <div>
-              <label className="text-sm text-gray-700 mb-2 block font-semibold">
+              <label className="text-sm text-black mb-2 block font-semibold">
                 Purpose (Optional)
               </label>
               <textarea
                 value={purpose}
                 onChange={(e) => setPurpose(e.target.value)}
                 placeholder="e.g., Group study session, project discussion..."
-                className="w-full p-3 bg-gray-50 rounded-xl border border-gray-200 focus:border-blue-500 focus:outline-none resize-none"
+                className="w-full p-3 bg-white rounded-xl border border-[#EFEFEF] focus:border-blue-500 focus:outline-none resize-none"
                 rows={3}
               />
             </div>
@@ -136,7 +136,7 @@ export default function StudentStudyRooms({ onBack }: StudentStudyRoomsProps) {
             <button
               type="submit"
               disabled={!bookingDate || !timeSlot || !numberOfPeople}
-              className="w-full py-4 bg-purple-600 text-white rounded-xl hover:bg-purple-700 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center justify-center gap-2 font-semibold shadow-lg"
+              className="w-full py-4 bg-[#0095F6] text-white rounded-xl hover:bg-[#0081D6] transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center justify-center gap-2 font-semibold shadow-lg"
             >
               <Send className="w-5 h-5" />
               Reserve Private Room

@@ -75,9 +75,9 @@ export default function StudentHome({ onNavigate, onViewEventDetails }: StudentH
   ];
 
   const quickActions = [
-    { label: 'Book Study Room', icon: '📚', color: 'bg-blue-500', page: 'study-rooms' },
-    { label: 'Reserve Sports', icon: '⚽', color: 'bg-green-500', page: 'sports' },
-    { label: 'Report Issue', icon: '⚠️', color: 'bg-orange-500', page: 'report-issue' },
+    { label: 'Book Study Room', icon: '📚', color: 'bg-[#0095F6]', page: 'study-rooms' },
+    { label: 'Reserve Sports', icon: '⚽', color: 'bg-[#0095F6]', page: 'sports' },
+    { label: 'Report Issue', icon: '⚠️', color: 'bg-[#0095F6]', page: 'report-issue' },
   ];
 
   const posts = [
@@ -218,7 +218,7 @@ export default function StudentHome({ onNavigate, onViewEventDetails }: StudentH
     <div className="space-y-4 pb-4">
       {/* Quick Actions */}
       <div className="px-4 pt-4">
-        <h3 className="mb-3 text-gray-700 font-semibold">Quick Actions</h3>
+        <h3 className="mb-3 text-black font-semibold">Quick Actions</h3>
         <div className="grid grid-cols-3 gap-3">
           {quickActions.map((action, index) => (
             <button
@@ -229,7 +229,7 @@ export default function StudentHome({ onNavigate, onViewEventDetails }: StudentH
               <div className={`w-12 h-12 ${action.color} rounded-xl flex items-center justify-center text-2xl`}>
                 {action.icon}
               </div>
-              <span className="text-xs text-gray-700 text-center leading-tight">{action.label}</span>
+              <span className="text-xs text-black text-center leading-tight">{action.label}</span>
             </button>
           ))}
         </div>
@@ -239,10 +239,10 @@ export default function StudentHome({ onNavigate, onViewEventDetails }: StudentH
       {upcomingReservations.length > 0 && (
         <div className="px-4">
           <div className="flex items-center justify-between mb-3">
-            <h3 className="text-gray-700 font-semibold">Upcoming Reservations</h3>
+            <h3 className="text-black font-semibold">Upcoming Reservations</h3>
             <button
               onClick={() => onNavigate?.('reservations')}
-              className="text-sm text-blue-600 hover:text-blue-700 font-medium"
+              className="text-sm text-[#0095F6] hover:text-[#0081D6] font-medium"
             >
               View All
             </button>
@@ -262,7 +262,7 @@ export default function StudentHome({ onNavigate, onViewEventDetails }: StudentH
                     }`}>
                       {reservation.type}
                     </span>
-                    <h4 className="text-gray-800 text-sm font-medium">{reservation.name}</h4>
+                    <h4 className="text-black text-sm font-medium">{reservation.name}</h4>
                   </div>
                   {reservation.status === 'active' && (
                     <span className="flex items-center gap-1 text-green-600 text-xs">
@@ -271,7 +271,7 @@ export default function StudentHome({ onNavigate, onViewEventDetails }: StudentH
                     </span>
                   )}
                 </div>
-                <div className="flex items-center gap-3 text-xs text-gray-600">
+                <div className="flex items-center gap-3 text-xs text-[#8E8E8E]">
                   <span className="flex items-center gap-1">
                     <Calendar className="w-3 h-3" />
                     {reservation.date}
@@ -290,7 +290,7 @@ export default function StudentHome({ onNavigate, onViewEventDetails }: StudentH
       {/* Posts Feed */}
       <div className="px-4">
         <div className="flex items-center justify-between mb-3">
-          <h3 className="text-gray-700 font-semibold">Latest Updates</h3>
+          <h3 className="text-black font-semibold">Latest Updates</h3>
         </div>
         <div className="space-y-4">
           {posts.map((post) => (
@@ -301,12 +301,12 @@ export default function StudentHome({ onNavigate, onViewEventDetails }: StudentH
               {/* Post Header */}
               <div className="p-4 pb-3">
                 <div className="flex items-start gap-3 mb-3">
-                  <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-full flex items-center justify-center text-xl flex-shrink-0">
+                  <div className="w-10 h-10 bg-gradient-to-br from-[#0095F6] to-[#0095F6] rounded-full flex items-center justify-center text-xl flex-shrink-0">
                     {post.avatar}
                   </div>
                   <div className="flex-1">
                     <div className="flex items-center gap-2">
-                      <h4 className="text-sm font-semibold text-gray-800">{post.author}</h4>
+                      <h4 className="text-sm font-semibold text-black">{post.author}</h4>
                       {post.authorType === 'vip' && (
                         <span className="px-2 py-0.5 bg-yellow-100 text-yellow-700 text-xs rounded-full font-medium">
                           VIP
@@ -323,7 +323,7 @@ export default function StudentHome({ onNavigate, onViewEventDetails }: StudentH
                 </div>
 
                 {/* Post Content */}
-                <p className="text-sm text-gray-700 mb-3">{post.content}</p>
+                <p className="text-sm text-black mb-3">{post.content}</p>
 
                 {/* Event View Details Button */}
                 {post.isEvent && (
@@ -332,7 +332,7 @@ export default function StudentHome({ onNavigate, onViewEventDetails }: StudentH
                       onViewEventDetails?.(post.id);
                       onNavigate?.('events');
                     }}
-                    className="w-full bg-gradient-to-r from-purple-500 to-indigo-500 text-white rounded-lg px-4 py-2.5 text-sm font-medium hover:from-purple-600 hover:to-indigo-600 transition-all shadow-md mb-3"
+                    className="w-full bg-gradient-to-r from-[#0095F6] to-[#0095F6] text-white rounded-lg px-4 py-2.5 text-sm font-medium hover:from-[#0081D6] hover:to-[#0081D6] transition-all shadow-md mb-3"
                   >
                     View Details
                   </button>
@@ -350,7 +350,7 @@ export default function StudentHome({ onNavigate, onViewEventDetails }: StudentH
                 </div>
               )}              {/* Post Actions */}
               <div className="border-t border-gray-100 px-4 py-2.5">
-                <div className="flex items-center gap-6 text-gray-600">
+                <div className="flex items-center gap-6 text-[#8E8E8E]">
                   <button
                     onClick={() => toggleLike(post.id)}
                     className={`flex items-center gap-2 py-1 transition-colors ${
@@ -362,7 +362,7 @@ export default function StudentHome({ onNavigate, onViewEventDetails }: StudentH
                   </button>
                   <button
                     onClick={() => openComments(post.id)}
-                    className="flex items-center gap-2 py-1 hover:text-blue-500 transition-colors"
+                    className="flex items-center gap-2 py-1 hover:text-[#0095F6] transition-colors"
                   >
                     <MessageCircle className="w-5 h-5" />
                     <span className="text-sm">{postComments[post.id]?.length || post.comments}</span>
@@ -378,13 +378,13 @@ export default function StudentHome({ onNavigate, onViewEventDetails }: StudentH
         <div className="fixed inset-0 bg-black/50 z-50 flex items-end md:items-center justify-center">
           <div className="bg-white w-full max-w-md h-[85vh] md:h-[600px] md:rounded-2xl flex flex-col animate-slide-up">
             {/* Header */}
-            <div className="flex items-center justify-between p-4 border-b border-gray-200">
+            <div className="flex items-center justify-between p-4 border-b border-[#EFEFEF]">
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-full flex items-center justify-center text-lg">
+                <div className="w-8 h-8 bg-gradient-to-br from-[#0095F6] to-[#0095F6] rounded-full flex items-center justify-center text-lg">
                   {selectedPost.avatar}
                 </div>
                 <div>
-                  <h3 className="text-sm font-semibold text-gray-800">{selectedPost.author}</h3>
+                  <h3 className="text-sm font-semibold text-black">{selectedPost.author}</h3>
                   <p className="text-xs text-gray-500">{selectedPost.time}</p>
                 </div>
               </div>
@@ -393,7 +393,7 @@ export default function StudentHome({ onNavigate, onViewEventDetails }: StudentH
                   setShowComments(false);
                   setSelectedPostId(null);
                 }}
-                className="text-gray-400 hover:text-gray-600 transition-colors"
+                className="text-gray-400 hover:text-[#8E8E8E] transition-colors"
               >
                 <X className="w-6 h-6" />
               </button>
@@ -404,14 +404,14 @@ export default function StudentHome({ onNavigate, onViewEventDetails }: StudentH
               {/* Original Post */}
               <div className="p-4 border-b border-gray-100">
                 <div className="flex gap-3">
-                  <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-full flex items-center justify-center text-lg flex-shrink-0">
+                  <div className="w-8 h-8 bg-gradient-to-br from-[#0095F6] to-[#0095F6] rounded-full flex items-center justify-center text-lg flex-shrink-0">
                     {selectedPost.avatar}
                   </div>
                   <div className="flex-1">
                     <p className="text-sm">
-                      <span className="font-semibold text-gray-800">{selectedPost.author}</span>
+                      <span className="font-semibold text-black">{selectedPost.author}</span>
                       {' '}
-                      <span className="text-gray-700">{selectedPost.content}</span>
+                      <span className="text-black">{selectedPost.content}</span>
                     </p>
                     <p className="text-xs text-gray-500 mt-2">{selectedPost.time}</p>
                   </div>
@@ -428,10 +428,10 @@ export default function StudentHome({ onNavigate, onViewEventDetails }: StudentH
               ) : (
                 <div className="divide-y divide-gray-100">
                   {currentComments.map((comment) => (
-                    <div key={comment.id} className="p-4 hover:bg-gray-50 transition-colors">
+                    <div key={comment.id} className="p-4 hover:bg-white transition-colors">
                       <div className="flex gap-3">
                         {/* Avatar */}
-                        <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-full flex items-center justify-center text-lg flex-shrink-0">
+                        <div className="w-8 h-8 bg-gradient-to-br from-[#0095F6] to-[#0095F6] rounded-full flex items-center justify-center text-lg flex-shrink-0">
                           {comment.avatar}
                         </div>
 
@@ -440,16 +440,16 @@ export default function StudentHome({ onNavigate, onViewEventDetails }: StudentH
                           <div className="flex items-start justify-between gap-2">
                             <div className="flex-1">
                               <p className="text-sm">
-                                <span className="font-semibold text-gray-800">{comment.user}</span>
+                                <span className="font-semibold text-black">{comment.user}</span>
                                 {' '}
-                                <span className="text-gray-700">{comment.text}</span>
+                                <span className="text-black">{comment.text}</span>
                               </p>
                               <div className="flex items-center gap-4 mt-2 text-xs text-gray-500">
                                 <span>{comment.time}</span>
                                 {comment.likes > 0 && (
                                   <span className="font-medium">{comment.likes} {comment.likes === 1 ? 'like' : 'likes'}</span>
                                 )}
-                                <button className="font-medium hover:text-gray-700">Reply</button>
+                                <button className="font-medium hover:text-black">Reply</button>
                               </div>
                             </div>
 
@@ -462,7 +462,7 @@ export default function StudentHome({ onNavigate, onViewEventDetails }: StudentH
                                 className={`w-4 h-4 transition-all ${
                                   comment.liked
                                     ? 'fill-red-500 text-red-500'
-                                    : 'text-gray-400 hover:text-gray-600'
+                                    : 'text-gray-400 hover:text-[#8E8E8E]'
                                 }`}
                               />
                             </button>
@@ -476,10 +476,10 @@ export default function StudentHome({ onNavigate, onViewEventDetails }: StudentH
             </div>
 
             {/* Add Comment Input */}
-            <div className="border-t border-gray-200 p-4">
+            <div className="border-t border-[#EFEFEF] p-4">
               <div className="flex items-center gap-3">
                 {/* Avatar */}
-                <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-full flex items-center justify-center text-lg flex-shrink-0">
+                <div className="w-8 h-8 bg-gradient-to-br from-white to-white rounded-full flex items-center justify-center text-lg flex-shrink-0">
                   👩‍🎓
                 </div>
 
@@ -496,7 +496,7 @@ export default function StudentHome({ onNavigate, onViewEventDetails }: StudentH
                   {newComment.trim() && (
                     <button
                       onClick={handleAddComment}
-                      className="text-blue-600 hover:text-blue-700 font-semibold text-sm transition-colors"
+                      className="text-[#0095F6] hover:text-[#0081D6] font-semibold text-sm transition-colors"
                     >
                       Post
                     </button>

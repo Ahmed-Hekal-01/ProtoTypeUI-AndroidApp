@@ -90,7 +90,7 @@ export default function StudentReportIssue({ onBack }: StudentReportIssueProps) 
     }, 3000);
   };
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white">
       {/* Header with Back Button */}
       <div 
         className="text-white p-4 sticky top-0 z-10 shadow-md"
@@ -123,7 +123,7 @@ export default function StudentReportIssue({ onBack }: StudentReportIssueProps) 
         )}        {/* Report Form */}
         <form onSubmit={handleSubmit} className="space-y-6">          {/* Report Type Selection */}
           <div>
-            <label className="text-sm text-gray-700 mb-3 block font-semibold">Report Type</label>
+            <label className="text-sm text-black mb-3 block font-semibold">Report Type</label>
             <div className="grid grid-cols-2 gap-3">
               <button
                 type="button"
@@ -134,7 +134,7 @@ export default function StudentReportIssue({ onBack }: StudentReportIssueProps) 
                 className={`p-4 rounded-xl border-2 transition-all ${
                   reportType === 'sport'
                     ? 'border-orange-500 bg-orange-50 shadow-md ring-2 ring-orange-200'
-                    : 'border-gray-200 bg-white hover:border-gray-300'
+                    : 'border-[#EFEFEF] bg-white hover:border-[#EFEFEF]'
                 }`}
               >
                 <div className={`w-12 h-12 rounded-lg flex items-center justify-center text-2xl mb-2 mx-auto transition-all ${
@@ -143,7 +143,7 @@ export default function StudentReportIssue({ onBack }: StudentReportIssueProps) 
                   ⚽
                 </div>
                 <span className={`text-xs text-center block transition-all ${
-                  reportType === 'sport' ? 'text-orange-700 font-semibold' : 'text-gray-700'
+                  reportType === 'sport' ? 'text-orange-700 font-semibold' : 'text-black'
                 }`}>Sport Facilities</span>
               </button>
               <button
@@ -155,7 +155,7 @@ export default function StudentReportIssue({ onBack }: StudentReportIssueProps) 
                 className={`p-4 rounded-xl border-2 transition-all ${
                   reportType === 'room'
                     ? 'border-blue-500 bg-blue-50 shadow-md ring-2 ring-blue-200'
-                    : 'border-gray-200 bg-white hover:border-gray-300'
+                    : 'border-[#EFEFEF] bg-white hover:border-[#EFEFEF]'
                 }`}
               >
                 <div className={`w-12 h-12 rounded-lg flex items-center justify-center text-2xl mb-2 mx-auto transition-all ${
@@ -164,7 +164,7 @@ export default function StudentReportIssue({ onBack }: StudentReportIssueProps) 
                   📚
                 </div>
                 <span className={`text-xs text-center block transition-all ${
-                  reportType === 'room' ? 'text-blue-700 font-semibold' : 'text-gray-700'
+                  reportType === 'room' ? 'text-blue-700 font-semibold' : 'text-black'
                 }`}>Rooms</span>
               </button>
             </div>
@@ -173,14 +173,14 @@ export default function StudentReportIssue({ onBack }: StudentReportIssueProps) 
           {/* Location - Only show if report type is selected */}
           {reportType && (
             <div>
-              <label className="text-sm text-gray-700 mb-2 block font-semibold flex items-center gap-2">
+              <label className="text-sm text-black mb-2 block font-semibold flex items-center gap-2">
                 <MapPin className="w-4 h-4" />
                 Location
               </label>
               <select
                 value={selectedLocation}
                 onChange={(e) => setSelectedLocation(e.target.value)}
-                className="w-full p-3 bg-white rounded-xl border border-gray-200 focus:border-orange-500 focus:outline-none shadow-sm"
+                className="w-full p-3 bg-white rounded-xl border border-[#EFEFEF] focus:border-orange-500 focus:outline-none shadow-sm"
                 required
               >
                 <option value="">Select a location</option>
@@ -196,7 +196,7 @@ export default function StudentReportIssue({ onBack }: StudentReportIssueProps) 
           {/* Issue Category Checkboxes - Only show if report type is selected */}
           {reportType && (
             <div>
-              <label className="text-sm text-gray-700 mb-3 block font-semibold">
+              <label className="text-sm text-black mb-3 block font-semibold">
                 Issue Category (Select all that apply)
               </label>
               <div className="space-y-2">
@@ -206,16 +206,16 @@ export default function StudentReportIssue({ onBack }: StudentReportIssueProps) 
                     className={`flex items-center gap-3 p-3 rounded-xl border-2 cursor-pointer transition-all ${
                       selectedCategories.includes(category.id)
                         ? 'border-orange-500 bg-orange-50'
-                        : 'border-gray-200 bg-white hover:border-gray-300'
+                        : 'border-[#EFEFEF] bg-white hover:border-[#EFEFEF]'
                     }`}
                   >
                     <input
                       type="checkbox"
                       checked={selectedCategories.includes(category.id)}
                       onChange={() => toggleCategory(category.id)}
-                      className="w-5 h-5 text-orange-500 border-gray-300 rounded focus:ring-orange-500"
+                      className="w-5 h-5 text-orange-500 border-[#EFEFEF] rounded focus:ring-orange-500"
                     />
-                    <span className="text-sm text-gray-700">{category.label}</span>
+                    <span className="text-sm text-black">{category.label}</span>
                   </label>
                 ))}
               </div>
@@ -225,14 +225,14 @@ export default function StudentReportIssue({ onBack }: StudentReportIssueProps) 
           {/* Description */}
           {reportType && (
             <div>
-              <label className="text-sm text-gray-700 mb-2 block font-semibold">
+              <label className="text-sm text-black mb-2 block font-semibold">
                 Description
               </label>
               <textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="Please describe the issue in detail..."
-                className="w-full p-3 bg-white rounded-xl border border-gray-200 focus:border-orange-500 focus:outline-none shadow-sm resize-none"
+                className="w-full p-3 bg-white rounded-xl border border-[#EFEFEF] focus:border-orange-500 focus:outline-none shadow-sm resize-none"
                 rows={5}
                 required
               />
@@ -242,7 +242,7 @@ export default function StudentReportIssue({ onBack }: StudentReportIssueProps) 
           {/* Photo Upload */}
           {reportType && (
             <div>
-              <label className="text-sm text-gray-700 mb-2 block font-semibold flex items-center gap-2">
+              <label className="text-sm text-black mb-2 block font-semibold flex items-center gap-2">
                 <Camera className="w-4 h-4" />
                 Take a Photo
               </label>
@@ -256,18 +256,18 @@ export default function StudentReportIssue({ onBack }: StudentReportIssueProps) 
               />
               <label
                 htmlFor="photo-upload"
-                className="block border-2 border-dashed border-gray-300 rounded-xl p-6 text-center hover:border-orange-500 transition-colors cursor-pointer"
+                className="block border-2 border-dashed border-[#EFEFEF] rounded-xl p-6 text-center hover:border-orange-500 transition-colors cursor-pointer"
               >
                 {photo ? (
                   <div className="space-y-2">
                     <CheckCircle className="w-8 h-8 text-green-500 mx-auto" />
-                    <p className="text-sm text-gray-700 font-medium">{photo.name}</p>
+                    <p className="text-sm text-black font-medium">{photo.name}</p>
                     <p className="text-xs text-gray-500">Click to change photo</p>
                   </div>
                 ) : (
                   <>
                     <Camera className="w-8 h-8 text-gray-400 mx-auto mb-2" />
-                    <p className="text-sm text-gray-600 mb-1">Click to take or upload photo</p>
+                    <p className="text-sm text-[#8E8E8E] mb-1">Click to take or upload photo</p>
                     <p className="text-xs text-gray-500">JPG, PNG up to 10MB</p>
                   </>
                 )}
@@ -288,7 +288,7 @@ export default function StudentReportIssue({ onBack }: StudentReportIssueProps) 
 
         {/* Recent Reports */}
         <div>
-          <h3 className="mb-3 text-gray-700 font-semibold flex items-center justify-between">
+          <h3 className="mb-3 text-black font-semibold flex items-center justify-between">
             <span>Your Recent Reports</span>
             <span className="text-sm text-gray-500">({recentIssues.length})</span>
           </h3>
@@ -301,8 +301,8 @@ export default function StudentReportIssue({ onBack }: StudentReportIssueProps) 
               >
                 <div className="flex items-start justify-between mb-2">
                   <div className="flex-1">
-                    <h4 className="text-sm text-gray-800 font-medium mb-1">{issue.title}</h4>
-                    <p className="text-xs text-gray-600 mb-2">{issue.category}</p>
+                    <h4 className="text-sm text-black font-medium mb-1">{issue.title}</h4>
+                    <p className="text-xs text-[#8E8E8E] mb-2">{issue.category}</p>
                   </div>
                   <span className={`px-2 py-1 rounded-full text-xs whitespace-nowrap ml-2 ${issue.color === 'orange'
                     ? 'bg-orange-100 text-orange-700'

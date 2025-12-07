@@ -117,11 +117,11 @@ export default function StudentClubs({ onBack }: StudentClubsProps) {
       purple: 'bg-purple-500',
       orange: 'bg-orange-500',
     };
-    return colors[color] || 'bg-gray-500';
+    return colors[color] || 'bg-white0';
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white">
       {/* Top Bar */}
       {onBack && (
         <div
@@ -147,7 +147,7 @@ export default function StudentClubs({ onBack }: StudentClubsProps) {
         <input
           type="text"
           placeholder="Search clubs..."
-          className="w-full pl-10 pr-4 py-3 bg-white rounded-xl border border-gray-200 focus:border-indigo-500 focus:outline-none shadow-sm"
+          className="w-full pl-10 pr-4 py-3 bg-white rounded-xl border border-[#EFEFEF] focus:border-indigo-500 focus:outline-none shadow-sm"
         />
       </div>
 
@@ -157,8 +157,8 @@ export default function StudentClubs({ onBack }: StudentClubsProps) {
           onClick={() => setSelectedTab('discover')}
           className={`flex-1 py-2.5 rounded-lg transition-all ${
             selectedTab === 'discover'
-              ? 'bg-indigo-600 text-white shadow-md'
-              : 'text-gray-600 hover:bg-gray-50'
+              ? 'bg-[#0095F6] text-white shadow-md'
+              : 'text-[#8E8E8E] hover:bg-white'
           }`}
         >
           Discover
@@ -167,8 +167,8 @@ export default function StudentClubs({ onBack }: StudentClubsProps) {
           onClick={() => setSelectedTab('joined')}
           className={`flex-1 py-2.5 rounded-lg transition-all ${
             selectedTab === 'joined'
-              ? 'bg-indigo-600 text-white shadow-md'
-              : 'text-gray-600 hover:bg-gray-50'
+              ? 'bg-[#0095F6] text-white shadow-md'
+              : 'text-[#8E8E8E] hover:bg-white'
           }`}
         >
           My Clubs
@@ -179,7 +179,7 @@ export default function StudentClubs({ onBack }: StudentClubsProps) {
       <div className="space-y-4">
         {selectedTab === 'discover' && (
           <>
-            <h3 className="text-gray-700">Explore Clubs</h3>
+            <h3 className="text-black">Explore Clubs</h3>
             {discoverClubs.map((club) => (
               <div
                 key={club.id}
@@ -200,15 +200,15 @@ export default function StudentClubs({ onBack }: StudentClubsProps) {
 
                 <div className="p-4">
                   <div className="flex items-center gap-4 mb-4">
-                    <div className="flex items-center gap-2 text-sm text-gray-600">
+                    <div className="flex items-center gap-2 text-sm text-[#8E8E8E]">
                       <Users className="w-4 h-4" />
                       <span>{club.members} members</span>
                     </div>
-                    <div className="flex items-center gap-2 text-sm text-gray-600">
+                    <div className="flex items-center gap-2 text-sm text-[#8E8E8E]">
                       <Calendar className="w-4 h-4" />
                       <span>{club.events} events</span>
                     </div>
-                    <div className="flex items-center gap-2 text-sm text-gray-600">
+                    <div className="flex items-center gap-2 text-sm text-[#8E8E8E]">
                       <TrendingUp className="w-4 h-4" />
                       <span>Active</span>
                     </div>
@@ -219,7 +219,7 @@ export default function StudentClubs({ onBack }: StudentClubsProps) {
                       onClick={() => toggleFollow(club.id)}
                       className={`flex-1 py-3 rounded-xl font-medium transition-all flex items-center justify-center gap-2 ${
                         followedClubs.includes(club.id)
-                          ? 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                          ? 'bg-gray-100 text-black hover:bg-gray-200'
                           : `${getColorClasses(club.color)} text-white hover:opacity-90`
                       }`}
                     >
@@ -228,7 +228,7 @@ export default function StudentClubs({ onBack }: StudentClubsProps) {
                     </button>
                     <button
                       onClick={() => setSelectedClubId(club.id)}
-                      className="px-4 py-3 border-2 border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 transition-colors font-medium"
+                      className="px-4 py-3 border-2 border-[#EFEFEF] text-black rounded-xl hover:bg-white transition-colors font-medium"
                     >
                       View
                     </button>
@@ -241,14 +241,14 @@ export default function StudentClubs({ onBack }: StudentClubsProps) {
 
         {selectedTab === 'joined' && (
           <>
-            <h3 className="text-gray-700">Your Clubs</h3>
+            <h3 className="text-black">Your Clubs</h3>
             {joinedClubs.length === 0 ? (
               <div className="bg-white rounded-xl p-8 text-center shadow-sm">
                 <Users className="w-12 h-12 text-gray-300 mx-auto mb-3" />
                 <p className="text-gray-500 mb-1">No clubs joined yet</p>
                 <button
                   onClick={() => setSelectedTab('discover')}
-                  className="text-indigo-600 text-sm hover:underline"
+                  className="text-[#0095F6] text-sm hover:underline"
                 >
                   Discover clubs to join
                 </button>
@@ -273,15 +273,15 @@ export default function StudentClubs({ onBack }: StudentClubsProps) {
 
                   <div className="p-4">
                     <div className="flex items-center gap-4 mb-4">
-                      <div className="flex items-center gap-2 text-sm text-gray-600">
+                      <div className="flex items-center gap-2 text-sm text-[#8E8E8E]">
                         <Users className="w-4 h-4" />
                         <span>{club.members} members</span>
                       </div>
-                      <div className="flex items-center gap-2 text-sm text-gray-600">
+                      <div className="flex items-center gap-2 text-sm text-[#8E8E8E]">
                         <Calendar className="w-4 h-4" />
                         <span>{club.events} events</span>
                       </div>
-                      <div className="flex items-center gap-2 text-sm text-gray-600">
+                      <div className="flex items-center gap-2 text-sm text-[#8E8E8E]">
                         <TrendingUp className="w-4 h-4" />
                         <span>Active</span>
                       </div>
@@ -292,7 +292,7 @@ export default function StudentClubs({ onBack }: StudentClubsProps) {
                         onClick={() => toggleFollow(club.id)}
                         className={`flex-1 py-3 rounded-xl font-medium transition-all flex items-center justify-center gap-2 ${
                           followedClubs.includes(club.id)
-                            ? 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                            ? 'bg-gray-100 text-black hover:bg-gray-200'
                             : `${getColorClasses(club.color)} text-white hover:opacity-90`
                         }`}
                       >
@@ -301,7 +301,7 @@ export default function StudentClubs({ onBack }: StudentClubsProps) {
                       </button>
                       <button
                         onClick={() => setSelectedClubId(club.id)}
-                        className="px-4 py-3 border-2 border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 transition-colors font-medium"
+                        className="px-4 py-3 border-2 border-[#EFEFEF] text-black rounded-xl hover:bg-white transition-colors font-medium"
                       >
                         View
                       </button>
