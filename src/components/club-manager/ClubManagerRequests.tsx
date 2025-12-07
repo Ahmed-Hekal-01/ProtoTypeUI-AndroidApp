@@ -1,4 +1,4 @@
-import { Clock, CheckCircle, XCircle, Calendar, Users } from 'lucide-react';
+import { Clock, CheckCircle, XCircle, Calendar, Users, Send } from 'lucide-react';
 
 export default function ClubManagerRequests() {
   const requests = [
@@ -92,32 +92,6 @@ export default function ClubManagerRequests() {
       {/* Header */}
       <div>
         <h2 className="text-2xl mb-2 text-gray-800">My Requests</h2>
-        <p className="text-gray-600">Track your event and session requests</p>
-      </div>
-
-      {/* Status Summary */}
-      <div className="grid grid-cols-3 gap-3">
-        <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-3">
-          <div className="flex items-center gap-2 mb-1">
-            <Clock className="w-4 h-4 text-yellow-600" />
-            <span className="text-xs text-yellow-700 font-medium">Pending</span>
-          </div>
-          <p className="text-2xl text-yellow-700">{pendingCount}</p>
-        </div>
-        <div className="bg-green-50 border border-green-200 rounded-xl p-3">
-          <div className="flex items-center gap-2 mb-1">
-            <CheckCircle className="w-4 h-4 text-green-600" />
-            <span className="text-xs text-green-700 font-medium">Approved</span>
-          </div>
-          <p className="text-2xl text-green-700">{approvedCount}</p>
-        </div>
-        <div className="bg-red-50 border border-red-200 rounded-xl p-3">
-          <div className="flex items-center gap-2 mb-1">
-            <XCircle className="w-4 h-4 text-red-600" />
-            <span className="text-xs text-red-700 font-medium">Rejected</span>
-          </div>
-          <p className="text-2xl text-red-700">{rejectedCount}</p>
-        </div>
       </div>
 
       {/* Requests List */}
@@ -174,7 +148,13 @@ export default function ClubManagerRequests() {
             <div className="pt-3 border-t border-gray-100 space-y-1 text-xs text-gray-500">
               <div>Submitted: {request.submittedDate}</div>
               {request.status === 'approved' && request.approvedDate && (
-                <div className="text-green-600">Approved: {request.approvedDate}</div>
+                <>
+                  <div className="text-green-600">Approved: {request.approvedDate}</div>
+                  <button className="mt-2 w-full py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg hover:opacity-90 transition-opacity font-medium flex items-center justify-center gap-2">
+                    <Send className="w-4 h-4" />
+                    Publish Announcement
+                  </button>
+                </>
               )}
               {request.status === 'rejected' && request.rejectedDate && (
                 <>
